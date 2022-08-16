@@ -36,9 +36,10 @@
         "react/function-component-definition": [
             0,
             {
-                "namedComponents": "function-declaration"
+                "namedComponents": "arrow-function"
             }
         ],
+        "arrow-body-style": "off",
         "react/jsx-no-constructed-context-values": 0,
         "no-underscore-dangle": ["error", { "allow": ["_id"] }]
     }

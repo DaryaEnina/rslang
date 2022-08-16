@@ -1,2 +1,5 @@
-const Book = () => <div>Book</div>;
+const Book = () => {
+    return <div>Book</div>;
+};
+
 export default Book;
