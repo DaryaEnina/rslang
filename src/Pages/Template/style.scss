@@ -1,0 +1,5 @@
+// 70px header height / 70px footer height
+.main-container {
+    min-height: calc(100vh - 70px - 70px);
+    margin: 0 auto;
+}

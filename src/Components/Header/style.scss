@@ -1,0 +1,110 @@
+.wrapper {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    word-wrap: break-word;
+    #header {
+        align-items: baseline;
+        #logo {
+            margin: 8px 0 0 0;
+            h1 {
+                margin: 0;
+                padding: 0;
+                text-transform: none;
+                font-size: 40px;
+                font-family: 'Charm', cursive;
+            }
+        }
+        .fl_left,
+        .fl_right {
+            display: block;
+            float: none;
+        }
+        .fl_right {
+            display: flex;
+            width: auto;
+            color: #000;
+            background-color: inherit;
+        }
+        .header_greeting p {
+            font-family: 'Roboto', sans-serif;
+            color: #557c2b;
+            font-size: 24px;
+            margin: 0;
+        }
+        #mainav {
+            ul,
+            a {
+                transition: all 0.4s ease-in-out;
+            }
+            ul ul {
+                z-index: 9999;
+                position: absolute;
+                text-transform: none;
+                visibility: hidden;
+                opacity: 0;
+            }
+            ul ul ul {
+                left: 160px;
+                top: 0;
+            }
+            ul li:hover > ul {
+                visibility: visible;
+                opacity: 1;
+            }
+            li {
+                display: inline-block;
+                position: relative;
+                margin: 0;
+                padding: 0;
+            }
+            li:last-child {
+                margin-right: 0;
+            }
+            li li {
+                width: 100%;
+                margin: 0;
+            }
+            li a {
+                display: block;
+                padding: 0 10px;
+                font-family: 'Roboto', sans-serif;
+                color: inherit;
+            }
+            li li a {
+                border: solid;
+                border-width: 0 0 1px 0;
+                display: block;
+                margin: 0;
+            }
+            a.active,
+            a:hover,
+            li:hover > a {
+                color: #ffffff;
+                background-color: #8aba56;
+            }
+            li li a,
+            .active li a {
+                color: #ffffff;
+                background-color: rgba(0, 0, 0, 0.6);
+                border-color: rgba(0, 0, 0, 0.6);
+            }
+            li li:hover > a,
+            .active .active > a {
+                color: #ffffff;
+                background-color: #8aba56;
+            }
+        }
+    }
+    .clear {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        max-width: 978px;
+    }
+}
+.row1 {
+    border-top: 2px solid;
+}
