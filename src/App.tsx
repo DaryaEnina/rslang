@@ -10,6 +10,7 @@ import Registration from './Pages/Login/Registration/Registration';
 import Statistics from './Pages/Statistics/Statistics';
 import Template from './Pages/Template/Template';
 import Games from './Pages/Games/Games';
+import './Pages/Login/LogIn.css';
 
 function App() {
     return (
