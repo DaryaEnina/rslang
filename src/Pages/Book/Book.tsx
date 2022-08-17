@@ -1,5 +1,12 @@
+import Header from '../../Components/Header/Header';
+
 const Book = () => {
-    return <div>Book</div>;
+    return (
+        <>
+            <Header />
+            <h1>Book</h1>
+        </>
+    );
 };
 
 export default Book;
