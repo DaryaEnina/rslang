@@ -1,2 +1,4 @@
-const Audiogame = () => <div>Audiogame</div>;
+const Audiogame = () => {
+    return <div>Audiogame</div>;
+};
 export default Audiogame;
