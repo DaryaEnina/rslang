@@ -15,6 +15,7 @@ const Header = () => {
             setIsAuth(false);
         }
     }, []);
+
     return (
         <header className="wrapper row1">
             <div id="header" className="clear">
@@ -33,7 +34,7 @@ const Header = () => {
                         </li>
 
                         <li>
-                            <NavLink to="/book/1/1">Учебник</NavLink>
+                            <NavLink to="/book">Учебник</NavLink>
                             {/* <ul>
                                 <li>
                                     <NavLink to="/book/1/1">Раздел1</NavLink>
@@ -56,7 +57,7 @@ const Header = () => {
                             </ul> */}
                         </li>
                         <li>
-                            <NavLink to={group && page ? `/games/${group}/${page}` : '/games'}>Игры</NavLink>
+                            <NavLink to="/games">Игры</NavLink>
                             <ul>
                                 <li>
                                     <NavLink to={group && page ? `/audioGame/${group}/${page}` : '/audioGame'}>
