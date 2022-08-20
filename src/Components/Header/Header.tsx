@@ -76,7 +76,7 @@ const Header = () => {
                             {isAuth ? (
                                 <NavLink to="/statistics">{localStorage.getItem('name')}</NavLink>
                             ) : (
-                                <NavLink to="signin">Войти</NavLink>
+                                <NavLink to="/signin">Войти</NavLink>
                             )}
                         </li>
 
