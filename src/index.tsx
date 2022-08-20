@@ -1,14 +1,11 @@
-import React from 'react';
-
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './core/App/App';
+import Launcher from './core/Launcher/Launcher';
 
 ReactDOM.render(
-    <React.StrictMode>
+    <Launcher>
         <App />
-    </React.StrictMode>,
+    </Launcher>,
     document.getElementById('root')
 );
-
-
