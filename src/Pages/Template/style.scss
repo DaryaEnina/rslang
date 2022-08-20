@@ -2,6 +2,7 @@
 .main-container {
     min-height: calc(100vh - 70px - 70px);
     margin: 0 auto;
+    height: 100%;
 }
 /* Position and sizing of burger button */
 .bm-burger-button {
@@ -60,6 +61,16 @@
     color: #b8b7ad;
     padding: 0.8em;
     border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    font-size: 30px;
+    a {
+        padding: 20px 0;
+        border-bottom: 2px solid #bd1f37;
+        &:hover {
+            color: #bd1f37;
+        }
+    }
 }
 
 /* Individual item */
