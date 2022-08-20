@@ -1,0 +1,43 @@
+a {
+  color: black;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 200px;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  background-color: rgb(4, 102, 140);
+}
+
+.rsschool-icon {
+  margin-left: 20px;
+}
+
+.developers {
+  display: flex;
+  flex-direction: column;
+  margin: .5em 20px;
+  gap: 8px;
+}
+
+.developers-git {
+  display: flex;
+  justify-content: space-between;
+  width: 150px;
+  padding: 3px;
+  border-radius: .5em;
+}
+
+.rsschool-link {
+  display: block;
+  height: 44px;
+  padding: 3px;
+  border-radius: .5em;
+}
+
+.rsschool-link:hover,
+.developers-git:hover {
+  background-color: rgba(79, 79, 79, 0.399);
+}
