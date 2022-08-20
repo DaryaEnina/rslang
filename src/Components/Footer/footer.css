@@ -9,13 +9,12 @@ a {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  gap: 200px;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
-  background-color: #04668c;
+  background-color: #d22a30;
 }
 
 .rsschool-icon {
@@ -30,8 +29,9 @@ a {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  margin: .5em 20px;
-  gap: 8px;
+  margin: .3em 20px;
+  gap: 6px;
+  font-size: 1.1em;
 }
 
 .developers-git {
@@ -41,9 +41,11 @@ a {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  width: 150px;
-  padding: 3px;
+  width: 160px;
+  padding: 2px;
   border-radius: .5em;
+  -webkit-transition: .7s;
+  transition: .7s;
 }
 
 .rsschool-link {
@@ -53,8 +55,18 @@ a {
   border-radius: .5em;
 }
 
+svg {
+  -webkit-transition: .7s;
+  transition: .7s;
+}
+
 .rsschool-link:hover,
 .developers-git:hover {
-  background-color: rgba(79, 79, 79, 0.399);
+  color: maroon;
+}
+
+.rsschool-link:hover svg,
+.developers-git:hover svg {
+  fill: maroon;
 }
 /*# sourceMappingURL=footer.css.map */

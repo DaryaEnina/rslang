@@ -1,15 +1,15 @@
 import { Route, Routes } from 'react-router-dom';
 
-import Autorisation from '../../Pages/Login/Autorization/Autorization';
-import Book from '../../Pages/Book/Book';
-import Audiogame from '../../Pages/Games/Audiogame';
-import Sprint from '../../Pages/Games/Sprint';
+import Autorisation from 'Pages/Login/Autorization/Autorization';
+import Book from 'Pages/Book/Book';
+import Audiogame from 'Pages/Games/Audiogame';
+import Sprint from 'Pages/Games/Sprint';
 
-import Home from '../../Pages/Home/Home';
-import Registration from '../../Pages/Login/Registration/Registration';
-import Statistics from '../../Pages/Statistics/Statistics';
-import Template from '../../Pages/Template/Template';
-import Games from '../../Pages/Games/Games';
+import Home from 'Pages/Home/Home';
+import Registration from 'Pages/Login/Registration/Registration';
+import Statistics from 'Pages/Statistics/Statistics';
+import Template from 'Pages/Template/Template';
+import Games from 'Pages/Games/Games';
 
 function App() {
   return (

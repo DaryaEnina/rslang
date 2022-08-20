@@ -18,11 +18,18 @@
   gap: 15px;
 }
 
+.btn-info {
+  background: rgb(210,42,48);
+  transition: .7s;
+}
+
+.btn-info:hover {
+  background: rgb(128, 0, 0);
+}
+
 .description-text {
-  font-size: 32px;
-  font-weight: 700;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: white;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .know-container,
