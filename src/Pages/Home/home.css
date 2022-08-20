@@ -1,0 +1,117 @@
+#main-page {
+  height: calc(100vh - 75px);
+  background: url("../../assets/images/learn.png") center no-repeat;
+  background-color: transparent;
+  background-size: 70% cover;
+}
+
+.header {
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0;
+}
+
+.btns-info-container {
+  margin-top: 1em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 15px;
+}
+
+.description-text {
+  font-size: 16px;
+}
+
+.know-container {
+  margin: 2em 5vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.category {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 350px;
+}
+
+.img-wrap {
+  width: 350px;
+  height: 350px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.categoty-image {
+  margin: auto;
+  max-width: 350px;
+  max-height: 350px;
+}
+
+.category-header {
+  font-size: 1.8em;
+  font-weight: 500;
+  margin: 10px auto;
+}
+
+.category-text {
+  font-size: 1.2em;
+  text-align: center;
+  margin: 10px auto;
+}
+
+.games-container {
+  margin: 2em 5vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+@media screen and (max-width: 1300px) {
+  #main-page {
+    background-size: 90%;
+  }
+  .know-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .category {
+    width: 400px;
+  }
+  .img-wrap {
+    width: 250px;
+    height: 250px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .categoty-image {
+    max-width: 250px;
+    max-height: 250px;
+  }
+}
+/*# sourceMappingURL=home.css.map */
