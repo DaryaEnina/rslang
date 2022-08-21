@@ -11,7 +11,6 @@ const SideMenu = () => {
 
     const closeSideBar = () => {
         setOpen(false);
-        console.log('close');
     };
 
     return (

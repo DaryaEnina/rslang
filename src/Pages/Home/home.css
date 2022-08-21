@@ -12,6 +12,10 @@
   text-align: center;
 }
 
+.team-info-btns {
+  margin-top: 40px;
+}
+
 .btns-info-container {
   margin-top: 1em;
   display: -webkit-box;
@@ -50,7 +54,8 @@
 }
 
 .category,
-.game {
+.game,
+.creator-card {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -64,7 +69,8 @@
   width: 350px;
 }
 
-.img-wrap {
+.img-wrap,
+.creator-wrap {
   width: 350px;
   height: 350px;
   display: -webkit-box;
@@ -72,19 +78,22 @@
   display: flex;
 }
 
-.category-image {
+.category-image,
+.creator-image {
   margin: auto;
   max-width: 350px;
   max-height: 350px;
 }
 
-.category-header {
+.category-header,
+.creator-header {
   font-size: 1.8em;
   font-weight: 500;
   margin: 10px auto;
 }
 
-.category-text {
+.category-text,
+.creator-role {
   font-size: 1.2em;
   text-align: center;
   margin: 10px auto;
@@ -104,14 +113,16 @@
   .category {
     width: 400px;
   }
-  .img-wrap {
+  .img-wrap,
+  .creator-wrap {
     width: 250px;
     height: 250px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
   }
-  .category-image {
+  .category-image,
+  .creator-image {
     max-width: 250px;
     max-height: 250px;
   }
