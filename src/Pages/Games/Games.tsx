@@ -1,6 +1,5 @@
 import AudioLogo from 'assets/images/audio.png';
 import SprintLogo from 'assets/images/sprint.png';
-import Header from 'Components/Header/Header';
 import { Link } from 'react-router-dom';
 import './games.scss';
 
@@ -8,7 +7,6 @@ const Games = () => {
 
   return (
     <>
-      <Header />
       <p className='header'>Игры</p>
       <p className='text'>
         Выбирай игру и повторяй уже знакомые слова весело и непринуждённо!

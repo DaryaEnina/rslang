@@ -1,7 +1,9 @@
 import ReactDOM from 'react-dom';
-import './index.css';
+
 import App from './core/App/App';
 import Launcher from './core/Launcher/Launcher';
+
+import './index.css';
 
 ReactDOM.render(
     <Launcher>
