@@ -12,17 +12,28 @@
   text-align: center;
 }
 
+.team-info-btns {
+  margin-top: 40px;
+}
+
 .btns-info-container {
   margin-top: 1em;
   display: flex;
   gap: 15px;
 }
 
+.btn-info {
+  background: rgb(210,42,48);
+  transition: .7s;
+}
+
+.btn-info:hover {
+  background: rgb(128, 0, 0);
+}
+
 .description-text {
-  font-size: 32px;
-  font-weight: 700;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: white;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .know-container,
@@ -34,32 +45,37 @@
 }
 
 .category,
-.game {
+.game,
+.creator-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 350px;
 }
 
-.img-wrap {
+.img-wrap,
+.creator-wrap {
   width: 350px;
   height: 350px;
   display: flex;
 }
 
-.category-image {
+.category-image,
+.creator-image {
   margin: auto;
   max-width: 350px;
   max-height: 350px;
 }
 
-.category-header {
+.category-header,
+.creator-header {
   font-size: 1.8em;
   font-weight: 500;
   margin: 10px auto;
 }
 
-.category-text {
+.category-text,
+.creator-role {
   font-size: 1.2em;
   text-align: center;
   margin: 10px auto;
@@ -79,13 +95,15 @@
     width: 400px;
   }
   
-  .img-wrap {
+  .img-wrap,
+  .creator-wrap {
     width: 250px;
     height: 250px;
     display: flex;
   }
 
-  .category-image {
+  .category-image,
+  .creator-image {
     max-width: 250px;
     max-height: 250px;
   }

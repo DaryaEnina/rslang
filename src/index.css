@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Charm:wght@700&family=Noto+Serif+Display:ital,wght@0,400;1,700&family=Roboto&display=swap');
+
 .body {
     margin: 0;
     padding: 0;
@@ -7,8 +8,4 @@
     display: block;
     font-family: Verdana, Geneva, sans-serif;
     color: #888888;
-}
-
-#root {
-    margin: 0 10px;
 }

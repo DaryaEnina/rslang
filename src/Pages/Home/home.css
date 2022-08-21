@@ -8,7 +8,12 @@
 .header {
   font-size: 2em;
   font-weight: 700;
-  margin: 0;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.team-info-btns {
+  margin-top: 40px;
 }
 
 .btns-info-container {
@@ -19,24 +24,38 @@
   gap: 15px;
 }
 
-.description-text {
-  font-size: 16px;
+.btn-info {
+  background: #d22a30;
+  -webkit-transition: .7s;
+  transition: .7s;
 }
 
-.know-container {
-  margin: 2em 5vw;
+.btn-info:hover {
+  background: maroon;
+}
+
+.description-text {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.know-container,
+.games-container {
+  margin: 2em 1vw;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
 }
 
-.category {
+.category,
+.game,
+.creator-card {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -50,7 +69,8 @@
   width: 350px;
 }
 
-.img-wrap {
+.img-wrap,
+.creator-wrap {
   width: 350px;
   height: 350px;
   display: -webkit-box;
@@ -58,42 +78,33 @@
   display: flex;
 }
 
-.categoty-image {
+.category-image,
+.creator-image {
   margin: auto;
   max-width: 350px;
   max-height: 350px;
 }
 
-.category-header {
+.category-header,
+.creator-header {
   font-size: 1.8em;
   font-weight: 500;
   margin: 10px auto;
 }
 
-.category-text {
+.category-text,
+.creator-role {
   font-size: 1.2em;
   text-align: center;
   margin: 10px auto;
-}
-
-.games-container {
-  margin: 2em 5vw;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 
 @media screen and (max-width: 1300px) {
   #main-page {
     background-size: 90%;
   }
-  .know-container {
+  .know-container,
+  .games-container {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
@@ -102,16 +113,22 @@
   .category {
     width: 400px;
   }
-  .img-wrap {
+  .img-wrap,
+  .creator-wrap {
     width: 250px;
     height: 250px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
   }
-  .categoty-image {
+  .category-image,
+  .creator-image {
     max-width: 250px;
     max-height: 250px;
+  }
+  .category-text {
+    width: 300px;
+    font-size: 1em;
   }
 }
 /*# sourceMappingURL=home.css.map */

@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from '../../../Components/Header/Header';
 import Service, { DataUserLoginResponse } from '../../../Utils/Service';
 
 const Autorisation = () => {
@@ -69,66 +68,63 @@ const Autorisation = () => {
     };
 
     return (
-        <>
-            <Header />
-            <div className="wrapper-form" aria-hidden onClick={closeFormHandler}>
-                <section id="content" className="content">
-                    <h1>Войти</h1>
-                    <div className="row">
-                        <form className="col s12" noValidate onSubmit={submitHandler}>
-                            <div className="row">
-                                <div className="input-field col s12">
-                                    <i className="material-icons prefix">email</i>
-                                    <input
-                                        ref={refEmail}
-                                        id="email"
-                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                        className="validate"
-                                        type="email"
-                                        required
-                                        onChange={inputHandler}
-                                    />
-                                    <label htmlFor="email">Email</label>
-                                    <span className="helper-text" data-error="Email не валиден" />
-                                </div>
+        <div className="wrapper-form" aria-hidden onClick={closeFormHandler}>
+            <section id="content" className="content">
+                <h1>Войти</h1>
+                <div className="row">
+                    <form className="col s12" noValidate onSubmit={submitHandler}>
+                        <div className="row">
+                            <div className="input-field col s12">
+                                <i className="material-icons prefix">email</i>
+                                <input
+                                    ref={refEmail}
+                                    id="email"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                    className="validate"
+                                    type="email"
+                                    required
+                                    onChange={inputHandler}
+                                />
+                                <label htmlFor="email">Email</label>
+                                <span className="helper-text" data-error="Email не валиден" />
                             </div>
-                            <div className="row">
-                                <div className="input-field col s12">
-                                    <i className="material-icons prefix">password</i>
-                                    <input
-                                        ref={refPassword}
-                                        id="password"
-                                        className="validate"
-                                        type="password"
-                                        autoComplete="off"
-                                        minLength={8}
-                                        required
-                                        onChange={inputHandler}
-                                    />
-                                    <label htmlFor="password">Password</label>
-                                    <span className="helper-text" data-error="Длина должна быть не менее 8 символов" />
-                                    <span style={{ color: success ? 'green' : 'red' }}>
-                                        <b>{loginStatusMessage}</b>
-                                    </span>
-                                </div>
+                        </div>
+                        <div className="row">
+                            <div className="input-field col s12">
+                                <i className="material-icons prefix">password</i>
+                                <input
+                                    ref={refPassword}
+                                    id="password"
+                                    className="validate"
+                                    type="password"
+                                    autoComplete="off"
+                                    minLength={8}
+                                    required
+                                    onChange={inputHandler}
+                                />
+                                <label htmlFor="password">Password</label>
+                                <span className="helper-text" data-error="Длина должна быть не менее 8 символов" />
+                                <span style={{ color: success ? 'green' : 'red' }}>
+                                    <b>{loginStatusMessage}</b>
+                                </span>
                             </div>
-                            <div className="control">
-                                <button
-                                    disabled={disabled}
-                                    className="btn waves-effect waves-light blue darken-1"
-                                    type="submit"
-                                    name="action"
-                                >
-                                    Войти
-                                    <i className="material-icons right">send</i>
-                                </button>
-                                <Link to="/signup">Регистрация</Link>
-                            </div>
-                        </form>
-                    </div>
-                </section>
-            </div>
-        </>
+                        </div>
+                        <div className="control">
+                            <button
+                                disabled={disabled}
+                                className="btn waves-effect waves-light blue darken-1"
+                                type="submit"
+                                name="action"
+                            >
+                                Войти
+                                <i className="material-icons right">send</i>
+                            </button>
+                            <Link to="/signup">Регистрация</Link>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
     );
 };
 

@@ -1,0 +1,47 @@
+.header {
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.text {
+  font-size: 1.5em;
+
+  text-align: center;
+}
+
+.games-container {
+  margin: 20vh auto;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.game-card {
+  width: 400px;
+  height: 450px;
+  border: 2px solid black;
+  border-radius: 1em;
+  display: flex;
+  flex-direction: column;
+  transition: all .7s;
+  cursor: pointer;
+}
+
+.game-card:hover {
+  background: rgba(91, 15, 15, 0.474);
+}
+
+.game-img {
+  width: 390px;
+  margin: auto;
+}
+
+@media screen and (max-width: 1300px) {
+  .games-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em; 
+    margin: 2vh auto;
+  }
+}
