@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from '../../../Components/Header/Header';
 import Service, { DataUserCreateResponse, DataUserLoginResponse } from '../../../Utils/Service';
 
 const Registration = () => {
@@ -74,83 +73,74 @@ const Registration = () => {
     };
 
     return (
-        <>
-            <Header />
-            <div className="wrapper-form" onClick={closeFormHandler} aria-hidden>
-                <section className="content">
-                    <h1 className="form-title">Регистрация</h1>
-                    <div className="row">
-                        <form onSubmit={submitHandler} noValidate>
-                            <div className="row">
-                                <div className="input-field col s12">
-                                    <i className="material-icons prefix ">account_circle</i>
-                                    <input
-                                        id="name"
-                                        className="validate"
-                                        type="text"
-                                        onChange={inputHandler}
-                                        required
-                                    />
-                                    <label htmlFor="text">Имя</label>
-                                    <span className="helper-text" data-error="Заполните это поле" />
-                                </div>
+        <div className="wrapper-form" onClick={closeFormHandler} aria-hidden>
+            <section className="content">
+                <h1 className="form-title">Регистрация</h1>
+                <div className="row">
+                    <form onSubmit={submitHandler} noValidate>
+                        <div className="row">
+                            <div className="input-field col s12">
+                                <i className="material-icons prefix ">account_circle</i>
+                                <input id="name" className="validate" type="text" onChange={inputHandler} required />
+                                <label htmlFor="text">Имя</label>
+                                <span className="helper-text" data-error="Заполните это поле" />
                             </div>
-                            <div className="row">
-                                <div className="input-field col s12">
-                                    <i className="material-icons prefix">email</i>
-                                    <input
-                                        ref={refEmail}
-                                        id="email"
-                                        className="validate"
-                                        type="email"
-                                        required
-                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                        onChange={inputHandler}
-                                    />
-                                    <label htmlFor="email">Email</label>
+                        </div>
+                        <div className="row">
+                            <div className="input-field col s12">
+                                <i className="material-icons prefix">email</i>
+                                <input
+                                    ref={refEmail}
+                                    id="email"
+                                    className="validate"
+                                    type="email"
+                                    required
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                    onChange={inputHandler}
+                                />
+                                <label htmlFor="email">Email</label>
 
-                                    <span className="helper-text" data-error="Email не валиден" />
-                                </div>
+                                <span className="helper-text" data-error="Email не валиден" />
                             </div>
-                            <div className="row">
-                                <div className="input-field col s12">
-                                    <i className="material-icons prefix">password</i>
-                                    <input
-                                        ref={refPassword}
-                                        id="password"
-                                        type="password"
-                                        autoComplete="off"
-                                        minLength={8}
-                                        className="validate"
-                                        required
-                                        onChange={inputHandler}
-                                    />
-                                    <label htmlFor="password">Password</label>
-                                    <span className="helper-text" data-error="Длина должна быть не менее 8 символов" />
-                                    <span style={{ color: success ? 'green' : 'red' }}>
-                                        <b>{registrationStatusMessage}</b>
-                                    </span>
-                                </div>
+                        </div>
+                        <div className="row">
+                            <div className="input-field col s12">
+                                <i className="material-icons prefix">password</i>
+                                <input
+                                    ref={refPassword}
+                                    id="password"
+                                    type="password"
+                                    autoComplete="off"
+                                    minLength={8}
+                                    className="validate"
+                                    required
+                                    onChange={inputHandler}
+                                />
+                                <label htmlFor="password">Password</label>
+                                <span className="helper-text" data-error="Длина должна быть не менее 8 символов" />
+                                <span style={{ color: success ? 'green' : 'red' }}>
+                                    <b>{registrationStatusMessage}</b>
+                                </span>
                             </div>
+                        </div>
 
-                            <div className="control">
-                                <button
-                                    name="action"
-                                    className="btn waves-effect waves-light orange darken-1"
-                                    type="submit"
-                                    disabled={disabled}
-                                >
-                                    Регистрация
-                                    <i className="material-icons right">send</i>
-                                </button>
+                        <div className="control">
+                            <button
+                                name="action"
+                                className="btn waves-effect waves-light orange darken-1"
+                                type="submit"
+                                disabled={disabled}
+                            >
+                                Регистрация
+                                <i className="material-icons right">send</i>
+                            </button>
 
-                                <Link to="/signin">Уже есть аккаунт?</Link>
-                            </div>
-                        </form>
-                    </div>
-                </section>
-            </div>
-        </>
+                            <Link to="/signin">Уже есть аккаунт?</Link>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
     );
 };
 

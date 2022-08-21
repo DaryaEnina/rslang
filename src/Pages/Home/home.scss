@@ -12,10 +12,23 @@
   text-align: center;
 }
 
+.team-info-btns {
+  margin-top: 40px;
+}
+
 .btns-info-container {
   margin-top: 1em;
   display: flex;
   gap: 15px;
+}
+
+.btn-info {
+  background: rgb(210,42,48);
+  transition: .7s;
+}
+
+.btn-info:hover {
+  background: rgb(128, 0, 0);
 }
 
 .description-text {
