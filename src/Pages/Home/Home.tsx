@@ -105,7 +105,7 @@ const Home = () => {
           {AboutUs.map((el) => (
             <div className='creator-card' key={el.key.toString()}>
               <div className='creator-wrap'>
-                <img src={el.image} alt={el.name} />
+                <img src={el.image} className='creator-image' alt={el.name} />
               </div>
               <p className='creator-header'>{el.name}</p>
               <p className='creator-role'>{el.role}. {el.tasks}</p>
