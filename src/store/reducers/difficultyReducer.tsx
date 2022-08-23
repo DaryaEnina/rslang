@@ -1,15 +1,17 @@
-import { AnyAction } from "redux";
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  gameDifficulty: localStorage.getItem('gameDifficulty') || 'A1',
-};
-
-// eslint-disable-next-line @typescript-eslint/default-param-last
-export default function gameDifficultyReducer(state = initialState, action: AnyAction) {
-  switch (action.type) {
-    case 'CHANGE_DIFFICULTY':
-      return { ...state, gameDifficulty: action.payload };
-    default:
-      return state;
+const changeDifficultySlice =  createSlice({
+  name: "changeDifficulty",
+  initialState: {
+    changeDifficulty: localStorage.getItem('gameDifficulty') || 'A1'
+  },
+  reducers: {
+    changeDifficultyReducer(state, action) {
+      // eslint-disable-next-line no-param-reassign
+      state.changeDifficulty = action.payload;
+    }
   }
-}
+})
+
+export default changeDifficultySlice.reducer;
+export const { changeDifficultyReducer } = changeDifficultySlice.actions;
