@@ -2,23 +2,23 @@ import AudioLogo from 'assets/images/audio.png';
 import SprintLogo from 'assets/images/sprint.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { changeDifficulty } from 'store/actions/actions';
+import { changeDifficultyReducer } from 'store/reducers/difficultyReducer';
 import './games.scss';
 import Levels from './Levels';
 
 interface IRootState {
   gameDifficulty: {
-    gameDifficulty: string,
+    changeDifficulty: string
   }
 }
 
 function Games() {
 
   const dispatch = useDispatch();
-  const difficulty = useSelector((state: IRootState) => state.gameDifficulty.gameDifficulty);
+  const difficulty = useSelector((state: IRootState) => state.gameDifficulty.changeDifficulty);
 
   function setDifficulty(level: string) {
-    dispatch(changeDifficulty(level));
+    dispatch(changeDifficultyReducer(level));
   }
 
   return (

@@ -1,15 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import gameDifficultyReducer from './reducers/difficultyReducer';
-import selectGameReducer from './reducers/selectGameReducer';
-import rslangApi from './rslang/rslang.api';
+import changeDifficulty from './reducers/difficultyReducer';
 
+
+import rslangApi from './rslang/rslang.api';
 
 
 export const store = configureStore({
     reducer: {
         [rslangApi.reducerPath]: rslangApi.reducer,
-        gameDifficulty: gameDifficultyReducer,
-        selectedGame: selectGameReducer,
+        gameDifficulty: changeDifficulty,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(rslangApi.middleware),
 });
