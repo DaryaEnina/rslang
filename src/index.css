@@ -9,3 +9,7 @@
     font-family: Verdana, Geneva, sans-serif;
     color: #888888;
 }
+
+* {
+	scroll-behavior: smooth;
+}
