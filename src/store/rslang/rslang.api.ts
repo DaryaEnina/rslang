@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const rslangApi = createApi({
-    reducerPath: 'rslang/api',
+    reducerPath: 'rslangApi',
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://react-rslang-team.herokuapp.com/',
     }),

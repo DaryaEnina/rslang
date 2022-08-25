@@ -1,0 +1,134 @@
+.rules-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10vh auto 2vh;
+}
+
+.start-btn {
+  background: #bd1f37;
+  cursor: pointer;
+  transition: all .7s;
+  align-self: center;
+  margin-top: 1em;
+  width: 100px;
+}
+
+.start-btn:hover {
+  background: rgb(97, 0, 0);
+}
+
+.game-container {
+  width: 700px;
+  margin: 5vh auto 2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.play-word {
+  padding: 20px;
+  background-color: transparent;
+  width: 90px;
+  height: 90px;
+  border: none;
+  border-radius: 50%;
+  transition: all .7s;
+  cursor: pointer;
+}
+
+.play-img {
+  width: 50px;
+}
+
+.play-word:hover {
+  background: #bd1f37;
+}
+
+.words {
+  height: 63px;
+}
+
+.text {
+  margin: 0;
+}
+
+.try-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.attempts-card-img {
+  display: flex;
+  justify-content: space-between;
+  width: 700px;
+  margin: 0 auto;
+  gap: 20px;
+  height: 278px;
+}
+
+.attempt-container {
+  display: grid;
+  grid-column-gap: 10px;
+  width: 50px;
+}
+
+.attempt-logo {
+  width: 50px;
+}
+
+.word-image-div {
+  margin: auto;
+}
+
+.word-image {
+  width: 100%;
+  max-height: 278px;
+  border-radius: .4em;
+}
+
+.answer-words-container {
+  margin: 1em auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 700px;
+  row-gap: 1em;
+}
+
+.choose-word,
+.next-word {
+  background: #bd1f37;
+  transition: all .7s;
+  border-radius: .4em;
+}
+
+.next-word-container {
+  margin: 2em auto;
+  display: flex;
+  justify-content: center;
+}
+
+.choose-word:hover,
+.next-word:hover {
+  background: rgb(97, 0, 0);
+}
+
+@media screen and (max-width: 1300px) {
+  .game-container {
+    width: 70vw;
+  }
+
+  .attempts-card-img,
+  .answer-words-container {
+    max-width: 70vw;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .attempt-logo {
+    width: 40px;
+  }
+}

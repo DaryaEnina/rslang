@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import Autorisation from 'Pages/Login/Autorization/Autorization';
 import Book from 'Pages/Book/Book';
-import Audiogame from 'Pages/Games/Audiogame';
+import Audiogame from 'Pages/Games/Audiogame/Audiogame';
 import Sprint from 'Pages/Games/Sprint';
 
 import Home from 'Pages/Home/Home';

@@ -1,6 +1,6 @@
 .main-container {
-  min-height: calc(100vh - 70px - 70px);
-  margin: auto 35px;
+  min-height: calc(100vh - 110px - 100px);
+  margin: 50px 35px;
   height: 100%;
 }
 

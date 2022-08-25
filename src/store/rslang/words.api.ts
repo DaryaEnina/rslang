@@ -1,4 +1,4 @@
-import { IWord, WordsResponse } from '../../models/models';
+import { IWord, WordsResponse } from 'models/models';
 import rslangApi from './rslang.api';
 
 const wordsApi = rslangApi.injectEndpoints({
@@ -9,7 +9,7 @@ const wordsApi = rslangApi.injectEndpoints({
                 params: {
                     page,
                     group,
-                },
+                }
             }),
         }),
         getWord: build.query<IWord, string>({
