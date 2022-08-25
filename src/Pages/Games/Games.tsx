@@ -1,14 +1,19 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import AudioLogo from 'assets/images/audio.png';
 import SprintLogo from 'assets/images/sprint.png';
+import { AllDifficulties } from 'models/models';
+// import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { changeDifficultyReducer } from 'store/reducers/difficultyReducer';
+import { selectAudiogame, selectSprint } from 'store/reducers/selectGameReducer';
 import './games.scss';
 import Levels from './Levels';
+// import { DifficultyData, UserData } from './types';
 
 interface IRootState {
   gameDifficulty: {
-    changeDifficulty: string
+    changeDifficulty: AllDifficulties
   }
 }
 
@@ -17,7 +22,16 @@ function Games() {
   const dispatch = useDispatch();
   const difficulty = useSelector((state: IRootState) => state.gameDifficulty.changeDifficulty);
 
-  function setDifficulty(level: string) {
+  // const [userData] = useState<UserData | null>(() => {
+  //   const token = localStorage.getItem('token') as string;
+  //   const userId = localStorage.getItem('userId') as string;
+  //   if (!token || ! userId) {
+  //     return null;
+  //   }
+  //   return { token, id: userId };
+  // });
+
+  function setDifficulty(level: AllDifficulties) {
     dispatch(changeDifficultyReducer(level));
   }
 
@@ -36,17 +50,17 @@ function Games() {
               <button className={classBnt}
                 type='button' key={el.key}
                 style={{ backgroundColor: el.color }}
-                onClick={() => setDifficulty(el.level)}>
+                onClick={() => setDifficulty(el.level as AllDifficulties)}>
                 <p className='level-name'>{el.level}</p>
                 <p className='level-text'>{el.levelDescription}</p>
               </button>
           )})} 
         </div>
-        <Link to="/audiogame" className='game-card'>
+        <Link to="/audiogame" className='game-card' onClick={selectAudiogame}>
           <p className='header'>Аудиовызов</p>
           <img src={AudioLogo} className="game-img" alt="Audio logo" />
         </Link>
-        <Link to="/sprint" className='game-card' >
+        <Link to="/sprint" className='game-card' onClick={selectSprint}>
           <p className='header'>Спринт</p>
           <img src={SprintLogo} className="game-img" alt="Audio logo" />
         </Link>
