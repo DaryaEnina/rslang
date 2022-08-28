@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import answeredWordsReducer from './reducers/answeredWordsReducer';
 import changeDifficulty from './reducers/difficultyReducer';
 import pageReducer from './reducers/pageReducer';
 import selectGameReducer from './reducers/selectGameReducer';
@@ -13,7 +14,8 @@ export const store = configureStore({
         gameDifficulty: changeDifficulty,
         selectedGame: selectGameReducer,
         currentWords: wordsReducer,
-        currentPage: pageReducer
+        currentPage: pageReducer,
+        answeredWords: answeredWordsReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(rslangApi.middleware),
 });

@@ -7,13 +7,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { changeDifficultyReducer } from 'store/reducers/difficultyReducer';
 import { selectAudiogame, selectSprint } from 'store/reducers/selectGameReducer';
+import { useGetWordsQuery } from 'store/rslang/words.api';
 import './games.scss';
 import Levels from './Levels';
+import { DifficultyData } from './types';
 // import { DifficultyData, UserData } from './types';
 
 interface IRootState {
   gameDifficulty: {
     changeDifficulty: AllDifficulties
+  },
+  currentPage: {
+    currentPage: number
   }
 }
 
@@ -21,6 +26,9 @@ function Games() {
 
   const dispatch = useDispatch();
   const difficulty = useSelector((state: IRootState) => state.gameDifficulty.changeDifficulty);
+  const currentPage = useSelector((state: IRootState) => state.currentPage.currentPage);
+
+  useGetWordsQuery({ page: currentPage, group: DifficultyData[difficulty] });
 
   // const [userData] = useState<UserData | null>(() => {
   //   const token = localStorage.getItem('token') as string;
