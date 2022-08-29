@@ -1,3 +1,12 @@
+@keyframes checkedIn {
+  from {
+    transform: translateX(110%);
+  }
+  to {
+    transform: translateX(90%);
+  }
+}
+
 .header {
   font-size: 2em;
   font-weight: 700;
@@ -21,7 +30,7 @@
   width: 400px;
   height: 450px;
   border: 2px solid black;
-  border-radius: 1em;
+  border-radius: .4em;
   display: flex;
   flex-direction: column;
   transition: all .7s;
@@ -35,6 +44,39 @@
 .game-img {
   width: 390px;
   margin: auto;
+}
+
+.levels-container {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 400px;
+}
+
+.level-btn {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 25px;
+  border: none;
+  border-radius: .2em;
+  cursor: pointer;
+}
+
+.level-btn.active {
+  background: url('../../assets/icons/check.png') no-repeat;
+  background-size: 30px 30px;
+  background-position: 95%;
+}
+
+.level-name {
+  margin-left: 10px;
+  width: 25px;
+  font-size: 1.2em;
+  font-weight: 500;
+}
+
+.level-text {
+  font-size: 1.2em;
 }
 
 @media screen and (max-width: 1300px) {

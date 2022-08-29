@@ -1,11 +1,25 @@
 import { configureStore } from '@reduxjs/toolkit';
+import answeredWordsReducer from './reducers/answeredWordsReducer';
+import changeDifficulty from './reducers/difficultyReducer';
+import pageReducer from './reducers/pageReducer';
+import selectGameReducer from './reducers/selectGameReducer';
+import wordsReducer from './reducers/wordsReducer';
+
 import rslangApi from './rslang/rslang.api';
 
-const store = configureStore({
+
+export const store = configureStore({
     reducer: {
         [rslangApi.reducerPath]: rslangApi.reducer,
+        gameDifficulty: changeDifficulty,
+        selectedGame: selectGameReducer,
+        currentWords: wordsReducer,
+        currentPage: pageReducer,
+        answeredWords: answeredWordsReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(rslangApi.middleware),
 });
 
-export default store;
+export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;

@@ -1,0 +1,185 @@
+.rules-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 10vh auto 2vh;
+}
+
+.start-btn {
+  background: #bd1f37;
+  cursor: pointer;
+  -webkit-transition: all .7s;
+  transition: all .7s;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  margin-top: 1em;
+  width: 100px;
+}
+
+.start-btn:hover {
+  background: #610000;
+}
+
+.game-container {
+  width: 700px;
+  margin: 5vh auto 2vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.play-word {
+  padding: 20px;
+  background-color: transparent;
+  width: 90px;
+  height: 90px;
+  border: none;
+  border-radius: 50%;
+  -webkit-transition: all .7s;
+  transition: all .7s;
+  cursor: pointer;
+}
+
+.play-img {
+  width: 50px;
+}
+
+.play-word:hover {
+  background: #bd1f37;
+}
+
+.words {
+  height: 63px;
+}
+
+.text {
+  margin: 0;
+}
+
+.try-container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.attempts-card-img {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 700px;
+  margin: 0 auto;
+  gap: 20px;
+  height: 278px;
+}
+
+.attempt-container {
+  display: -ms-grid;
+  display: grid;
+  grid-column-gap: 10px;
+  width: 50px;
+}
+
+.attempt-logo {
+  width: 50px;
+  -webkit-transition: all .7s;
+  transition: all .7s;
+}
+
+.word-image-div {
+  margin: auto;
+}
+
+.word-image {
+  width: 100%;
+  max-height: 278px;
+  border-radius: .4em;
+}
+
+.answer-words-container {
+  margin: 1em auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  width: 700px;
+  -webkit-column-gap: 2em;
+          column-gap: 2em;
+  row-gap: 1em;
+}
+
+.choose-word,
+.next-word {
+  background: #bd1f37;
+  -webkit-transition: all .7s;
+  transition: all .7s;
+  border-radius: .4em;
+}
+
+.choose-word.right[disabled] {
+  background-color: #006b00 !important;
+}
+
+.choose-word.wrong[disabled] {
+  background-color: #ad0000 !important;
+}
+
+.next-word-container {
+  margin: 2em auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.choose-word:hover,
+.next-word:hover {
+  background: #610000;
+}
+
+@media screen and (max-width: 1300px) {
+  .game-container {
+    width: 70vw;
+  }
+  .attempts-card-img,
+  .answer-words-container {
+    max-width: 70vw;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .attempt-logo {
+    width: 40px;
+  }
+}
+/*# sourceMappingURL=audiogame.css.map */

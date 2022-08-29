@@ -36,3 +36,5 @@ export type UserWordResponse = {
     optional: {};
     wordId: string;
 };
+
+export type AllDifficulties = "A1" | "A2" | "B2" | "B2" | "C1" | "C2";
