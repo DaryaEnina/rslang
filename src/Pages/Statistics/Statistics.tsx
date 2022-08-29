@@ -1,6 +1,8 @@
 import './style.scss';
 
+
 const Statistics = () => {
+    
     return (
         <div className="statistics_wrapper">
             <h2>Статистика</h2>

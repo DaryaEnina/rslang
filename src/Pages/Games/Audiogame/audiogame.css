@@ -106,6 +106,8 @@
 
 .attempt-logo {
   width: 50px;
+  -webkit-transition: all .7s;
+  transition: all .7s;
 }
 
 .word-image-div {
@@ -125,10 +127,12 @@
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
   width: 700px;
+  -webkit-column-gap: 2em;
+          column-gap: 2em;
   row-gap: 1em;
 }
 
@@ -138,6 +142,14 @@
   -webkit-transition: all .7s;
   transition: all .7s;
   border-radius: .4em;
+}
+
+.choose-word.right[disabled] {
+  background-color: #006b00 !important;
+}
+
+.choose-word.wrong[disabled] {
+  background-color: #ad0000 !important;
 }
 
 .next-word-container {
