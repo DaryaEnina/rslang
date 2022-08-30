@@ -1,6 +1,6 @@
 import { ReactComponent as BookmarkIcon } from 'assets/icons/bookmark.svg';
 import { ReactComponent as CheckmarkIcon } from 'assets/icons/checkmark.svg';
-import { ReactComponent as VolumeIcon } from 'assets/icons/volume.svg';
+import VolumeIcon from 'assets/icons/sound-logo.png';
 import parse from 'html-react-parser';
 import { IWord } from 'models/models';
 import { FC } from 'react';
@@ -55,14 +55,10 @@ const Word: FC<IWordProps> = ({ word }) => {
                 <div className={styles.word__overlay}>
                     {userToken && (
                         <div className={styles.word__buttons}>
-                            <button
-                                type="button"
-                                onClick={addWordToHard}
-                                className={`${styles.word__btn} ${styles.word__btn_hard}`}
-                            >
+                            <button type="button" onClick={addWordToHard} className={styles.word__btn}>
                                 <BookmarkIcon className={styles.bookmark} fill="#111" />
                             </button>
-                            <button type="button" className={`${styles.word__btn} ${styles.word__btn_studied}`}>
+                            <button type="button" className={styles.word__btn}>
                                 <CheckmarkIcon className={styles.checkmark} fill="#111" />
                             </button>
                         </div>
@@ -71,12 +67,8 @@ const Word: FC<IWordProps> = ({ word }) => {
                     <div className={styles.word__description}>
                         <div className={styles.word__translate}>{word.wordTranslate}</div>
                         <div className={styles.word__transcription}>{word.transcription}</div>
-                        <button
-                            type="button"
-                            onClick={audioHandler}
-                            className={`${styles.word__btn} ${styles.word__btn_sound}`}
-                        >
-                            <VolumeIcon className={styles.volume} fill="#111" />
+                        <button type="button" onClick={audioHandler} className={styles.word__btn}>
+                            <img src={VolumeIcon} className={styles.volume} alt="Volume icon" />
                         </button>
                     </div>
                 </div>

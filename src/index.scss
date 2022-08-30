@@ -1,15 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Charm:wght@700&family=Noto+Serif+Display:ital,wght@0,400;1,700&family=Roboto&display=swap');
+@import './styles/vars';
 
-.body {
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
-    line-height: 1.4em;
-    display: block;
-    font-family: Verdana, Geneva, sans-serif;
-    color: #888888;
+html {
+    scroll-behavior: smooth;
 }
 
-* {
-	scroll-behavior: smooth;
+html,
+body {
+    height: 100%;
+    line-height: 1;
+    font-family: 'Roboto', sans-serif;
+    color: $text-color;
+    background-color: $bg-color;
 }
