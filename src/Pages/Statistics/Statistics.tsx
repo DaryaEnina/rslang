@@ -19,7 +19,7 @@ const Statistics = () => {
                             <p>Изученных слов</p>
                             <p>0 шт</p>
                         </div>
-                        <div className="stat-words_count">
+                        <div className="stat-words_count last">
                             <p>Правильных ответов</p>
                             <p>0 %</p>
                         </div>
@@ -36,8 +36,8 @@ const Statistics = () => {
                             <p>Правильных ответов</p>
                             <p>0%</p>
                         </div>
-                        <div className="stat-games_count">
-                            <p>Самая длинная серия правильных ответов</p>
+                        <div className="stat-games_count last">
+                            <p>Самая длинная серия<br/> правильных ответов</p>
                             <p>0 шт</p>
                         </div>
                     </div>
@@ -53,8 +53,8 @@ const Statistics = () => {
                             <p>Правильных ответов</p>
                             <p> 0%</p>
                         </div>
-                        <div className="stat-games_count">
-                            <p>Самая длинная серия правильных ответов</p>
+                        <div className="stat-games_count last">
+                            <p>Самая длинная серия<br/> правильных ответов</p>
                             <p>0 шт</p>
                         </div>
                     </div>

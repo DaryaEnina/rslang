@@ -222,7 +222,7 @@ function Audiogame() {
 
   return (
     <>
-      <p className="header">Аудиовызов</p>
+      <p className="header page-header">Аудиовызов</p>
       {!startGame ? (
         <div className="rules-container">
           <p className="text">«Аудиовызов» - игра, улучшающая восприятие речи на слух.</p>
