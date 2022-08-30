@@ -24,7 +24,7 @@ function App() {
         <Route path="/games" element={<Games />} />
         <Route path="/audiogame" element={<Audiogame />} />
         <Route path="/sprint" element={<Sprint />} />
-        <Route path="/book/:group/:page" element={<Book />} />
+        <Route path="/book" element={<Book />} />
       </Route>
     </Routes>
   );
