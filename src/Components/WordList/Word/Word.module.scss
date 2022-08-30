@@ -1,0 +1,122 @@
+.word {
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    border-radius: 25px;
+    overflow: hidden;
+    background-color: #eee;
+
+    &__top {
+        width: 100%;
+        height: 260px;
+        background-size: cover;
+    }
+
+    &__overlay {
+        height: 100%;
+        padding: 20px;
+        background: linear-gradient(transparent, #7e7e7e);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    &__buttons {
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    &__btn {
+        width: 20px;
+        height: 20px;
+        background-color: transparent;
+        border: none;
+        padding: 0;
+
+        &:not(:last-child) {
+            margin: 0 10px 0 0;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    &__title {
+        font-size: 38px;
+        font-weight: 700;
+        margin: auto 0 5px;
+    }
+
+    &__description {
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+    }
+
+    &__translate {
+        &:not(:last-child) {
+            margin: 0 10px 0 0;
+        }
+    }
+
+    &__transcription {
+        &:not(:last-child) {
+            margin: 0 10px 0 0;
+        }
+    }
+
+    &__body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__content {
+        text-align: center;
+
+        &:not(:last-child) {
+            margin: 0 0 10px;
+            padding: 0 0 10px;
+            box-shadow: 0 20px 0 -19px #333;
+        }
+    }
+
+    &__text {
+        font-size: 18px;
+
+        &:not(:last-child) {
+            margin: 0 0 5px;
+        }
+
+        &_translate {
+            font-size: 16px;
+            font-style: italic;
+        }
+    }
+}
+.bookmark,
+.checkmark,
+.volume {
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s ease-in 0s;
+}
+.bookmark {
+    &:hover {
+        fill: #d22a30;
+    }
+}
+.checkmark {
+    &:hover {
+        fill: #90ee90;
+    }
+}
+.volume {
+    &:hover {
+        transform: scale(1.1);
+    }
+}
