@@ -45,7 +45,7 @@ function Games() {
 
   return (
     <>
-      <p className='header'>Игры</p>
+      <p className='header page-header'>Игры</p>
       <p className='text'>
         Выбирай игру и повторяй уже знакомые слова весело и непринуждённо!
       </p>

@@ -15,6 +15,10 @@ a {
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
   background-color: #d22a30;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  height: 110px;
 }
 
 .rsschool-icon {

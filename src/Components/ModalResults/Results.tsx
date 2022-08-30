@@ -49,7 +49,7 @@ const Results = (props: IProps) => {
   return (
     <div className="game-result-wrapper">
       <div className="game-result">
-        <p className="header">Результаты игры:</p>
+        <p className="header page-header">Результаты игры:</p>
         <p className="header-text">Серия правильных ответов: {seria}</p>
         <p className="header-text">Процент верных ответов:  {((right/ (right + wrong)) * 100).toFixed(0)}%</p>
         <div className="result-wrapper">
