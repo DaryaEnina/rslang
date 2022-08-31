@@ -22,7 +22,7 @@ interface IRootState {
       currentPage: number
     }
     userLogin: {
-        userLogin: boolean
+        userLogin: { isLogin: boolean, token: string | null, userId: string | null }
     }
   }
 
@@ -30,9 +30,12 @@ const Book = () => {
     const dispatch = useDispatch();
     const difficulty = useSelector((state: IRootState) => state.gameDifficulty.changeDifficulty);
     const currentPage = useSelector((state: IRootState) => state.currentPage.currentPage);
-    const isLogin = useSelector((state: IRootState) => state.userLogin.userLogin);
+    const userLogin = useSelector((state: IRootState) => state.userLogin.userLogin);
+    const { isLogin, token, userId } = userLogin; 
 //    const answeredWords = useSelector((state: IRootState) => state.answeredWords.answeredWords);
     const { isLoading: isWordsLoading, error: wordsError, data: words } = useGetWordsQuery({ page: currentPage, group: DifficultyData[difficulty] });
+
+
 
     const [hardWordsPage, setHardWordsPage] = useState<boolean>(false);
 
@@ -51,6 +54,8 @@ const Book = () => {
             <h1>Для доступа к данному разделу необходимо авторизоваться</h1>
             )
     }
+
+    
 
     return (
         <>
@@ -92,6 +97,7 @@ const Book = () => {
                         </section>
                     </>
             )}
+
         </>
     );
 };
