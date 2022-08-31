@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const isLogin = !!(localStorage.getItem('token') && localStorage.getItem('userId'));
+const token = localStorage.getItem('token');
+const userId = localStorage.getItem('userId');
+const isLogin = !!(token && userId);
 
 const userLoginSlice =  createSlice({
   name: "userLogin",
   initialState: {
-    userLogin: isLogin
+    userLogin: { isLogin, token, userId }
   },
   reducers: {
     userLoginReducer(state, action) {
