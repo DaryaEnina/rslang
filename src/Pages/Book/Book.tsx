@@ -21,12 +21,16 @@ interface IRootState {
     currentPage: {
       currentPage: number
     }
+    userLogin: {
+        userLogin: boolean
+    }
   }
 
 const Book = () => {
     const dispatch = useDispatch();
     const difficulty = useSelector((state: IRootState) => state.gameDifficulty.changeDifficulty);
     const currentPage = useSelector((state: IRootState) => state.currentPage.currentPage);
+    const isLogin = useSelector((state: IRootState) => state.userLogin.userLogin);
 //    const answeredWords = useSelector((state: IRootState) => state.answeredWords.answeredWords);
     const { isLoading: isWordsLoading, error: wordsError, data: words } = useGetWordsQuery({ page: currentPage, group: DifficultyData[difficulty] });
 
@@ -41,9 +45,11 @@ const Book = () => {
     }
 
     if (hardWordsPage) {
-        return (
+        return isLogin ? (
             <h1>This hard words Page</h1>
-        )
+        ) : (
+            <h1>Для доступа к данному разделу необходимо авторизоваться</h1>
+            )
     }
 
     return (
