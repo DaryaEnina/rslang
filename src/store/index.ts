@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import answeredWordsReducer from './reducers/answeredWordsReducer';
 import changeDifficulty from './reducers/difficultyReducer';
+import { userLoginReducer } from './reducers/loginReducer';
 import pageReducer from './reducers/pageReducer';
 import selectGameReducer from './reducers/selectGameReducer';
 import wordsReducer from './reducers/wordsReducer';
@@ -15,7 +16,8 @@ export const store = configureStore({
         selectedGame: selectGameReducer,
         currentWords: wordsReducer,
         currentPage: pageReducer,
-        answeredWords: answeredWordsReducer
+        answeredWords: answeredWordsReducer,
+        userLogin: userLoginReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(rslangApi.middleware),
 });

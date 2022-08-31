@@ -6,7 +6,8 @@ export const DifficultyData = {
   "B1": 2,
   "B2": 3,
   "C1": 4,
-  "C2": 5
+  "C2": 5,
+  "HARD": 6
 }
 
 export interface ILevel {

@@ -37,4 +37,4 @@ export type UserWordResponse = {
     wordId: string;
 };
 
-export type AllDifficulties = "A1" | "A2" | "B2" | "B2" | "C1" | "C2";
+export type AllDifficulties = "A1" | "A2" | "B2" | "B2" | "C1" | "C2" | "HARD";
