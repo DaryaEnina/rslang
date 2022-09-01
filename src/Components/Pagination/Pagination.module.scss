@@ -1,0 +1,29 @@
+@import '../../styles/vars';
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    &__btn {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        transition: color 0.3s ease 0s;
+
+        &:not(:disabled):hover {
+            cursor: pointer;
+            color: $primary-color;
+        }
+    }
+
+    &__icon {
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    &__text {
+        font-size: 18px;
+    }
+}

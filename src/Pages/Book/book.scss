@@ -1,81 +1,80 @@
-.WordList_word-list__r6vgF {
-  margin: 1em auto;
+.book {
+    padding: 20px 0;
 }
 
 .textbook-nav {
-  display: flex;
-  justify-content: space-between;
-  height: auto;
-  background-color: transparent;
-  margin-top: 30px;
-  padding: 1em;
-  box-shadow: none;
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+    background-color: transparent;
+    margin-top: 30px;
+    padding: 1em;
+    box-shadow: none;
 }
 
 .level-nav {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: .4em auto;
-  gap: 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0.4em auto;
+    gap: 10px;
 }
 
 .lvl-btn {
-  width: 70px;
-  height: 32px;
-  padding: 0;
-  align-items: center;
-  border-radius: .4em;
-  border: none;
-  cursor: pointer;
+    width: 70px;
+    height: 32px;
+    padding: 0;
+    align-items: center;
+    border-radius: 0.4em;
+    border: none;
+    cursor: pointer;
 }
 
 .hard-words {
-  width: 210px;
-  height: 32px;
-  cursor: pointer;
-  background: none;
-  transition: all .7s;
-  border: none;
-  border-radius: .2em;
-  padding: 0;
-  box-shadow: none;
-  line-height: normal;
+    width: 210px;
+    height: 32px;
+    cursor: pointer;
+    background: none;
+    transition: all 0.7s;
+    border: none;
+    border-radius: 0.2em;
+    padding: 0;
+    box-shadow: none;
+    line-height: normal;
 }
 
 .hard {
-  font-size: 21px;
-  color: black;
-  height: 25px;
+    font-size: 21px;
+    color: black;
+    height: 25px;
 }
 
 .games-nav {
-  margin: auto;
-  display: flex;
-  gap: 10px;
-  height: 32px;
+    margin: auto;
+    display: flex;
+    gap: 10px;
+    height: 32px;
 }
 
 .game-btn {
-  font-size: 21px;
-  height: 32px;
-  color: black;
-  align-self: center;
-  border: 1px solid rgba(121, 121, 121, 0.613);
-  border-radius: .2em;
-  transition: all .7s;
+    font-size: 21px;
+    height: 32px;
+    color: black;
+    align-self: center;
+    border: 1px solid rgba(121, 121, 121, 0.613);
+    border-radius: 0.2em;
+    transition: all 0.7s;
 }
 
 .game-link {
-  height: 30px;
-  display: block;
-  padding: 5px;
-  line-height: normal;
-  text-transform: uppercase;
+    height: 30px;
+    display: block;
+    padding: 5px;
+    line-height: normal;
+    text-transform: uppercase;
 }
 
 .hard-words:hover,
 .game-btn:hover {
-  background-color: rgb(210,42,48);
+    background-color: rgb(210, 42, 48);
 }
-
