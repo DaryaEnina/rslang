@@ -5,6 +5,7 @@ const rslangApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://react-rslang-team.herokuapp.com/',
     }),
+    tagTypes: ['User'],
     endpoints: () => ({}),
 });
 
