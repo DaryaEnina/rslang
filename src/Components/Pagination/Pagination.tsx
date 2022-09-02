@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useDispatch } from 'react-redux';
-import { setPageReducer } from 'store/reducers/pageReducer';
+import { setPageReducer } from 'store/reducers/pageSlice';
 import styles from './Pagination.module.scss';
 
 interface IPaginationProps {
