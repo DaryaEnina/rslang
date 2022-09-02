@@ -12,6 +12,7 @@ import Template from 'Pages/Template/Template';
 import Games from 'Pages/Games/Games';
 
 import 'Pages/Login/LogIn.css';
+import AudiogameMain from 'Pages/Games/Audiogame/AudiogameMain';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/signup" element={<Registration />} />
         <Route path="/statistics" element={<Statistics />} />
         <Route path="/games" element={<Games />} />
+        <Route path='/audiogame-main' element={<AudiogameMain />} />
         <Route path="/audiogame" element={<Audiogame />} />
         <Route path="/sprint" element={<Sprint />} />
         <Route path="/book" element={<Book />} />

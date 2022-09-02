@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Loader from 'Components/Loader/Loader';
 import WordList from 'Components/WordList/WordList';
 import { AllDifficulties, WordsResponse } from 'models/models';
-import { AnsweredWord } from 'Pages/Games/Audiogame/Audiogame';
 import Levels from 'Pages/Games/Levels';
 import { DifficultyData } from 'Pages/Games/types';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { changeDifficultyReducer } from 'store/reducers/difficultyReducer';
+import { startGameFromReducer } from 'store/reducers/startGameFromReducer';
 import { useGetWordsQuery } from 'store/rslang/words.api';
 import "./book.scss";
 
@@ -15,14 +16,14 @@ interface IRootState {
     gameDifficulty: {
       changeDifficulty: AllDifficulties
     },
-    answeredWords: {
-      answeredWords: AnsweredWord[]
-    },
     currentPage: {
       currentPage: number
     }
     userLogin: {
         userLogin: { isLogin: boolean, token: string | null, userId: string | null }
+    },
+    startGameFrom: {
+      startGameFrom: string
     }
   }
 
@@ -32,12 +33,13 @@ const Book = () => {
     const currentPage = useSelector((state: IRootState) => state.currentPage.currentPage);
     const userLogin = useSelector((state: IRootState) => state.userLogin.userLogin);
     const { isLogin, token, userId } = userLogin; 
-//    const answeredWords = useSelector((state: IRootState) => state.answeredWords.answeredWords);
     const { isLoading: isWordsLoading, error: wordsError, data: words } = useGetWordsQuery({ page: currentPage, group: DifficultyData[difficulty] });
 
-
-
     const [hardWordsPage, setHardWordsPage] = useState<boolean>(false);
+
+    function setFrom() {
+        dispatch(startGameFromReducer('book'));
+    }
 
     function levelBtnHandler(lvl: string) {
         dispatch(changeDifficultyReducer(lvl));
@@ -46,16 +48,6 @@ const Book = () => {
     function toHardWords() {
         setHardWordsPage(true);
     }
-
-    if (hardWordsPage) {
-        return isLogin ? (
-            <h1>This hard words Page</h1>
-        ) : (
-            <h1>Для доступа к данному разделу необходимо авторизоваться</h1>
-            )
-    }
-
-    
 
     return (
         <>
@@ -78,9 +70,9 @@ const Book = () => {
                     </button>
                 </div>
                 <div className='games-nav'>
-                    <NavLink to="/audiogame" className="game-btn">
+                    <NavLink to="/audiogame-main" className="game-btn" onClick={() => setFrom()}>
                         <span className='game-link'>Аудиовызов</span></NavLink>
-                    <NavLink to="/sprint" className="game-btn">
+                    <NavLink to="/sprint" className="game-btn" onClick={() => setFrom()}>
                         <span className='game-link'>Спринт</span></NavLink>
                 </div>
             </nav>

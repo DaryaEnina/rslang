@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
+import { WordsResponse } from "models/models";
 
+const initial: WordsResponse = [];
 
 const wordsSlice = createSlice({
   name: 'currentWords',
   initialState: {
-    currentWords: []
+    currentWords: initial
   },
   reducers: {
     setWordsReducer(state, action) {

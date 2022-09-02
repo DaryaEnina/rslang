@@ -33,8 +33,15 @@ export type SigninUserResponse = {
 export type UserWordResponse = {
     id: string;
     difficulty: string;
-    optional: {};
+    optional: Params;
     wordId: string;
 };
+
+export type Params = {
+    wordsPerPage?: number;
+    group?: number;
+    page?: number;
+    filter?: unknown;
+  };
 
 export type AllDifficulties = "A1" | "A2" | "B2" | "B2" | "C1" | "C2" | "HARD";

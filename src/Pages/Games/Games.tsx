@@ -2,16 +2,16 @@
 import AudioLogo from 'assets/images/audio.png';
 import SprintLogo from 'assets/images/sprint.png';
 import { AllDifficulties } from 'models/models';
-// import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { changeDifficultyReducer } from 'store/reducers/difficultyReducer';
 import { selectAudiogame, selectSprint } from 'store/reducers/selectGameReducer';
+import { startGameFromReducer } from 'store/reducers/startGameFromReducer';
 import { useGetWordsQuery } from 'store/rslang/words.api';
 import './games.scss';
 import Levels from './Levels';
 import { DifficultyData } from './types';
-// import { DifficultyData, UserData } from './types';
+
 
 interface IRootState {
   gameDifficulty: {
@@ -19,6 +19,9 @@ interface IRootState {
   },
   currentPage: {
     currentPage: number
+  },
+  startGameFrom: {
+    startGameFrom: string
   }
 }
 
@@ -29,24 +32,26 @@ function Games() {
   const currentPage = useSelector((state: IRootState) => state.currentPage.currentPage);
 
   useGetWordsQuery({ page: currentPage, group: DifficultyData[difficulty] });
-
-  // const [userData] = useState<UserData | null>(() => {
-  //   const token = localStorage.getItem('token') as string;
-  //   const userId = localStorage.getItem('userId') as string;
-  //   if (!token || ! userId) {
-  //     return null;
-  //   }
-  //   return { token, id: userId };
-  // });
-
+  
   function setDifficulty(level: AllDifficulties) {
     dispatch(changeDifficultyReducer(level));
   }
 
+  function startGame(gameName: string) {
+    if (gameName === 'sprint') {
+      selectSprint();
+    } else {
+      selectAudiogame();
+    }
+    dispatch(startGameFromReducer('games'));
+  }
+  
+  
+
   return (
     <>
       <p className='header page-header'>Игры</p>
-      <p className='text'>
+      <p className='text page-text'>
         Выбирай игру и повторяй уже знакомые слова весело и непринуждённо!
       </p>
       <div className='games-container'>
@@ -64,11 +69,11 @@ function Games() {
               </button>
           )})} 
         </div>
-        <Link to="/audiogame" className='game-card' onClick={selectAudiogame}>
+        <Link to="/audiogame-main" className='game-card' onClick={() => startGame('audiogame')}>
           <p className='header'>Аудиовызов</p>
           <img src={AudioLogo} className="game-img" alt="Audio logo" />
         </Link>
-        <Link to="/sprint" className='game-card' onClick={selectSprint}>
+        <Link to="/sprint" className='game-card' onClick={() => startGame('sprint')}>
           <p className='header'>Спринт</p>
           <img src={SprintLogo} className="game-img" alt="Audio logo" />
         </Link>

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/media-has-caption */
-
+import useSound from 'use-sound';
 import { useEffect, useState } from "react";
 import SoundLogo from "assets/icons/sound-logo.png";
 import AttemptLogo from "assets/icons/attempt.jpeg";
@@ -8,13 +8,13 @@ import Empty from "assets/icons/empty.png";
 import QuestionMark from "assets/images/question-mark.png";
 import "./audiogame.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { AllDifficulties, IWord } from "models/models";
+import { AllDifficulties, IWord, WordsResponse } from "models/models";
 import { useGetWordsQuery } from "store/rslang/words.api";
-import { setPageReducer } from "store/reducers/pageReducer";
-// import RightSound from "assets/sounds/correct.mp3";
-// import WrongSound from "assets/sounds/incorrect.mp3";
-import ModalResults from "Components/ModalResults/Results";
+import ModalResults from "Components/Results/Results";
 import { setAnsweredWordsReducer } from "store/reducers/answeredWordsReducer";
+import RightSound from "assets/sounds/correct.mp3";
+import WrongSound from "assets/sounds/incorrect.mp3";
+import Loader from 'Components/Loader/Loader';
 import { DifficultyData } from "../types";
 
 
@@ -27,6 +27,15 @@ interface IRootState {
   },
   currentPage: {
     currentPage: number
+  },
+  currentWords: {
+    currentWords: WordsResponse
+  },
+  userLogin: {
+    userLogin: { isLogin: boolean, token: string | null, userId: string | null }
+  },
+  startGameFrom: {
+    startGameFrom: string
   }
 }
 
@@ -42,10 +51,18 @@ function Audiogame() {
   const dispatch = useDispatch();
   const difficulty = useSelector((state: IRootState) => state.gameDifficulty.changeDifficulty);
   const currentPage = useSelector((state: IRootState) => state.currentPage.currentPage);
+  const fromBookWords = useSelector((state: IRootState) => state.currentWords.currentWords);
   const answeredWords = useSelector((state: IRootState) => state.answeredWords.answeredWords);
-  const { data } = useGetWordsQuery({ page: currentPage, group: DifficultyData[difficulty] });
+  const startFrom = useSelector((state: IRootState) => state.startGameFrom.startGameFrom);
+  const { isLogin, userId, token } = useSelector((state: IRootState) => state.userLogin.userLogin);
+  const { isLoading: boolLoad, data: dataFromGames } = useGetWordsQuery({ page: currentPage, group: DifficultyData[difficulty] });
 
-  const [startGame, setStartGame] = useState(false);
+  const userIdStr = userId as string;
+  const tokenStr = token as string;
+
+  const gameWords = (isLogin && startFrom === 'book') ? fromBookWords : dataFromGames;
+  
+  const [startGame, setStartGame] = useState(true);
   const [showResult, setShowResult] = useState<boolean>(false);
   const [attempt, setAttempt] = useState(5);
   const [currentWordNumber, setCurrentWordNumber] = useState(1);
@@ -63,12 +80,10 @@ function Audiogame() {
   const [wrongCount, setWrongCount] = useState(0);
   const [rightCount, setRightCount] = useState(0);
 
+  const [rightAudio] = useSound(RightSound);
+  const [wrongAudio] = useSound(WrongSound);
+
   const url = 'https://react-rslang-team.herokuapp.com/';
-
-  // const rightAudio = new Audio(RightSound);
-
-  // const wrongAudio = new Audio(WrongSound);
-
 
   function shuffle(array: string[]): string[] {
     return array.sort(() => Math.random() - 0.5);
@@ -88,8 +103,8 @@ function Audiogame() {
   }
 
   function getWords(wordNum: number) {
-    if (data) {
-      const currentWD = data[wordNum - 1];
+    if (gameWords) {
+      const currentWD = gameWords[wordNum - 1];
       setCurrentWordData(currentWD);
       setRightAnswer(currentWD.wordTranslate);
       generateWords(currentWD.wordTranslate);
@@ -108,11 +123,6 @@ function Audiogame() {
       setResultStats(true);
     }
   }
-
-  function Start() {
-    setStartGame(true);
-    getWords(1);
-  }
  
   function checkAnswer(elem: HTMLElement, wordToCheck: string) {
     setBlockButtons(true);
@@ -123,13 +133,16 @@ function Audiogame() {
       if (currSeria > seria) {
         setSeria(currSeria);
       }
+      wrongAudio();
       setCurrSeria(0);
       setWrongCount(wrongCount + 1);
       decreaseAttempts();
     } else {
+      rightAudio();
       setRightCount(rightCount + 1);
       setCurrSeria(currSeria + 1);
     }
+
     dispatch(setAnsweredWordsReducer({
       audio: `${url}${currentWordData?.audio}`,
       result: wordToCheck === rightAnswer,
@@ -185,6 +198,20 @@ function Audiogame() {
     }
   }
 
+  if (!currentWordData) {
+    // (isLogin && startFrom === 'book') ? words![currentWordNumber - 1] :
+    if (!boolLoad && !!gameWords!.length) {
+      try {
+        getWords(1);
+        const current = gameWords![currentWordNumber - 1];
+        setCurrentWordData(current);
+        setRightAnswer(current.wordTranslate!);
+      } catch {
+        console.log('Error!');
+      }
+    }
+  }
+
   useEffect(() => {
     if (!showResult && startGame) {
       window.addEventListener('keyup', keyHandler);
@@ -200,12 +227,6 @@ function Audiogame() {
       audioComponent.play();
     }
   }, [currentWordData?.audio, currentWordData?.image, startGame]);
-
-  if (!currentWordData) {
-    const current = data![currentWordNumber - 1]
-    setCurrentWordData(current);
-    setRightAnswer(current.wordTranslate!);
-  }
 
   function AnswerButtons() {
     return arr.map((el) => (
@@ -223,21 +244,9 @@ function Audiogame() {
   return (
     <>
       <p className="header page-header">Аудиовызов</p>
-      {!startGame ? (
-        <div className="rules-container">
-          <p className="text">«Аудиовызов» - игра, улучшающая восприятие речи на слух.</p>
-          <p className="header">Правила</p>
-          <p className="text">
-            Слушай слово на английском языке и выбирай правильный перевод.<br />
-            При неверном ответе сгорает одна попытка.<br />
-            Неверно ответить можно не более пяти раз.
-          </p>
-          <p className="header">Управление</p>
-          <p className="text">Левыя клавиша мыши и 1-5 для выбора ответа<br />
-            Клавиша Enter для перехода к следующему слову<br />
-            Клавиша пробел для повторного прослушивания слова
-          </p>
-          <button type="button" className="start-btn btn" onClick={Start}>Старт</button>
+      {boolLoad ? (
+        <div style={{ display: 'flex', justifyContent: 'center', margin: 10 }}>
+          <Loader color="#23266e" />
         </div>
       )
         : (
@@ -255,7 +264,7 @@ function Audiogame() {
               </div>
               <div className="try-container">
                 <p className="try-count">Попытки: {attempt}</p>
-                <p className="word-progress">{currentWordNumber} / 20</p>
+                <p className="word-progress">{currentWordNumber} / {gameWords!.length}</p>
               </div>
             </div>
             <div className="attempts-card-img">
@@ -285,4 +294,5 @@ function Audiogame() {
     </>
   );
 };
+
 export default Audiogame;
