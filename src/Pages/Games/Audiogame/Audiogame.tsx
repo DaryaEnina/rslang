@@ -18,6 +18,7 @@ import RightSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/incorrect.mp3';
 import Loader from 'Components/Loader/Loader';
 import { DifficultyData } from '../types';
+import setToStatNewWords from '../gamesUtils';
 
 interface IRootState {
     gameDifficulty: {
@@ -48,20 +49,6 @@ export type AnsweredWord = {
 };
 
 function Audiogame() {
-    async function setToStatNewWords() {
-        const token = localStorage.getItem('token') as string;
-        const userId = localStorage.getItem('userId') as string;
-        const responseStat = (await Service.getUserStat(userId, token)) as DataStat;
-        delete responseStat.id;
-        let { optional } = responseStat;
-        const newWordsAudioGame = responseStat.optional.newWordsAudioGame + 1;
-        optional = { ...responseStat.optional, newWordsAudioGame };
-        const dataStatUpdate = { ...responseStat, optional };
-        setTimeout(async () => {
-            await Service.updateUserStat(dataStatUpdate, userId, token);
-        }, 100);
-    }
-
     const dispatch = useDispatch();
     const difficulty = useSelector((state: IRootState) => state.gameDifficulty.changeDifficulty);
     const currentPage = useSelector((state: IRootState) => state.currentPage.currentPage);
@@ -166,11 +153,12 @@ function Audiogame() {
             setCurrSeria(0);
             setWrongCount(wrongCount + 1);
             decreaseAttempts();
+            setToStatNewWords(); // добавляет в статистику к новым словам
         } else {
             rightAudio();
             setRightCount(rightCount + 1);
             setCurrSeria(currSeria + 1);
-            setToStatNewWords();
+            setToStatNewWords(); // добавляет в статистику к новым словам
         }
 
         dispatch(
