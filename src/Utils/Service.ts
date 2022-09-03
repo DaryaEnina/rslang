@@ -41,6 +41,21 @@ export type DataUserLoginResponse = {
     name: string;
 };
 
+export type DataStat = {
+    id?: string;
+    learnedWords: number;
+    optional: {
+        newWordsAudioGame: number;
+        newWordsSprintGame: number;
+        wordsInRowAudioGame: number;
+        wordsInRowSprintGame: number;
+        totalQuestionsAudioGame: number;
+        totalQuestionsSprintGame: number;
+        totalCorrectAnswersAudioGame: number;
+        totalCorrectAnswersSprintGame: number;
+    };
+};
+
 class Service {
     private static baseUrl = 'https://react-rslang-team.herokuapp.com';
 
@@ -73,6 +88,53 @@ class Service {
             });
             const loginResponse = await rawResponse.json();
             return loginResponse;
+        } catch (error) {
+            console.log(error);
+        }
+        return undefined;
+    }
+
+    public static async getUserStat(userId: string, token: string): Promise<DataStat | number | undefined> {
+        try {
+            const rawResponse = await fetch(`${this.baseUrl}/users/${userId}/statistics`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json',
+                },
+            });
+            if (rawResponse.status === 401 || rawResponse.status === 404) {
+                return rawResponse.status;
+            }
+            const content = await rawResponse.json();
+            return content;
+        } catch (error) {
+            console.log(error);
+        }
+        return undefined;
+    }
+
+    public static async updateUserStat(
+        statData: DataStat,
+        userId: string,
+        token: string
+    ): Promise<DataStat | number | undefined> {
+        try {
+            const rawResponse = await fetch(`${this.baseUrl}/users/${userId}/statistics`, {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(statData),
+            });
+
+            if (rawResponse.status === 401) {
+                return rawResponse.status;
+            }
+            const content = await rawResponse.json();
+            return content;
         } catch (error) {
             console.log(error);
         }
