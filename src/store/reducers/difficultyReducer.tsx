@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const changeDifficultySlice =  createSlice({
+const changeDifficultySlice = createSlice({
   name: "changeDifficulty",
   initialState: {
     changeDifficulty: localStorage.getItem('gameDifficulty') || 'A1'

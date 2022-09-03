@@ -10,10 +10,10 @@ import './results.scss';
 interface IRootState {
     answeredWords: {
         answeredWords: AnsweredWord[];
-    };
+    },
     currentPage: {
         currentPage: number;
-    };
+    }
 }
 
 interface IProps {

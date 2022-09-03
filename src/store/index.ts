@@ -2,9 +2,11 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { loadStateFromLocalStorage, saveStateToLocalStorage } from 'Utils/localStorage';
 import answeredWordsReducer from './reducers/answeredWordsReducer';
 import changeDifficulty from './reducers/difficultyReducer';
-import { userLoginReducer } from './reducers/loginReducer';
-import pageReducer from './reducers/pageSlice';
+import userLogin from './reducers/loginReducer';
+import pageSlice from './reducers/pageSlice';
+
 import selectGameReducer from './reducers/selectGameReducer';
+import startGameFrom from './reducers/startGameFromReducer';
 import wordsReducer from './reducers/wordsReducer';
 
 import rslangApi from './rslang/rslang.api';
@@ -14,9 +16,10 @@ const rootReducer = combineReducers({
     gameDifficulty: changeDifficulty,
     selectedGame: selectGameReducer,
     currentWords: wordsReducer,
-    currentPage: pageReducer,
+    currentPage: pageSlice,
     answeredWords: answeredWordsReducer,
-    userLogin: userLoginReducer,
+    userLogin,
+    startGameFrom
 });
 
 const persistedStore = loadStateFromLocalStorage();
