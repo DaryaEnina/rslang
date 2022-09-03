@@ -78,11 +78,11 @@ const Statistics = () => {
                     <h5>Спринт</h5>
                     <div className="stat-games_result">
                         <div className="stat-games_count">
-                            <p> {stateData.optional.newWordsSprintGame}шт</p>
-                            <p>0 шт</p>
+                            <p>Новых слов </p>
+                            <p>{stateData.optional.newWordsSprintGame} шт</p>
                         </div>
                         <div className="stat-games_count">
-                            <p>Правильных ответов</p>
+                            <p>Правильных ответов </p>
                             <p> 0%</p>
                         </div>
                         <div className="stat-games_count last">
