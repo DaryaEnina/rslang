@@ -1,5 +1,5 @@
-import { IUser, SigninUserResponse } from "../../models/models";
-import rslangApi from "./rslang.api";
+import { IUser, SigninUserResponse } from '../../models/models';
+import rslangApi from './rslang.api';
 
 const usersApi = rslangApi.injectEndpoints({
     endpoints: (build) => ({
@@ -13,6 +13,7 @@ const usersApi = rslangApi.injectEndpoints({
                 },
                 body: JSON.stringify(user),
             }),
+            invalidatesTags: ['User'],
         }),
         signinUser: build.mutation<SigninUserResponse, { email: string; password: string }>({
             query: (user) => ({
@@ -24,6 +25,7 @@ const usersApi = rslangApi.injectEndpoints({
                 },
                 body: JSON.stringify(user),
             }),
+            invalidatesTags: ['User'],
         }),
         getUser: build.query<IUser, { id: string; token: string }>({
             query: ({ id, token }) => ({
@@ -35,6 +37,7 @@ const usersApi = rslangApi.injectEndpoints({
                     Accept: 'application/json',
                 },
             }),
+            providesTags: () => ['User'],
         }),
     }),
     overrideExisting: false,

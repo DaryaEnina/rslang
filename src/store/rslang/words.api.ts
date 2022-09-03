@@ -4,12 +4,12 @@ import rslangApi from './rslang.api';
 const wordsApi = rslangApi.injectEndpoints({
     endpoints: (build) => ({
         getWords: build.query<WordsResponse, { page: number; group: number }>({
-            query: ({ page, group }) => ({
+            query: ({ page = 0, group = 0 }) => ({
                 url: 'words',
                 params: {
                     page,
                     group,
-                }
+                },
             }),
         }),
         getWord: build.query<IWord, string>({

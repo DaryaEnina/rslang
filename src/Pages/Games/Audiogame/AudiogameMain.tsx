@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { clearAnsweredWordsReducer } from "store/reducers/answeredWordsReducer";
+
 
 function AudiogameMain() {
 
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -18,7 +22,7 @@ function AudiogameMain() {
           Клавиша Enter для перехода к следующему слову<br />
           Клавиша пробел для повторного прослушивания слова
         </p>
-        <Link className="start-btn btn" to="/audiogame">Старт</Link>
+        <Link className="start-btn btn" to="/audiogame" onClick={() => dispatch(clearAnsweredWordsReducer())}>Старт</Link>
       </div>
     </>
   )

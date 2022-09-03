@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import AudioLogo from 'assets/images/audio.png';
 import SprintLogo from 'assets/images/sprint.png';
 import { AllDifficulties } from 'models/models';
@@ -14,6 +13,7 @@ import { DifficultyData } from './types';
 
 
 interface IRootState {
+
   gameDifficulty: {
     changeDifficulty: AllDifficulties
   },
@@ -26,13 +26,12 @@ interface IRootState {
 }
 
 function Games() {
-
   const dispatch = useDispatch();
   const difficulty = useSelector((state: IRootState) => state.gameDifficulty.changeDifficulty);
   const currentPage = useSelector((state: IRootState) => state.currentPage.currentPage);
 
   useGetWordsQuery({ page: currentPage, group: DifficultyData[difficulty] });
-  
+
   function setDifficulty(level: AllDifficulties) {
     dispatch(changeDifficultyReducer(level));
   }
@@ -45,13 +44,11 @@ function Games() {
     }
     dispatch(startGameFromReducer('games'));
   }
-  
-  
 
   return (
     <>
       <p className='header page-header'>Игры</p>
-      <p className='text page-text'>
+      <p className='text page-text'>{difficulty} {currentPage}
         Выбирай игру и повторяй уже знакомые слова весело и непринуждённо!
       </p>
       <div className='games-container'>
@@ -67,7 +64,8 @@ function Games() {
                 <p className='level-name'>{el.level}</p>
                 <p className='level-text'>{el.levelDescription}</p>
               </button>
-          )})} 
+            )
+          })}
         </div>
         <Link to="/audiogame-main" className='game-card' onClick={() => startGame('audiogame')}>
           <p className='header'>Аудиовызов</p>

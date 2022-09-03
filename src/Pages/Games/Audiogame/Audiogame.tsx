@@ -40,11 +40,11 @@ interface IRootState {
 }
 
 export type AnsweredWord = {
-  audio: string,
-  result: boolean,
-  english: string,
-  translate: string
-}
+    audio: string;
+    result: boolean;
+    english: string;
+    translate: string;
+};
 
 function Audiogame() {
 
@@ -80,10 +80,10 @@ function Audiogame() {
   const [wrongCount, setWrongCount] = useState(0);
   const [rightCount, setRightCount] = useState(0);
 
+  const url = 'https://react-rslang-team.herokuapp.com/';
+
   const [rightAudio] = useSound(RightSound);
   const [wrongAudio] = useSound(WrongSound);
-
-  const url = 'https://react-rslang-team.herokuapp.com/';
 
   function shuffle(array: string[]): string[] {
     return array.sort(() => Math.random() - 0.5);
@@ -91,8 +91,20 @@ function Audiogame() {
 
   function generateWords(currentWord: string) {
     const wordsToFill = [
-      'огонь', 'задание', 'чувство', 'собрание', 'добро', 'вода', 'закат',
-      'стул', 'футболка', 'последний', 'камень', 'грибы', 'бровь', 'луна'
+      'огонь',
+      'задание',
+      'чувство',
+      'собрание',
+      'добро',
+      'вода',
+      'закат',
+      'стул',
+      'футболка',
+      'последний',
+      'камень',
+      'грибы',
+      'бровь',
+      'луна'
     ];
     let shuffled = shuffle(wordsToFill);
     if (shuffled.includes(rightAnswer)) {
@@ -111,10 +123,6 @@ function Audiogame() {
     }
   }
 
-  function playWord(target: HTMLAudioElement) {
-    target.play();
-  }
-
   function decreaseAttempts() {
     if (attempt >= 1) {
       setAttempt(attempt - 1);
@@ -122,6 +130,10 @@ function Audiogame() {
       setStartGame(false);
       setResultStats(true);
     }
+  }
+
+  function playWord(target: HTMLAudioElement) {
+    target.play();
   }
  
   function checkAnswer(elem: HTMLElement, wordToCheck: string) {
@@ -157,7 +169,7 @@ function Audiogame() {
     allAnswerButtons.forEach((el) => {
       el.classList.remove('right');
       el.classList.remove('wrong');
-    })
+    });
 
     if (nextWordNumber <= 20) {
       setCurrentWordNumber(nextWordNumber);
@@ -166,6 +178,9 @@ function Audiogame() {
       setShowResult(false);
       getWords(nextWordNumber);
     } else {
+      if (currSeria > seria) {
+        setSeria(currSeria);
+      }
       setStartGame(false);
       setAnswered(false);
       setBlockButtons(false);
@@ -185,6 +200,19 @@ function Audiogame() {
     }
   }
 
+  if (!currentWordData) {
+    if (!boolLoad && !!gameWords!.length) {
+      try {
+        getWords(1);
+        const current = gameWords![currentWordNumber - 1];
+        setCurrentWordData(current);
+        setRightAnswer(current.wordTranslate!);
+      } catch {
+        console.log('Error!');
+      }
+    }
+  }
+
   function keyHandler(e: KeyboardEvent) {
     e.preventDefault();
     const key = Number(e.key);
@@ -195,20 +223,6 @@ function Audiogame() {
     } else if (e.code === 'Enter') {
       decreaseAttempts();
       toNextWord();
-    }
-  }
-
-  if (!currentWordData) {
-    // (isLogin && startFrom === 'book') ? words![currentWordNumber - 1] :
-    if (!boolLoad && !!gameWords!.length) {
-      try {
-        getWords(1);
-        const current = gameWords![currentWordNumber - 1];
-        setCurrentWordData(current);
-        setRightAnswer(current.wordTranslate!);
-      } catch {
-        console.log('Error!');
-      }
     }
   }
 
@@ -229,6 +243,7 @@ function Audiogame() {
   }, [currentWordData?.audio, currentWordData?.image, startGame]);
 
   function AnswerButtons() {
+    
     return arr.map((el) => (
       <button type="button" key={el} disabled={blockButtons}
         className="choose-word btn" onClick={(e) => checkAnswer(e.currentTarget ,wordsAnswers[el - 1])}>
