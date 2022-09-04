@@ -74,7 +74,7 @@ const Book = () => {
                 <div className='games-nav'>
                     <NavLink to="/audiogame-main" className="game-btn" onClick={() => setFrom()}>
                         <span className='game-link'>Аудиовызов</span></NavLink>
-                    <NavLink to="/sprint" className="game-btn" onClick={() => setFrom()}>
+                    <NavLink to="/sprint-main" className="game-btn" onClick={() => setFrom()}>
                         <span className='game-link'>Спринт</span></NavLink>
 
                 </div>

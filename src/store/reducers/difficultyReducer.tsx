@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AllDifficulties } from "models/models";
+
+const initial = (localStorage.getItem('gameDifficulty') as AllDifficulties) || 'A1';
 
 const changeDifficultySlice = createSlice({
   name: "changeDifficulty",
   initialState: {
-    changeDifficulty: localStorage.getItem('gameDifficulty') || 'A1'
+    changeDifficulty: initial
   },
   reducers: {
     changeDifficultyReducer(state, action) {
