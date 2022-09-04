@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 
 const token = localStorage.getItem('token');
@@ -11,11 +12,13 @@ const userLoginSlice =  createSlice({
   },
   reducers: {
     userLoginReducer(state, action) {
-      // eslint-disable-next-line no-param-reassign
       state.userLogin = action.payload;
+    },
+    setUnloginReducer(state) {
+      state.userLogin = { isLogin: false, token: null, userId: null }
     }
   }
 })
 
 export default userLoginSlice.reducer;
-export const { userLoginReducer } = userLoginSlice.actions;
+export const { userLoginReducer, setUnloginReducer } = userLoginSlice.actions;

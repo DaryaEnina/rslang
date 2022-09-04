@@ -1,8 +1,13 @@
 import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { userLoginReducer } from 'store/reducers/loginReducer';
 import Service, { DataUserLoginResponse } from '../../../Utils/Service';
 
 const Autorisation = () => {
+
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [disabled, setDisabled] = useState<boolean>(true);
@@ -52,12 +57,17 @@ const Autorisation = () => {
             setSuccess(false);
             setLoginStatusMessage(`Неверный Email или пароль!`);
         } else {
+            const { name, token, userId } = responseLogin;
             setSuccess(true);
             setLoginStatusMessage(`Вы успешно авторизовались!`);
-            localStorage.setItem('token', responseLogin.token);
-            localStorage.setItem('userId', responseLogin.userId);
-            localStorage.setItem('name', responseLogin.name);
+            localStorage.setItem('token', token);
+            localStorage.setItem('userId', userId);
+            localStorage.setItem('name', name);
             setTimeout(() => {
+                dispatch(userLoginReducer({
+                    isLogin: true,
+                    token,
+                    userId: name }));
                 navigate('/');
             }, 1500);
         }

@@ -15,7 +15,7 @@ import { setAnsweredWordsReducer } from "store/reducers/answeredWordsReducer";
 import RightSound from "assets/sounds/correct.mp3";
 import WrongSound from "assets/sounds/incorrect.mp3";
 import Loader from 'Components/Loader/Loader';
-import { DifficultyData } from "../types";
+import { DifficultyData, wordsToFill } from "../types";
 
 
 interface IRootState {
@@ -90,22 +90,6 @@ function Audiogame() {
   }
 
   function generateWords(currentWord: string) {
-    const wordsToFill = [
-      'огонь',
-      'задание',
-      'чувство',
-      'собрание',
-      'добро',
-      'вода',
-      'закат',
-      'стул',
-      'футболка',
-      'последний',
-      'камень',
-      'грибы',
-      'бровь',
-      'луна'
-    ];
     let shuffled = shuffle(wordsToFill);
     if (shuffled.includes(rightAnswer)) {
       shuffled = shuffled.filter((el) => el !== rightAnswer);

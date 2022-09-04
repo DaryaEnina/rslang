@@ -48,7 +48,7 @@ function Games() {
   return (
     <>
       <p className='header page-header'>Игры</p>
-      <p className='text page-text'>{difficulty} {currentPage}
+      <p className='text page-text'>
         Выбирай игру и повторяй уже знакомые слова весело и непринуждённо!
       </p>
       <div className='games-container'>
@@ -71,7 +71,7 @@ function Games() {
           <p className='header'>Аудиовызов</p>
           <img src={AudioLogo} className="game-img" alt="Audio logo" />
         </Link>
-        <Link to="/sprint" className='game-card' onClick={() => startGame('sprint')}>
+        <Link to="/sprint-main" className='game-card' onClick={() => startGame('sprint')}>
           <p className='header'>Спринт</p>
           <img src={SprintLogo} className="game-img" alt="Audio logo" />
         </Link>
