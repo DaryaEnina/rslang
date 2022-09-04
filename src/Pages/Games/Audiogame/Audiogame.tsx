@@ -1,49 +1,51 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/media-has-caption */
 import useSound from 'use-sound';
-import { useEffect, useState } from "react";
-import SoundLogo from "assets/icons/sound-logo.png";
-import AttemptLogo from "assets/icons/attempt.jpeg";
-import Empty from "assets/icons/empty.png";
-import QuestionMark from "assets/images/question-mark.png";
-import "./audiogame.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { AllDifficulties, IWord, WordsResponse } from "models/models";
-import { useGetWordsQuery } from "store/rslang/words.api";
-import ModalResults from "Components/Results/Results";
-import { setAnsweredWordsReducer } from "store/reducers/answeredWordsReducer";
-import RightSound from "assets/sounds/correct.mp3";
-import WrongSound from "assets/sounds/incorrect.mp3";
+import { useEffect, useState } from 'react';
+import SoundLogo from 'assets/icons/sound-logo.png';
+import AttemptLogo from 'assets/icons/attempt.jpeg';
+import Empty from 'assets/icons/empty.png';
+import QuestionMark from 'assets/images/question-mark.png';
+import './audiogame.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { AllDifficulties, IWord, WordsResponse } from 'models/models';
+import { useGetWordsQuery } from 'store/rslang/words.api';
+import ModalResults from 'Components/Results/Results';
+import { setAnsweredWordsReducer } from 'store/reducers/answeredWordsReducer';
+import RightSound from 'assets/sounds/correct.mp3';
+import WrongSound from 'assets/sounds/incorrect.mp3';
 import Loader from 'Components/Loader/Loader';
 import { DifficultyData, wordsToFill } from "../types";
+import setToStatNewWords from '../gamesUtils';
 
 
 interface IRootState {
   gameDifficulty: {
-    changeDifficulty: AllDifficulties
-  },
+    changeDifficulty: AllDifficulties;
+  };
   answeredWords: {
-    answeredWords: AnsweredWord[]
-  },
+    answeredWords: AnsweredWord[];
+  };
   currentPage: {
-    currentPage: number
-  },
+    currentPage: number;
+  };
   currentWords: {
-    currentWords: WordsResponse
-  },
+    currentWords: WordsResponse;
+  };
   userLogin: {
-    userLogin: { isLogin: boolean, token: string | null, userId: string | null }
-  },
+    userLogin: { isLogin: boolean; token: string | null; userId: string | null };
+  };
   startGameFrom: {
-    startGameFrom: string
-  }
+    startGameFrom: string;
+  };
 }
 
 export type AnsweredWord = {
-    audio: string;
-    result: boolean;
-    english: string;
-    translate: string;
+  audio: string;
+  result: boolean;
+  english: string;
+  translate: string;
 };
 
 function Audiogame() {
@@ -55,13 +57,16 @@ function Audiogame() {
   const answeredWords = useSelector((state: IRootState) => state.answeredWords.answeredWords);
   const startFrom = useSelector((state: IRootState) => state.startGameFrom.startGameFrom);
   const { isLogin, userId, token } = useSelector((state: IRootState) => state.userLogin.userLogin);
-  const { isLoading: boolLoad, data: dataFromGames } = useGetWordsQuery({ page: currentPage, group: DifficultyData[difficulty] });
+  const { isLoading: boolLoad, data: dataFromGames } = useGetWordsQuery({
+    page: currentPage,
+    group: DifficultyData[difficulty],
+  });
 
   const userIdStr = userId as string;
   const tokenStr = token as string;
 
   const gameWords = (isLogin && startFrom === 'book') ? fromBookWords : dataFromGames;
-  
+
   const [startGame, setStartGame] = useState(true);
   const [showResult, setShowResult] = useState<boolean>(false);
   const [attempt, setAttempt] = useState(5);
@@ -119,12 +124,13 @@ function Audiogame() {
   function playWord(target: HTMLAudioElement) {
     target.play();
   }
- 
+
   function checkAnswer(elem: HTMLElement, wordToCheck: string) {
     setBlockButtons(true);
     setAnswered(true);
     setShowResult(true);
     elem.classList.add(wordToCheck === rightAnswer ? 'right' : 'wrong');
+    setToStatNewWords(); // добавляет в статистику к новым словам
     if (wordToCheck !== rightAnswer) {
       if (currSeria > seria) {
         setSeria(currSeria);
@@ -146,6 +152,8 @@ function Audiogame() {
       translate: currentWordData?.wordTranslate!
     }))
   }
+
+
 
   function toNextWord() {
     const nextWordNumber = currentWordNumber + 1;
@@ -227,11 +235,15 @@ function Audiogame() {
   }, [currentWordData?.audio, currentWordData?.image, startGame]);
 
   function AnswerButtons() {
-    
     return arr.map((el) => (
-      <button type="button" key={el} disabled={blockButtons}
-        className="choose-word btn" onClick={(e) => checkAnswer(e.currentTarget ,wordsAnswers[el - 1])}>
-          {el}. {wordsAnswers[el - 1]}
+      <button
+        type="button"
+        key={el}
+        disabled={blockButtons}
+        className="choose-word btn"
+        onClick={(e) => checkAnswer(e.currentTarget, wordsAnswers[el - 1])}
+      >
+        {el}. {wordsAnswers[el - 1]}
       </button>
     ));
   }
@@ -247,51 +259,58 @@ function Audiogame() {
         <div style={{ display: 'flex', justifyContent: 'center', margin: 10 }}>
           <Loader color="#23266e" />
         </div>
-      )
-        : (
-          <>
-            <div className="game-container">
-              <button type="button" className="play-word" 
-                onClick={(e) => playWord((e.currentTarget.firstChild as HTMLAudioElement))}>
-                <audio className="play-word" src={`${url}${currentWordData?.audio}`} />
-                <img src={SoundLogo} className="play-img" alt="Play word button" />
-              </button>
+      ) : (
+        <>
+          <div className="game-container">
+            <button
+              type="button"
+              className="play-word"
+              onClick={(e) => playWord(e.currentTarget.firstChild as HTMLAudioElement)}
+            >
+              <audio className="play-word" src={`${url}${currentWordData?.audio}`} />
+              <img src={SoundLogo} className="play-img" alt="Play word button" />
+            </button>
 
-              <div className="words">
-                <p className="english-word text">{answered ? currentWordData?.word : " "}</p>
-                <p className="russian-word text">{answered ? currentWordData?.wordTranslate : " "}</p>
-              </div>
-              <div className="try-container">
-                <p className="try-count">Попытки: {attempt}</p>
-                <p className="word-progress">{currentWordNumber} / {gameWords!.length}</p>
-              </div>
+            <div className="words">
+              <p className="english-word text">{answered ? currentWordData?.word : ' '}</p>
+              <p className="russian-word text">{answered ? currentWordData?.wordTranslate : ' '}</p>
             </div>
-            <div className="attempts-card-img">
-              <div className="attempt-container">
-                {arr.map((el) => {
-                  const image = (el + attempt) / 2 >= 3 ? AttemptLogo : Empty;
-                  return (
-                    <div className="attempt" key={el}>
-                      <img src={image} className="attempt-logo" alt="Attempt logo" />
-                    </div>
-                  )
-                })}
-              </div>
-              <div className="word-image-div">
-                <img src={answered ? imgLink : QuestionMark} alt={answered ? "Word" : "Question mark"} className="word-image" />
-              </div>
+            <div className="try-container">
+              <p className="try-count">Попытки: {attempt}</p>
+              <p className="word-progress">
+                {currentWordNumber} / {gameWords!.length}
+              </p>
             </div>
-            <div className="answer-words-container">
-              {AnswerButtons()}
+          </div>
+          <div className="attempts-card-img">
+            <div className="attempt-container">
+              {arr.map((el) => {
+                const image = (el + attempt) / 2 >= 3 ? AttemptLogo : Empty;
+                return (
+                  <div className="attempt" key={el}>
+                    <img src={image} className="attempt-logo" alt="Attempt logo" />
+                  </div>
+                );
+              })}
             </div>
-            <div className="next-word-container">
-              <button type="button" className="next-word btn" onClick={toNextWord}>
-                {currentWordNumber === 20 ? 'Завершить игру' : 'Следующее слово'}</button>
+            <div className="word-image-div">
+              <img
+                src={answered ? imgLink : QuestionMark}
+                alt={answered ? 'Word' : 'Question mark'}
+                className="word-image"
+              />
             </div>
-          </>
-        )}
+          </div>
+          <div className="answer-words-container">{AnswerButtons()}</div>
+          <div className="next-word-container">
+            <button type="button" className="next-word btn" onClick={toNextWord}>
+              {currentWordNumber === 20 ? 'Завершить игру' : 'Следующее слово'}
+            </button>
+          </div>
+        </>
+      )}
     </>
   );
-};
+}
 
 export default Audiogame;
