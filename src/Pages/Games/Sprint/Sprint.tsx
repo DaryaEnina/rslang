@@ -35,7 +35,7 @@ function Sprint() {
     return currentPage + 1;
   }
 
-  const { data: dataFromGamesExtra } = useGetWordsQuery({ page: extraPage(), group: DifficultyData[difficulty] });
+  const { isLoading: boolExtra, data: dataFromGamesExtra } = useGetWordsQuery({ page: extraPage(), group: DifficultyData[difficulty] });
 
   const userIdStr = userId as string;
   const tokenStr = token as string;
@@ -97,13 +97,15 @@ function Sprint() {
   function nextWord() {
     const newIndex = currentIndex + 1;
     setCurrentIndex(newIndex);
-    const currentData = gameWords![newIndex] as IWord;
-    setCurrentWordData((currentData));
-    setCurrentWord(currentData.word);
-    setStartGame(true);
-    const answerStat = isRightAnswer();
-    setAnswerStatus(answerStat);
-    setAnswerWord(answerStat ? currentData.wordTranslate : shuffle(wordsToFill)[0]);
+    if (newIndex < gameWords!.length) {
+      const currentData = gameWords![newIndex] as IWord;
+      setCurrentWordData((currentData));
+      setCurrentWord(currentData.word);
+      setStartGame(true);
+      const answerStat = isRightAnswer();
+      setAnswerStatus(answerStat);
+      setAnswerWord(answerStat ? currentData.wordTranslate : shuffle(wordsToFill)[0]);
+    }
   }
 
   function checkAnswer(bool: boolean) {
@@ -180,7 +182,7 @@ function Sprint() {
     setAnswerWord(answerStat ? currentData.wordTranslate : shuffle(wordsToFill)[0]);
   }
 
-  if (timer === 0 && !startGame) {
+  if (timer === 0 && !startGame || !boolExtra && currentIndex === gameWords!.length) {
     return <ModalResults seria={seria} wrong={wrongCount} right={rightCount} />;
   }
 
