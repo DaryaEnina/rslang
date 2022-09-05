@@ -5,6 +5,7 @@ import VolumeIcon from 'assets/icons/sound-logo.png';
 import { useAppSelector } from 'hooks/redux';
 import parse from 'html-react-parser';
 import { Difficulty, IWord } from 'models/models';
+import Levels from 'Pages/Games/Levels';
 import { FC, useState } from 'react';
 import { useCreateUserWordMutation, useUpdateUserWordMutation } from 'store/rslang/usersWords.api';
 import styles from './Word.module.scss';
@@ -23,6 +24,9 @@ const Word: FC<IWordProps> = ({ word }) => {
 
     const [createUserWord] = useCreateUserWordMutation();
     const [updateUserWord] = useUpdateUserWordMutation();
+
+    const difficulty = useAppSelector((state) => state.gameDifficulty.changeDifficulty);
+    const gameLevel = Levels.find((el) => el.level === difficulty);
 
     const { isLogin, userId, token } = useAppSelector((state) => state.userLogin.userLogin);
 
@@ -94,7 +98,7 @@ const Word: FC<IWordProps> = ({ word }) => {
 
     return (
         <div className={styles.word}>
-            <div className={styles.word__top} style={{ backgroundImage: `url(${BASE_URL}${word.image})` }}>
+            <div className={styles.word__top} style={{ backgroundImage: `url(${BASE_URL}${word.image})`, borderLeft: `10px solid ${gameLevel? gameLevel?.color : 'rgb(210, 42, 48)'}` }}>
                 <div className={styles.word__overlay}>
                     {isLogin && (
                         <div className={styles.word__buttons}>

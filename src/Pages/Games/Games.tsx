@@ -1,7 +1,8 @@
 import AudioLogo from 'assets/images/audio.png';
 import SprintLogo from 'assets/images/sprint.png';
+import { useAppSelector } from 'hooks/redux';
 import { AllDifficulties } from 'models/models';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { changeDifficultyReducer } from 'store/reducers/difficultyReducer';
 import { selectAudiogame, selectSprint } from 'store/reducers/selectGameReducer';
@@ -11,44 +12,15 @@ import './games.scss';
 import Levels from './Levels';
 import { DifficultyData } from './types';
 
-
-const userId = localStorage.getItem('userId');
-const token = localStorage.getItem('token');
-
-interface IRootState {
-
-  gameDifficulty: {
-    changeDifficulty: AllDifficulties
-  },
-  currentPage: {
-    currentPage: number
-  },
-  startGameFrom: {
-    startGameFrom: string
-  }
-}
-
 function Games() {
   const dispatch = useDispatch();
-  const difficulty = useSelector((state: IRootState) => state.gameDifficulty.changeDifficulty);
-  const currentPage = useSelector((state: IRootState) => state.currentPage.currentPage);
+  const difficulty = useAppSelector((state) => state.gameDifficulty.changeDifficulty);
+  const currentPage = useAppSelector((state) => state.currentPage.currentPage);
 
   useGetWordsQuery({ page: currentPage, group: DifficultyData[difficulty] });
 
   async function setDifficulty(level: AllDifficulties) {
     dispatch(changeDifficultyReducer(level));
-    console.log(userId, token);
-    const response = await fetch(`https://react-rslang-team.herokuapp.com/users/${userId}/aggregatedWords?
-    group=0&wordsPerPage=30&filter={"$and":[{"userWord.difficulty":"hard"}]}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json',
-      },
-    });
-    const request = (await response.json());
-    console.log(request);
-
   }
 
   function startGame(gameName: string) {

@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
+
 import Loader from 'Components/Loader/Loader';
 import ModalResults from 'Components/Results/Results';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { useDispatch } from 'react-redux';
 import { useGetWordsQuery } from 'store/rslang/words.api';
@@ -12,38 +12,43 @@ import WrongSound from 'assets/sounds/incorrect.mp3';
 import GameOver from 'assets/sounds/game-over.mp3';
 import CorrectLogo from 'assets/icons/right-el.png';
 import { useAppSelector } from 'hooks/redux';
-import { IWord, WordsResponse } from 'models/models';
+import { Difficulty, IOptional, IWord, WordsResponse } from 'models/models';
 import { setAnsweredWordsReducer } from 'store/reducers/answeredWordsReducer';
+import { useCreateUserWordMutation, useGetUserAggregatedWordsQuery, useUpdateUserWordMutation } from 'store/rslang/usersWords.api';
 import { DifficultyData, wordsToFill } from '../types';
 import './sprint.scss';
 import { resultsToStatSprintGame, setToStatNewWordSprint } from '../gamesUtils';
 
 function Sprint() {
     const dispatch = useDispatch();
-    const difficulty = useAppSelector((state) => state.gameDifficulty.changeDifficulty);
+    const difficultyLevel = useAppSelector((state) => state.gameDifficulty.changeDifficulty);
     const currentPage = useAppSelector((state) => state.currentPage.currentPage);
-    const fromBookWords = useAppSelector((state) => state.currentWords.currentWords);
     const startFrom = useAppSelector((state) => state.startGameFrom.startGameFrom);
     const { isLogin, userId, token } = useAppSelector((state) => state.userLogin.userLogin);
     const { isLoading: boolLoad, data: dataFromGames } = useGetWordsQuery({
         page: currentPage,
-        group: DifficultyData[difficulty],
-    });
+        group: DifficultyData[difficultyLevel],
+    }, { skip: isLogin });
 
-    function extraPage() {
-        if (currentPage > 0 && currentPage <= 29) {
-            return currentPage - 1;
-        }
-        return currentPage + 1;
+    const optionalParams = startFrom === 'book' 
+    ? { wordsPerPage: 60, group: DifficultyData[difficultyLevel], filter: 
+        '{"$or":[{"$and":[{"userWord.difficulty":"new"}]},{"userWord":null}]}' }
+    : { wordsPerPage: 60, group: DifficultyData[difficultyLevel] };
+
+    const { 
+        isLoading: boolAggregated,
+        data: dataAggregated
+    } = useGetUserAggregatedWordsQuery({ userId, token, optional: optionalParams }, { skip: !isLogin });
+
+    let gameWords: WordsResponse;
+    try {
+        gameWords = isLogin ? dataAggregated![0].paginatedResults : dataFromGames as WordsResponse;
+    } catch {
+        console.log("Data haven't been load.");
     }
 
-    const { isLoading: boolExtra, data: dataFromGamesExtra } = useGetWordsQuery({
-        page: extraPage(),
-        group: DifficultyData[difficulty],
-    });
-
-    const userIdStr = userId as string;
-    const tokenStr = token as string;
+    const [createUserWord] = useCreateUserWordMutation();
+    const [updateUserWord] = useUpdateUserWordMutation();
 
     const [startGame, setStartGame] = useState<boolean>(false);
     const [timer, setTimer] = useState(60);
@@ -77,7 +82,7 @@ function Sprint() {
         return Math.random() - 0.5 > 0;
     }
 
-    if (boolLoad) {
+    if (boolLoad || boolAggregated) {
         return (
             <>
                 <p className="header page-header">Спринт</p>
@@ -86,15 +91,6 @@ function Sprint() {
                 </div>
             </>
         );
-    }
-
-    let concatedWords: WordsResponse;
-    let gameWords: WordsResponse;
-    try {
-        concatedWords = dataFromGames!.concat(dataFromGamesExtra!);
-        gameWords = isLogin && startFrom === 'book' ? fromBookWords : concatedWords;
-    } catch {
-        console.log("Data haven't been load");
     }
 
     const arr = [1, 2, 3];
@@ -113,8 +109,73 @@ function Sprint() {
         }
     }
 
-    function checkAnswer(bool: boolean) {
+    async function addToUserWords(result: string) {
+        const wordId = currentWordData!._id as string;
+        if (currentWordData!.userWord) {
+            const { difficulty, optional } = currentWordData!.userWord;
+            let newWord: { difficulty: Difficulty, optional: IOptional };
+            if ((difficulty === 'new' && optional.rightInRow === 2 && result === 'right') ||
+            difficulty === 'hard' && optional.rightInRow === 4 && result === 'right') {
+                newWord = { difficulty: 'learned',
+                    optional: {
+                        rightAnswers: optional.rightAnswers + 1,
+                        wrongAnswers: optional.wrongAnswers,
+                        rightInRow: optional.rightInRow + 1,
+                        date: new Date()
+                    }
+                };
+            } else if (difficulty === 'learned' && result === 'wrong') {
+                newWord = { difficulty: 'new',
+                optional: {
+                    rightAnswers: optional.rightAnswers,
+                    wrongAnswers: optional.wrongAnswers - 1,
+                    rightInRow: 0,
+                    date: new Date()
+                }
+            };
+            } else if (difficulty === 'new' && result === 'right') {
+                newWord = { difficulty: 'learned',
+                optional: {
+                    rightAnswers: optional.rightAnswers + 1,
+                    wrongAnswers: optional.wrongAnswers,
+                    rightInRow: optional.rightInRow + 1,
+                    date: new Date()
+                }
+            }
+            } else if (result === 'right') {
+                newWord = { difficulty,
+                optional: {
+                    rightAnswers: optional.rightAnswers + 1,
+                    wrongAnswers: optional.wrongAnswers,
+                    rightInRow: optional.rightInRow + 1,
+                    date: new Date()
+                }}
+            } else {
+                newWord = {
+                    difficulty,
+                    optional: {
+                        rightAnswers: optional.rightAnswers,
+                        wrongAnswers: optional.wrongAnswers + 1,
+                        rightInRow: 0,
+                        date: new Date()
+                    }
+                }
+            }
+            await updateUserWord({ userId, wordId, wordInfo: newWord, token })
+        } else {
+            const rightRes = result === 'right' ? 1 : 0;
+            const data = { difficulty: 'new', optional: {
+                rightAnswers: rightRes,
+                wrongAnswers: result === 'wrong' ? 1 : 0,
+                rightInRow: rightRes,
+                date: new Date() } };
+            await createUserWord({ userId, wordId, wordInfo: data, token })
+        }
+    }
+
+    async function checkAnswer(bool: boolean) {
         if (bool === answerStatus) {
+            await addToUserWords('right');
             setRightCount(rightCount + 1);
             setCurrSeria(currSeria + 1);
             rightAudio();
@@ -128,6 +189,7 @@ function Sprint() {
                 setRightToMulty(rightToMulty + 1);
             }
         } else {
+            await addToUserWords('wrong');
             if (currSeria > seria) {
                 setSeria(currSeria);
             }
@@ -158,30 +220,7 @@ function Sprint() {
         }
     }
 
-    useEffect(() => {
-        if (startGame) {
-            window.addEventListener('keyup', keyHandler);
-        }
-        return () => window.removeEventListener('keyup', keyHandler);
-    });
-
-    useEffect(() => {
-        if (startGame) {
-            const time = setTimeout(setTimer, 1000, timer - 1);
-            if (timer <= 0) {
-                gameOver();
-                if (currSeria > seria) {
-                    setSeria(currSeria);
-                }
-                clearTimeout(time);
-                setTimeout(() => {
-                    setStartGame(false);
-                }, 1000);
-            }
-        }
-    }, [currSeria, gameOver, seria, startGame, timer]);
-
-    if (!currentWordData) {
+    if (!currentWordData && !boolAggregated) {
         const currentData = gameWords![currentIndex] as IWord;
         setCurrentWordData(currentData);
         setCurrentWord(currentData.word);
@@ -191,9 +230,25 @@ function Sprint() {
         setAnswerWord(answerStat ? currentData.wordTranslate : shuffle(wordsToFill)[0]);
     }
 
-    if ((timer === 0 && !startGame) || (!boolExtra && currentIndex === gameWords!.length)) {
+    if ((timer === 0 && !startGame) || (!boolAggregated && currentIndex === gameWords!.length)) {
+        window.removeEventListener('keyup', keyHandler);
         resultsToStatSprintGame(rightCount, wrongCount, seria);
         return <ModalResults seria={seria} wrong={wrongCount} right={rightCount} />;
+    }
+
+
+    if (startGame) {
+        const time = setTimeout(setTimer, 1000, timer - 1);
+        if (timer <= 0) {
+            gameOver();
+            if (currSeria > seria) {
+                setSeria(currSeria);
+            }
+            clearTimeout(time);
+            setTimeout(() => {
+                setStartGame(false);
+            }, 1000);
+        }
     }
 
     return (
