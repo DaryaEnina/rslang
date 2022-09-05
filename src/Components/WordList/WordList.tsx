@@ -11,7 +11,7 @@ const WordList: FC<IWordListProps> = ({ words }) => {
     return (
         <div className={styles['word-list']}>
             {words?.map((word) => (
-                <Word key={word.id} word={word} />
+                <Word key={word.id ? word.id : word._id} word={word} />
             ))}
         </div>
     );

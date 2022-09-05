@@ -1,6 +1,10 @@
 import { UserWordResponse, WordsResponse } from '../../models/models';
 import rslangApi from './rslang.api';
 
+interface IAggregatedWords {
+    paginatedResults: WordsResponse;
+}
+
 const usersWordsApi = rslangApi.injectEndpoints({
     endpoints: (build) => ({
         createUserWord: build.mutation<
@@ -18,6 +22,7 @@ const usersWordsApi = rslangApi.injectEndpoints({
                 },
                 body: JSON.stringify(wordInfo),
             }),
+            invalidatesTags: ['Words'],
         }),
         updateUserWord: build.mutation<
             UserWordResponse,
@@ -34,6 +39,7 @@ const usersWordsApi = rslangApi.injectEndpoints({
                 },
                 body: JSON.stringify(wordInfo),
             }),
+            invalidatesTags: ['Words'],
         }),
         getUserWordById: build.query<UserWordResponse, { userId: string, token: string, wordId: string }>({
             query: ({ userId, token, wordId }) => ({
@@ -45,7 +51,8 @@ const usersWordsApi = rslangApi.injectEndpoints({
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 }
-            })
+            }),
+            providesTags: ['Words'],
         }),
         getUserWords: build.query<UserWordResponse[], { userId: string, token: string }>({
             query: ({ userId, token }) => ({
@@ -57,10 +64,11 @@ const usersWordsApi = rslangApi.injectEndpoints({
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 }
-            })
+            }),
+            providesTags: ['Words'],
         }),
-        getUserAggregatedWords: build.query<WordsResponse, { 
-            userId: string, token: string, optional: { wordsPerPage?: number, group?: number, page?: number }  
+        getUserAggregatedWords: build.query<[IAggregatedWords], { 
+            userId: string, token: string, optional?: { wordsPerPage?: number, group?: number, page?: number, filter?: string }  
         }>({
             query: ({ userId, token, optional }) => ({
                 url: `users/${userId}/aggregatedWords`,
@@ -71,8 +79,14 @@ const usersWordsApi = rslangApi.injectEndpoints({
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 },
-                param: optional,
-            })
+                params: {
+                    wordsPerPage: optional?.wordsPerPage,
+                    group: optional?.group,
+                    page: optional?.page,
+                    filter: optional?.filter
+                },
+            }),
+            providesTags: ['Words'],
         })
     }),
 });

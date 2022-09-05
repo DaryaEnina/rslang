@@ -12,6 +12,9 @@ import Levels from './Levels';
 import { DifficultyData } from './types';
 
 
+const userId = localStorage.getItem('userId');
+const token = localStorage.getItem('token');
+
 interface IRootState {
 
   gameDifficulty: {
@@ -32,8 +35,20 @@ function Games() {
 
   useGetWordsQuery({ page: currentPage, group: DifficultyData[difficulty] });
 
-  function setDifficulty(level: AllDifficulties) {
+  async function setDifficulty(level: AllDifficulties) {
     dispatch(changeDifficultyReducer(level));
+    console.log(userId, token);
+    const response = await fetch(`https://react-rslang-team.herokuapp.com/users/${userId}/aggregatedWords?
+    group=0&wordsPerPage=30&filter={"$and":[{"userWord.difficulty":"hard"}]}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+      },
+    });
+    const request = (await response.json());
+    console.log(request);
+
   }
 
   function startGame(gameName: string) {

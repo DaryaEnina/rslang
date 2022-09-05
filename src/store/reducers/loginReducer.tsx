@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 
-const token = localStorage.getItem('token');
-const userId = localStorage.getItem('userId');
-const isLogin = !!(token && userId);
+const token = '';
+const userId = '';
+const isLogin: boolean = false;
 
 const userLoginSlice =  createSlice({
   name: "userLogin",
@@ -15,7 +15,7 @@ const userLoginSlice =  createSlice({
       state.userLogin = action.payload;
     },
     setUnloginReducer(state) {
-      state.userLogin = { isLogin: false, token: null, userId: null }
+      state.userLogin = { isLogin: false, token: '', userId: '' }
     }
   }
 })

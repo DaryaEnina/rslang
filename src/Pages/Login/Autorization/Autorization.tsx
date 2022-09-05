@@ -67,7 +67,7 @@ const Autorisation = () => {
                 dispatch(userLoginReducer({
                     isLogin: true,
                     token,
-                    userId: name }));
+                    userId }));
                 navigate('/');
             }, 1500);
         }

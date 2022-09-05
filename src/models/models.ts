@@ -1,3 +1,12 @@
+export type Difficulty = 'hard' | 'learned' | 'new';
+
+export interface IOptional {
+    rightAnswers: number,
+    wrongAnswers: number,
+    rightInRow: number,
+    date?: Date,
+}
+
 export interface IWord {
     id: string;
     group: number;
@@ -13,6 +22,11 @@ export interface IWord {
     textExampleTranslate: string;
     textMeaningTranslate: string;
     wordTranslate: string;
+    _id?: string;
+    userWord?: {
+        difficulty: Difficulty,
+        optional: IOptional
+    }
 }
 
 export type WordsResponse = IWord[];
