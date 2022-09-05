@@ -5,6 +5,10 @@ import ProgressLogo from 'assets/images/progress.jpeg';
 import AudioLogo from 'assets/images/audio.png';
 import SprintLogo from 'assets/images/sprint.png';
 
+import AndreiImg from 'assets/images/Andrei.jpeg';
+import DaryaImg from 'assets/images/Darya.jpeg';
+import MatveiImg from 'assets/images/Matvei.jpeg';
+
 import AboutUs from 'Components/Footer/AboutUs';
 import './home.scss';
 import Service from 'Utils/Service';
@@ -129,17 +133,22 @@ const Home = () => {
                 <Link to="about-us" />
                 <p className="about-us header">Создатели приложения</p>
                 <div className="know-container">
-                    {AboutUs.map((el) => (
+                    {AboutUs.map((el) => {
+                        let img: string;
+                        if (el.name.includes('Andrei')) img = AndreiImg;
+                        else if (el.name.includes('Darya')) img = DaryaImg;
+                        else img = MatveiImg;
+                        return (
                         <div className="creator-card" key={el.key.toString()}>
                             <div className="creator-wrap">
-                                <img src={el.image} className="creator-image" alt={el.name} />
+                                <img src={img} className="creator-image" alt={el.name} />
                             </div>
                             <p className="creator-header">{el.name}</p>
                             <p className="creator-role">
                                 {el.role}. {el.tasks}
                             </p>
                         </div>
-                    ))}
+                    )})}
                 </div>
             </div>
         </>

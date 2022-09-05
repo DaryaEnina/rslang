@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ReactComponent as BookmarkIcon } from 'assets/icons/bookmark.svg';
 import { ReactComponent as CheckmarkIcon } from 'assets/icons/checkmark.svg';
 import VolumeIcon from 'assets/icons/sound-logo.png';
+import { useAppSelector } from 'hooks/redux';
 import parse from 'html-react-parser';
-import { IWord } from 'models/models';
-import { FC } from 'react';
+import { Difficulty, IWord } from 'models/models';
+import { FC, useState } from 'react';
+import { useCreateUserWordMutation, useUpdateUserWordMutation } from 'store/rslang/usersWords.api';
 import styles from './Word.module.scss';
 
 const BASE_URL = 'https://react-rslang-team.herokuapp.com/';
@@ -14,7 +17,14 @@ interface IWordProps {
 }
 
 const Word: FC<IWordProps> = ({ word }) => {
-    const userToken = localStorage.getItem('token');
+
+    const [isWordDifficult, setIsWordDifficult] = useState<boolean>(word.userWord?.difficulty === 'hard');
+    const [isWordLearned, setIsWordLearned] = useState<boolean>(word.userWord?.difficulty === 'learned');
+
+    const [createUserWord] = useCreateUserWordMutation();
+    const [updateUserWord] = useUpdateUserWordMutation();
+
+    const { isLogin, userId, token } = useAppSelector((state) => state.userLogin.userLogin);
 
     const audioHandler = () => {
         let soundCounter = 0;
@@ -47,19 +57,52 @@ const Word: FC<IWordProps> = ({ word }) => {
         });
     };
 
-    const addWordToHard = () => {};
+    async function addToUserWords(newDifficulty: Difficulty) {
+        const wordId = word._id as string;
+        if (word.userWord) {
+            const { optional } = word.userWord;
+            const newWordInfo = { difficulty: newDifficulty, optional };
+            console.log(newWordInfo);
+            await updateUserWord({ userId, wordId, wordInfo: newWordInfo, token })
+        } else {
+            const data = { difficulty: newDifficulty, optional: { rightAnswers: 0, wrongAnswers: 0, rightInRow: 0 } };
+            await createUserWord({ userId, wordId, wordInfo: data, token })
+        }
+    }
+
+    async function addWordToHard() {
+        if (isWordDifficult) {
+            setIsWordDifficult(false);
+            await addToUserWords('new');
+        } else {
+            setIsWordDifficult(true);
+            if (isWordLearned) setIsWordLearned(false);
+            await addToUserWords('hard');
+        }
+    }
+
+    async function addWordToLearned() {
+        if (isWordLearned) {
+            setIsWordLearned(false);
+            await addToUserWords('new');
+        } else {
+            setIsWordLearned(true);
+            if (isWordDifficult) setIsWordDifficult(false);
+            await addToUserWords('learned');
+        }
+    }
 
     return (
         <div className={styles.word}>
             <div className={styles.word__top} style={{ backgroundImage: `url(${BASE_URL}${word.image})` }}>
                 <div className={styles.word__overlay}>
-                    {userToken && (
+                    {isLogin && (
                         <div className={styles.word__buttons}>
                             <button type="button" onClick={addWordToHard} className={styles.word__btn}>
-                                <BookmarkIcon className={styles.bookmark} fill="#111" />
+                                <BookmarkIcon className={styles.bookmark} fill={isWordDifficult ? '#d22a30' : '#111'} />
                             </button>
-                            <button type="button" className={styles.word__btn}>
-                                <CheckmarkIcon className={styles.checkmark} fill="#111" />
+                            <button type="button" onClick={addWordToLearned} className={styles.word__btn}>
+                                <CheckmarkIcon className={styles.checkmark} fill={isWordLearned ? '#90ee90' : '#111'} />
                             </button>
                         </div>
                     )}

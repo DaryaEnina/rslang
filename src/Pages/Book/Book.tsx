@@ -1,8 +1,6 @@
+/* eslint-disable import/no-named-as-default */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import Loader from 'Components/Loader/Loader';
-import Pagination from 'Components/Pagination/Pagination';
-import WordList from 'Components/WordList/WordList';
-import { WordsResponse } from 'models/models';
+
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import Levels from 'Pages/Games/Levels';
 import { DifficultyData } from 'Pages/Games/types';
@@ -13,6 +11,8 @@ import { startGameFromReducer } from 'store/reducers/startGameFromReducer';
 import { setPageReducer } from 'store/reducers/pageSlice';
 import { useGetWordsQuery } from 'store/rslang/words.api';
 import getPageCount from 'Utils/pages';
+import { WordsResponse } from 'models/models';
+import BookWords from './BookWords';
 import './book.scss';
 
 
@@ -29,7 +29,9 @@ const Book = () => {
         data: words,
     } = useGetWordsQuery({ page: currentPage, group: DifficultyData[difficulty as keyof typeof DifficultyData] });
 
-    const [hardWordsPage, setHardWordsPage] = useState<boolean>(false);
+    const { isLogin } = useAppSelector((state) => state.userLogin.userLogin);
+
+    const [hardWordsPage, setHardWordsPage] = useState<boolean>(difficulty === 'HARD');
     const [limit] = useState(WORDS_PER_PAGE);
     const [totalPages] = useState(getPageCount(WORDS_PER_GROUP, limit));
 
@@ -38,12 +40,14 @@ const Book = () => {
     }
 
     function levelBtnHandler(lvl: string) {
+        setHardWordsPage(false);
         dispatch(changeDifficultyReducer(lvl));
         dispatch(setPageReducer(0));
     }
 
     function toHardWords() {
         setHardWordsPage(true);
+        dispatch(changeDifficultyReducer('HARD'));
     }
 
     return (
@@ -67,7 +71,7 @@ const Book = () => {
                             </button>
                         );
                     })}
-                    <button className="hard-words btn" type="button">
+                    <button className="hard-words btn" type="button" disabled={!isLogin} onClick={toHardWords} style={{ background: hardWordsPage ? 'rgb(210, 42, 48)' : '' }}>
                         <div className="hard">Сложные слова</div>
                     </button>
                 </div>
@@ -80,16 +84,8 @@ const Book = () => {
                 </div>
             </nav>
             {wordsError && <h2>Произошла ошибка: {wordsError}</h2>}
-            {isWordsLoading ? (
-                <div style={{ display: 'flex', justifyContent: 'center', margin: 10 }}>
-                    <Loader color="#23266e" />
-                </div>
-            ) : (
-                <>
-                    <WordList words={words as WordsResponse} />
-                    <Pagination currentPage={currentPage} totalPages={totalPages} />
-                </>
-            )}
+            <BookWords isWordsLoading={isWordsLoading} words={words as WordsResponse} difficulty={DifficultyData[difficulty as keyof typeof DifficultyData]}
+                currentPage={currentPage} totalPages={totalPages} hardWordsPage={hardWordsPage} />
         </div>
     );
 };
