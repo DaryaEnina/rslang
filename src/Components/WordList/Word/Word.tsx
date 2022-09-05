@@ -18,7 +18,6 @@ interface IWordProps {
 }
 
 const Word: FC<IWordProps> = ({ word }) => {
-
     const [isWordDifficult, setIsWordDifficult] = useState<boolean>(word.userWord?.difficulty === 'hard');
     const [isWordLearned, setIsWordLearned] = useState<boolean>(word.userWord?.difficulty === 'learned');
 
@@ -67,10 +66,10 @@ const Word: FC<IWordProps> = ({ word }) => {
             const { optional } = word.userWord;
             const newWordInfo = { difficulty: newDifficulty, optional };
             console.log(newWordInfo);
-            await updateUserWord({ userId, wordId, wordInfo: newWordInfo, token })
+            await updateUserWord({ userId, wordId, wordInfo: newWordInfo, token });
         } else {
             const data = { difficulty: newDifficulty, optional: { rightAnswers: 0, wrongAnswers: 0, rightInRow: 0 } };
-            await createUserWord({ userId, wordId, wordInfo: data, token })
+            await createUserWord({ userId, wordId, wordInfo: data, token });
         }
     }
 
@@ -98,7 +97,13 @@ const Word: FC<IWordProps> = ({ word }) => {
 
     return (
         <div className={styles.word}>
-            <div className={styles.word__top} style={{ backgroundImage: `url(${BASE_URL}${word.image})`, borderLeft: `10px solid ${gameLevel? gameLevel?.color : 'rgb(210, 42, 48)'}` }}>
+            <div
+                className={styles.word__top}
+                style={{
+                    backgroundImage: `url(${BASE_URL}${word.image})`,
+                    borderLeft: `10px solid ${gameLevel ? gameLevel?.color : 'rgb(210, 42, 48)'}`,
+                }}
+            >
                 <div className={styles.word__overlay}>
                     {isLogin && (
                         <div className={styles.word__buttons}>
@@ -108,6 +113,17 @@ const Word: FC<IWordProps> = ({ word }) => {
                             <button type="button" onClick={addWordToLearned} className={styles.word__btn}>
                                 <CheckmarkIcon className={styles.checkmark} fill={isWordLearned ? '#90ee90' : '#111'} />
                             </button>
+                            {word.userWord && (
+                                <div className={styles.word__stat}>
+                                    <span className={styles.word__right} title="Количество правильных ответов">
+                                        {word.userWord.optional.rightAnswers}
+                                    </span>{' '}
+                                    |{' '}
+                                    <span className={styles.word__wrong} title="Количество неправильных ответов">
+                                        {word.userWord.optional.wrongAnswers}
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     )}
                     <h3 className={styles.word__title}>{word.word}</h3>

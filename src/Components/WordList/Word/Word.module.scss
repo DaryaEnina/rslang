@@ -44,6 +44,19 @@
         }
     }
 
+    &__stat {
+        font-size: 18px;
+        margin-left: auto;
+    }
+
+    &__right {
+        color: #90ee90;
+    }
+
+    &__wrong {
+        color: #d22a30;
+    }
+
     &__title {
         font-size: 38px;
         font-weight: 700;
