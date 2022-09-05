@@ -41,7 +41,7 @@ const usersWordsApi = rslangApi.injectEndpoints({
             }),
             invalidatesTags: ['Words'],
         }),
-        getUserWordById: build.query<UserWordResponse, { userId: string, token: string, wordId: string }>({
+        getUserWordById: build.query<UserWordResponse, { userId: string; token: string; wordId: string }>({
             query: ({ userId, token, wordId }) => ({
                 url: `users/${userId}/words/${wordId}`,
                 method: 'GET',
@@ -50,11 +50,11 @@ const usersWordsApi = rslangApi.injectEndpoints({
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
-                }
+                },
             }),
             providesTags: ['Words'],
         }),
-        getUserWords: build.query<UserWordResponse[], { userId: string, token: string }>({
+        getUserWords: build.query<UserWordResponse[], { userId: string; token: string }>({
             query: ({ userId, token }) => ({
                 url: `users/${userId}/words`,
                 method: 'GET',
@@ -63,13 +63,18 @@ const usersWordsApi = rslangApi.injectEndpoints({
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
-                }
+                },
             }),
             providesTags: ['Words'],
         }),
-        getUserAggregatedWords: build.query<[IAggregatedWords], { 
-            userId: string, token: string, optional?: { wordsPerPage?: number, group?: number, page?: number, filter?: string }  
-        }>({
+        getUserAggregatedWords: build.query<
+            [IAggregatedWords],
+            {
+                userId: string;
+                token: string;
+                optional?: { wordsPerPage?: number; group?: number; page?: number; filter?: string };
+            }
+        >({
             query: ({ userId, token, optional }) => ({
                 url: `users/${userId}/aggregatedWords`,
                 method: 'GET',
@@ -83,17 +88,18 @@ const usersWordsApi = rslangApi.injectEndpoints({
                     wordsPerPage: optional?.wordsPerPage,
                     group: optional?.group,
                     page: optional?.page,
-                    filter: optional?.filter
+                    filter: optional?.filter,
                 },
             }),
             providesTags: ['Words'],
-        })
+        }),
     }),
 });
 
-export const { 
+export const {
     useCreateUserWordMutation,
     useUpdateUserWordMutation,
     useGetUserWordByIdQuery,
     useGetUserWordsQuery,
-    useGetUserAggregatedWordsQuery } = usersWordsApi;
+    useGetUserAggregatedWordsQuery,
+} = usersWordsApi;
