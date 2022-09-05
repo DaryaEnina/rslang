@@ -14,24 +14,25 @@ const Home = () => {
     const initStatistic = async () => {
         const token = localStorage.getItem('token') as string;
         const userId = localStorage.getItem('userId') as string;
-
-        await Service.updateUserStat(
-            {
-                learnedWords: 0,
-                optional: {
-                    newWordsAudioGame: 0,
-                    newWordsSprintGame: 0,
-                    wordsInRowAudioGame: 0,
-                    wordsInRowSprintGame: 0,
-                    totalQuestionsAudioGame: 0,
-                    totalQuestionsSprintGame: 0,
-                    totalCorrectAnswersAudioGame: 0,
-                    totalCorrectAnswersSprintGame: 0,
+        if (!token) {
+            await Service.updateUserStat(
+                {
+                    learnedWords: 0,
+                    optional: {
+                        newWordsAudioGame: 0,
+                        newWordsSprintGame: 0,
+                        wordsInRowAudioGame: 0,
+                        wordsInRowSprintGame: 0,
+                        totalQuestionsAudioGame: 0,
+                        totalQuestionsSprintGame: 0,
+                        totalCorrectAnswersAudioGame: 0,
+                        totalCorrectAnswersSprintGame: 0,
+                    },
                 },
-            },
-            userId,
-            token
-        );
+                userId,
+                token
+            );
+        }
     };
     useEffect(() => {
         initStatistic();
