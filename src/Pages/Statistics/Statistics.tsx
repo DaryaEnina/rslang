@@ -2,12 +2,12 @@ import { useAppSelector } from 'hooks/redux';
 import { learnedToStat } from 'Pages/Games/gamesUtils';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { useGetUserAggregatedWordsQuery } from 'store/rslang/usersWords.api';
 import Service, { DataStat } from 'Utils/Service';
 import './style.scss';
 
 const Statistics = () => {
-    // const [isAuth, setAuth] = useState<boolean>(false);
     const navigator = useNavigate();
     const [audioGamePercent, setAudioGamePercent] = useState<number>(0);
     const [sprintGamePercent, setSprintGamePercent] = useState<number>(0);
@@ -88,6 +88,44 @@ const Statistics = () => {
             // console.log(commonWords![0].paginatedResults[0].userWord?.optional.date);
         }
     }, [stateData, navigator, isLogin, commonWords]);
+
+    const data = [
+        {
+            name: 'День 1',
+            new: 0,
+            learned: 0,
+        },
+        {
+            name: 'День 2',
+            new: '15',
+            learned: '8',
+        },
+        {
+            name: 'День 3',
+            new: 25,
+            learned: 25,
+        },
+        {
+            name: 'День 4',
+            new: 32,
+            learned: 25,
+        },
+        {
+            name: 'День 5',
+            new: 18,
+            learned: 13,
+        },
+        {
+            name: 'День 6',
+            new: 19,
+            learned: 14,
+        },
+        {
+            name: 'День 7',
+            new: 20,
+            learned: 15,
+        },
+    ];
     return (
         <div className="statistics_wrapper">
             <h2>Статистика</h2>
@@ -151,6 +189,26 @@ const Statistics = () => {
                     </div>
                 </div>
             </div>
+            <h4>Долгосрочная статистика</h4>
+            <LineChart
+                width={500}
+                height={300}
+                data={data}
+                margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                }}
+            >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="new" stroke="#8884d8" activeDot={{ r: 8 }} />
+                <Line type="monotone" dataKey="learned" stroke="#82ca9d" />
+            </LineChart>
         </div>
     );
 };

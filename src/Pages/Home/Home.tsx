@@ -15,9 +15,9 @@ import Service from 'Utils/Service';
 import { useEffect } from 'react';
 
 const Home = () => {
+    const token = localStorage.getItem('token') as string;
+    const userId = localStorage.getItem('userId') as string;
     const initStatistic = async () => {
-        const token = localStorage.getItem('token') as string;
-        const userId = localStorage.getItem('userId') as string;
         if (!token) {
             await Service.updateUserStat(
                 {
@@ -39,7 +39,9 @@ const Home = () => {
         }
     };
     useEffect(() => {
-        initStatistic();
+        if (userId) {
+            initStatistic();
+        }
     });
     return (
         <>
@@ -140,16 +142,17 @@ const Home = () => {
                         else if (el.name.includes('Darya')) img = DaryaImg;
                         else img = MatveiImg;
                         return (
-                        <div className="creator-card" key={el.key.toString()}>
-                            <div className="creator-wrap">
-                                <img src={img} className="creator-image" alt={el.name} />
+                            <div className="creator-card" key={el.key.toString()}>
+                                <div className="creator-wrap">
+                                    <img src={img} className="creator-image" alt={el.name} />
+                                </div>
+                                <p className="creator-header">{el.name}</p>
+                                <p className="creator-role">
+                                    {el.role}. {el.tasks}
+                                </p>
                             </div>
-                            <p className="creator-header">{el.name}</p>
-                            <p className="creator-role">
-                                {el.role}. {el.tasks}
-                            </p>
-                        </div>
-                    )})}
+                        );
+                    })}
                 </div>
             </div>
         </>
