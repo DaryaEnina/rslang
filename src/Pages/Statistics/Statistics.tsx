@@ -1,6 +1,8 @@
 import { useAppSelector } from 'hooks/redux';
+import { learnedToStat } from 'Pages/Games/gamesUtils';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useGetUserAggregatedWordsQuery } from 'store/rslang/usersWords.api';
 import Service, { DataStat } from 'Utils/Service';
 import './style.scss';
 
@@ -24,16 +26,20 @@ const Statistics = () => {
         },
     });
 
-    const { isLogin } = useAppSelector((state) => state.userLogin.userLogin);
+    const { isLogin, userId, token } = useAppSelector((state) => state.userLogin.userLogin);
+    const optional = { wordsPerPage: 3600, filter: '{"$and":[{"userWord.difficulty":"learned"}]}' };
+    const { data: commonWords } = useGetUserAggregatedWordsQuery({
+        userId,
+        token,
+        optional,
+    });
 
     const dayResults = useCallback(async () => {
-        const token = localStorage.getItem('token') as string;
-        const userId = localStorage.getItem('userId') as string;
         const responseStat = await Service.getUserStat(userId, token);
         if (responseStat !== 404) {
             setStateData(responseStat as DataStat);
         }
-    }, []);
+    }, [userId, token]);
 
     useEffect(() => {
         dayResults();
@@ -41,7 +47,6 @@ const Statistics = () => {
 
     useEffect(() => {
         if (isLogin) {
-            // setAuth(true);
             if (stateData!.optional.totalQuestionsAudioGame !== 0) {
                 const audioAnswers = (
                     (stateData!.optional.totalCorrectAnswersAudioGame / stateData!.optional.totalQuestionsAudioGame) *
@@ -78,7 +83,11 @@ const Statistics = () => {
             localStorage.clear();
             navigator('/signin');
         }
-    }, [stateData, navigator, isLogin]);
+        if (commonWords) {
+            learnedToStat(commonWords![0].paginatedResults.length);
+            // console.log(commonWords![0].paginatedResults[0].userWord?.optional.date);
+        }
+    }, [stateData, navigator, isLogin, commonWords]);
     return (
         <div className="statistics_wrapper">
             <h2>Статистика</h2>
@@ -93,7 +102,7 @@ const Statistics = () => {
                         </div>
                         <div className="stat-words_count">
                             <p>Изученных слов</p>
-                            <p>0 шт</p>
+                            <p>{stateData.learnedWords} шт</p>
                         </div>
                         <div className="stat-words_count last">
                             <p>Правильных ответов</p>

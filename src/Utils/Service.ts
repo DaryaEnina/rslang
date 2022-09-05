@@ -56,6 +56,18 @@ export type DataStat = {
     };
 };
 
+export type DataAggregatedWordsResponse = {
+    paginatedResults: DataWord[];
+};
+
+export type DataAggregatedWords = {
+    userId: string;
+    group?: string;
+    page?: string;
+    wordsPerPage?: string;
+    filter: string;
+};
+
 class Service {
     private static baseUrl = 'https://react-rslang-team.herokuapp.com';
 
@@ -135,6 +147,33 @@ class Service {
             }
             const content = await rawResponse.json();
             return content;
+        } catch (error) {
+            console.log(error);
+        }
+        return undefined;
+    }
+
+    public static async aggregatedWords(
+        word: DataAggregatedWords,
+        token: string
+    ): Promise<DataWord[] | number | undefined> {
+        const { userId, group, page, wordsPerPage, filter } = word;
+        try {
+            const rawResponse = await fetch(
+                `${this.baseUrl}/users/${userId}/aggregatedWords?group=${group}&page=${page}&wordsPerPage=${wordsPerPage}&filter=${filter}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json',
+                    },
+                }
+            );
+            if (rawResponse.status === 401) {
+                return rawResponse.status;
+            }
+            const content: DataAggregatedWordsResponse[] = await rawResponse.json();
+            return content[0].paginatedResults;
         } catch (error) {
             console.log(error);
         }

@@ -66,3 +66,19 @@ export async function resultsToStatSprintGame(rightCount: number, wrongCount: nu
         await Service.updateUserStat(dataStatUpdate, userId, token);
     }, 100);
 }
+export async function learnedToStat(data: number) {
+    const responseStat = (await Service.getUserStat(userId, token)) as DataStat;
+    delete responseStat.id;
+    const { optional } = responseStat;
+
+    setTimeout(async () => {
+        await Service.updateUserStat(
+            {
+                learnedWords: data,
+                optional: { ...optional },
+            },
+            userId,
+            token
+        );
+    }, 100);
+}
