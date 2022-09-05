@@ -3,6 +3,9 @@ import Service, { DataStat } from 'Utils/Service';
 import './style.scss';
 
 const Statistics = () => {
+    const [audioGamePercent, setAudioGamePercent] = useState<number>(0);
+    const [sprintGamePercent, setSprintGamePercent] = useState<number>(0);
+    const [totalPercent, setTotalPercent] = useState<number>(0);
     const [stateData, setStateData] = useState<DataStat>({
         learnedWords: 0,
         optional: {
@@ -24,14 +27,43 @@ const Statistics = () => {
         if (responseStat !== 404) {
             setStateData(responseStat as DataStat);
         }
-        console.log(responseStat);
-        console.log('stateData', stateData);
     }, []);
 
     useEffect(() => {
         dayResults();
     }, [dayResults]);
 
+    useEffect(() => {
+        if (stateData!.optional.totalQuestionsAudioGame !== 0) {
+            const audioAnswers = (
+                (stateData!.optional.totalCorrectAnswersAudioGame / stateData!.optional.totalQuestionsAudioGame) *
+                100
+            ).toFixed(1);
+            setAudioGamePercent(+audioAnswers);
+        } else {
+            setAudioGamePercent(1);
+        }
+        if (stateData!.optional.totalQuestionsSprintGame !== 0) {
+            const sprintAnswers = (
+                (stateData!.optional.totalCorrectAnswersSprintGame / stateData!.optional.totalQuestionsSprintGame) *
+                100
+            ).toFixed(1);
+            setSprintGamePercent(+sprintAnswers);
+        } else {
+            setSprintGamePercent(1);
+        }
+        if (stateData!.optional.totalQuestionsSprintGame !== 0 && stateData!.optional.totalQuestionsAudioGame !== 0) {
+            const totalAnswers = (
+                ((stateData!.optional.totalCorrectAnswersSprintGame +
+                    stateData!.optional.totalCorrectAnswersAudioGame) /
+                    (stateData!.optional.totalQuestionsSprintGame + stateData!.optional.totalQuestionsAudioGame)) *
+                100
+            ).toFixed(1);
+            setTotalPercent(+totalAnswers);
+        } else {
+            setTotalPercent(0);
+        }
+    }, [stateData]);
     return (
         <div className="statistics_wrapper">
             <h2>Статистика</h2>
@@ -50,7 +82,7 @@ const Statistics = () => {
                         </div>
                         <div className="stat-words_count last">
                             <p>Правильных ответов</p>
-                            <p>0 %</p>
+                            <p>{totalPercent} %</p>
                         </div>
                     </div>
                 </div>
@@ -63,7 +95,7 @@ const Statistics = () => {
                         </div>
                         <div className="stat-games_count">
                             <p>Правильных ответов</p>
-                            <p>0%</p>
+                            <p>{audioGamePercent}%</p>
                         </div>
                         <div className="stat-games_count last">
                             <p>
@@ -83,7 +115,7 @@ const Statistics = () => {
                         </div>
                         <div className="stat-games_count">
                             <p>Правильных ответов </p>
-                            <p> 0%</p>
+                            <p> {sprintGamePercent}%</p>
                         </div>
                         <div className="stat-games_count last">
                             <p>
