@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/media-has-caption */
@@ -8,37 +9,19 @@ import AttemptLogo from 'assets/icons/attempt.jpeg';
 import Empty from 'assets/icons/empty.png';
 import QuestionMark from 'assets/images/question-mark.png';
 import './audiogame.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { AllDifficulties, IWord, WordsResponse } from 'models/models';
+import { useDispatch } from 'react-redux';
+import { AllDifficulties, Difficulty, IOptional, IWord, WordsResponse } from 'models/models';
 import { useGetWordsQuery } from 'store/rslang/words.api';
 import ModalResults from 'Components/Results/Results';
 import { setAnsweredWordsReducer } from 'store/reducers/answeredWordsReducer';
 import RightSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/incorrect.mp3';
 import Loader from 'Components/Loader/Loader';
+import { useCreateUserWordMutation, useGetUserAggregatedWordsQuery, useUpdateUserWordMutation } from 'store/rslang/usersWords.api';
+import { useAppSelector } from 'hooks/redux';
 import { DifficultyData, wordsToFill } from '../types';
 import setToStatNewWordsAudioGame, { resultsToStatAudioGame } from '../gamesUtils';
 
-interface IRootState {
-    gameDifficulty: {
-        changeDifficulty: AllDifficulties;
-    };
-    answeredWords: {
-        answeredWords: AnsweredWord[];
-    };
-    currentPage: {
-        currentPage: number;
-    };
-    currentWords: {
-        currentWords: WordsResponse;
-    };
-    userLogin: {
-        userLogin: { isLogin: boolean; token: string | null; userId: string | null };
-    };
-    startGameFrom: {
-        startGameFrom: string;
-    };
-}
 
 export type AnsweredWord = {
     audio: string;
@@ -49,21 +32,39 @@ export type AnsweredWord = {
 
 function Audiogame() {
     const dispatch = useDispatch();
-    const difficulty = useSelector((state: IRootState) => state.gameDifficulty.changeDifficulty);
-    const currentPage = useSelector((state: IRootState) => state.currentPage.currentPage);
-    const fromBookWords = useSelector((state: IRootState) => state.currentWords.currentWords);
-    const answeredWords = useSelector((state: IRootState) => state.answeredWords.answeredWords);
-    const startFrom = useSelector((state: IRootState) => state.startGameFrom.startGameFrom);
-    const { isLogin, userId, token } = useSelector((state: IRootState) => state.userLogin.userLogin);
-    const { isLoading: boolLoad, data: dataFromGames } = useGetWordsQuery({
-        page: currentPage,
-        group: DifficultyData[difficulty],
-    });
+    const difficultyLevel = useAppSelector((state) => state.gameDifficulty.changeDifficulty);
+    const currentPage = useAppSelector((state) => state.currentPage.currentPage);
+    const fromBookWords = useAppSelector((state) => state.currentWords.currentWords);
+    const answeredWords = useAppSelector((state) => state.answeredWords.answeredWords);
+    const startFrom = useAppSelector((state) => state.startGameFrom.startGameFrom);
+    const { isLogin, userId, token } = useAppSelector((state) => state.userLogin.userLogin);
 
-    const userIdStr = userId as string;
-    const tokenStr = token as string;
+    const optionalParams = { wordsPerPage: 20, group: DifficultyData[difficultyLevel], filter: 
+        '{"$or":[{"$and":[{"userWord.difficulty":"new"}]},{"userWord":null}]}' };
+    const { 
+        isLoading: boolLoad,
+        data: dataFromGames
+    } = useGetWordsQuery({ page: currentPage, group: DifficultyData[difficultyLevel] }, { skip: isLogin });
+    
+    const {
+        isLoading: boolAggr,
+        data: aggrData
+    } = useGetUserAggregatedWordsQuery({ userId, token, optional: optionalParams }, { skip: !isLogin }); 
+    
+    let aggrWords: WordsResponse;
+    let gameWords: WordsResponse;
+    if (!boolAggr && isLogin) {
+        aggrWords = aggrData![0].paginatedResults;
+    }
 
-    const gameWords = isLogin && startFrom === 'book' ? fromBookWords : dataFromGames;
+    try {
+        gameWords = isLogin ? aggrWords! : dataFromGames!;
+    } catch {
+        console.log('Data didnt load')
+    }
+
+    const [createUserWord] = useCreateUserWordMutation();
+    const [updateUserWord] = useUpdateUserWordMutation();
 
     const [startGame, setStartGame] = useState(true);
     const [showResult, setShowResult] = useState<boolean>(false);
@@ -123,13 +124,80 @@ function Audiogame() {
         target.play();
     }
 
-    function checkAnswer(elem: HTMLElement, wordToCheck: string) {
+    async function addToUserWords(result: string) {
+        const wordId = currentWordData!._id as string;
+        if (currentWordData!.userWord) {
+            const { difficulty, optional } = currentWordData!.userWord;
+            let newWord: { difficulty: Difficulty, optional: IOptional };
+            if ((difficulty === 'new' && optional.rightInRow === 2 && result === 'right') ||
+            difficulty === 'hard' && optional.rightInRow === 4 && result === 'right') {
+                newWord = { difficulty: 'learned',
+                    optional: {
+                        rightAnswers: optional.rightAnswers + 1,
+                        wrongAnswers: optional.wrongAnswers,
+                        rightInRow: optional.rightInRow + 1,
+                        date: new Date()
+                    }
+                };
+            } else if (difficulty === 'learned' && result === 'wrong') {
+                newWord = { difficulty: 'new',
+                optional: {
+                    rightAnswers: optional.rightAnswers,
+                    wrongAnswers: optional.wrongAnswers - 1,
+                    rightInRow: 0,
+                    date: new Date()
+                }
+            };
+            } else if (difficulty === 'new' && result === 'right') {
+                newWord = { difficulty: 'learned',
+                optional: {
+                    rightAnswers: optional.rightAnswers + 1,
+                    wrongAnswers: optional.wrongAnswers,
+                    rightInRow: optional.rightInRow + 1,
+                    date: new Date()
+                }
+            }
+            } else if (result === 'right') {
+                newWord = { difficulty,
+                optional: {
+                    rightAnswers: optional.rightAnswers + 1,
+                    wrongAnswers: optional.wrongAnswers,
+                    rightInRow: optional.rightInRow + 1,
+                    date: new Date()
+                }}
+            } else {
+                newWord = {
+                    difficulty,
+                    optional: {
+                        rightAnswers: optional.rightAnswers,
+                        wrongAnswers: optional.wrongAnswers + 1,
+                        rightInRow: 0,
+                        date: new Date()
+                    }
+                }
+            }
+
+            console.log(newWord);
+            await updateUserWord({ userId, wordId, wordInfo: newWord, token })
+        } else {
+            const rightRes = result === 'right' ? 1 : 0;
+            const data = { difficulty: 'new', optional: {
+                rightAnswers: rightRes,
+                wrongAnswers: result === 'wrong' ? 1 : 0,
+                rightInRow: rightRes,
+                date: new Date() } };
+            await createUserWord({ userId, wordId, wordInfo: data, token })
+        }
+    }
+
+    async function checkAnswer(elem: HTMLElement, wordToCheck: string) {
         setBlockButtons(true);
         setAnswered(true);
         setShowResult(true);
         elem.classList.add(wordToCheck === rightAnswer ? 'right' : 'wrong');
         setToStatNewWordsAudioGame(); // добавляет в статистику к новым словам
         if (wordToCheck !== rightAnswer) {
+            if (isLogin) await addToUserWords('wrong');
             if (currSeria > seria) {
                 setSeria(currSeria);
             }
@@ -138,6 +206,7 @@ function Audiogame() {
             setWrongCount(wrongCount + 1);
             decreaseAttempts();
         } else {
+            if (isLogin) await addToUserWords('right');
             rightAudio();
             setRightCount(rightCount + 1);
             setCurrSeria(currSeria + 1);
@@ -191,7 +260,7 @@ function Audiogame() {
     }
 
     if (!currentWordData) {
-        if (!boolLoad && !!gameWords!.length) {
+        if (!boolLoad && !boolAggr && !!gameWords!.length) {
             try {
                 getWords(1);
                 const current = gameWords![currentWordNumber - 1];
@@ -254,7 +323,7 @@ function Audiogame() {
     return (
         <>
             <p className="header page-header">Аудиовызов</p>
-            {boolLoad ? (
+            {boolLoad || boolAggr ? (
                 <div style={{ display: 'flex', justifyContent: 'center', margin: 10 }}>
                     <Loader color="#23266e" />
                 </div>
