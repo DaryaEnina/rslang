@@ -1,8 +1,15 @@
+import { useAppSelector } from 'hooks/redux';
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Service, { DataStat } from 'Utils/Service';
 import './style.scss';
 
 const Statistics = () => {
+    // const [isAuth, setAuth] = useState<boolean>(false);
+    const navigator = useNavigate();
+    const [audioGamePercent, setAudioGamePercent] = useState<number>(0);
+    const [sprintGamePercent, setSprintGamePercent] = useState<number>(0);
+    const [totalPercent, setTotalPercent] = useState<number>(0);
     const [stateData, setStateData] = useState<DataStat>({
         learnedWords: 0,
         optional: {
@@ -17,6 +24,8 @@ const Statistics = () => {
         },
     });
 
+    const { isLogin } = useAppSelector((state) => state.userLogin.userLogin);
+
     const dayResults = useCallback(async () => {
         const token = localStorage.getItem('token') as string;
         const userId = localStorage.getItem('userId') as string;
@@ -24,14 +33,52 @@ const Statistics = () => {
         if (responseStat !== 404) {
             setStateData(responseStat as DataStat);
         }
-        console.log(responseStat);
-        console.log('stateData', stateData);
     }, []);
 
     useEffect(() => {
         dayResults();
     }, [dayResults]);
 
+    useEffect(() => {
+        if (isLogin) {
+            // setAuth(true);
+            if (stateData!.optional.totalQuestionsAudioGame !== 0) {
+                const audioAnswers = (
+                    (stateData!.optional.totalCorrectAnswersAudioGame / stateData!.optional.totalQuestionsAudioGame) *
+                    100
+                ).toFixed(0);
+                setAudioGamePercent(+audioAnswers);
+            } else {
+                setAudioGamePercent(0);
+            }
+            if (stateData!.optional.totalQuestionsSprintGame !== 0) {
+                const sprintAnswers = (
+                    (stateData!.optional.totalCorrectAnswersSprintGame / stateData!.optional.totalQuestionsSprintGame) *
+                    100
+                ).toFixed(0);
+                setSprintGamePercent(+sprintAnswers);
+            } else {
+                setSprintGamePercent(0);
+            }
+            if (
+                stateData!.optional.totalQuestionsSprintGame !== 0 ||
+                stateData!.optional.totalQuestionsAudioGame !== 0
+            ) {
+                const totalAnswers = (
+                    ((stateData!.optional.totalCorrectAnswersSprintGame +
+                        stateData!.optional.totalCorrectAnswersAudioGame) /
+                        (stateData!.optional.totalQuestionsSprintGame + stateData!.optional.totalQuestionsAudioGame)) *
+                    100
+                ).toFixed(0);
+                setTotalPercent(+totalAnswers);
+            } else {
+                setTotalPercent(0);
+            }
+        } else {
+            localStorage.clear();
+            navigator('/signin');
+        }
+    }, [stateData, navigator, isLogin]);
     return (
         <div className="statistics_wrapper">
             <h2>Статистика</h2>
@@ -50,7 +97,7 @@ const Statistics = () => {
                         </div>
                         <div className="stat-words_count last">
                             <p>Правильных ответов</p>
-                            <p>0 %</p>
+                            <p>{totalPercent} %</p>
                         </div>
                     </div>
                 </div>
@@ -63,14 +110,14 @@ const Statistics = () => {
                         </div>
                         <div className="stat-games_count">
                             <p>Правильных ответов</p>
-                            <p>0%</p>
+                            <p>{audioGamePercent}%</p>
                         </div>
                         <div className="stat-games_count last">
                             <p>
                                 Самая длинная серия
                                 <br /> правильных ответов
                             </p>
-                            <p>0 шт</p>
+                            <p>{stateData.optional.wordsInRowAudioGame} шт</p>
                         </div>
                     </div>
                 </div>
@@ -83,14 +130,14 @@ const Statistics = () => {
                         </div>
                         <div className="stat-games_count">
                             <p>Правильных ответов </p>
-                            <p> 0%</p>
+                            <p> {sprintGamePercent}%</p>
                         </div>
                         <div className="stat-games_count last">
                             <p>
                                 Самая длинная серия
                                 <br /> правильных ответов
                             </p>
-                            <p>0 шт</p>
+                            <p>{stateData?.optional.wordsInRowSprintGame} шт</p>
                         </div>
                     </div>
                 </div>
