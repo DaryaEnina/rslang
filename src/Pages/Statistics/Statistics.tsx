@@ -38,27 +38,27 @@ const Statistics = () => {
             const audioAnswers = (
                 (stateData!.optional.totalCorrectAnswersAudioGame / stateData!.optional.totalQuestionsAudioGame) *
                 100
-            ).toFixed(1);
+            ).toFixed(0);
             setAudioGamePercent(+audioAnswers);
         } else {
-            setAudioGamePercent(1);
+            setAudioGamePercent(0);
         }
         if (stateData!.optional.totalQuestionsSprintGame !== 0) {
             const sprintAnswers = (
                 (stateData!.optional.totalCorrectAnswersSprintGame / stateData!.optional.totalQuestionsSprintGame) *
                 100
-            ).toFixed(1);
+            ).toFixed(0);
             setSprintGamePercent(+sprintAnswers);
         } else {
-            setSprintGamePercent(1);
+            setSprintGamePercent(0);
         }
-        if (stateData!.optional.totalQuestionsSprintGame !== 0 && stateData!.optional.totalQuestionsAudioGame !== 0) {
+        if (stateData!.optional.totalQuestionsSprintGame !== 0 || stateData!.optional.totalQuestionsAudioGame !== 0) {
             const totalAnswers = (
                 ((stateData!.optional.totalCorrectAnswersSprintGame +
                     stateData!.optional.totalCorrectAnswersAudioGame) /
                     (stateData!.optional.totalQuestionsSprintGame + stateData!.optional.totalQuestionsAudioGame)) *
                 100
-            ).toFixed(1);
+            ).toFixed(0);
             setTotalPercent(+totalAnswers);
         } else {
             setTotalPercent(0);
@@ -102,7 +102,7 @@ const Statistics = () => {
                                 Самая длинная серия
                                 <br /> правильных ответов
                             </p>
-                            <p>0 шт</p>
+                            <p>{stateData.optional.wordsInRowAudioGame} шт</p>
                         </div>
                     </div>
                 </div>
@@ -122,7 +122,7 @@ const Statistics = () => {
                                 Самая длинная серия
                                 <br /> правильных ответов
                             </p>
-                            <p>0 шт</p>
+                            <p>{stateData?.optional.wordsInRowSprintGame} шт</p>
                         </div>
                     </div>
                 </div>

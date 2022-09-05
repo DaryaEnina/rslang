@@ -247,7 +247,7 @@ function Audiogame() {
     }
 
     if (!startGame && resultStats) {
-        resultsToStatAudioGame(rightCount);
+        resultsToStatAudioGame(rightCount, wrongCount, seria);
         return <ModalResults seria={seria} right={rightCount} wrong={wrongCount} />;
     }
 

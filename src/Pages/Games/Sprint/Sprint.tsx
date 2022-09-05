@@ -16,7 +16,7 @@ import { IWord, WordsResponse } from 'models/models';
 import { setAnsweredWordsReducer } from 'store/reducers/answeredWordsReducer';
 import { DifficultyData, wordsToFill } from '../types';
 import './sprint.scss';
-import { setToStatNewWordSprint } from '../gamesUtils';
+import { resultsToStatSprintGame, setToStatNewWordSprint } from '../gamesUtils';
 
 function Sprint() {
     const dispatch = useDispatch();
@@ -192,6 +192,7 @@ function Sprint() {
     }
 
     if ((timer === 0 && !startGame) || (!boolExtra && currentIndex === gameWords!.length)) {
+        resultsToStatSprintGame(rightCount, wrongCount, seria);
         return <ModalResults seria={seria} wrong={wrongCount} right={rightCount} />;
     }
 

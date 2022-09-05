@@ -29,12 +29,38 @@ export async function setToStatNewWordSprint() {
     // TODO: проверять слова по ID, если такого нет - добавлять в статистику
 }
 
-export async function resultsToStatAudioGame(rightCount: number) {
+export async function resultsToStatAudioGame(rightCount: number, wrongCount: number, seria: number) {
     const responseStat = (await Service.getUserStat(userId, token)) as DataStat;
     delete responseStat.id;
     let { optional } = responseStat;
     const totalCorrectAnswersAudioGame = +responseStat.optional.totalCorrectAnswersAudioGame + rightCount;
-    optional = { ...responseStat.optional, totalCorrectAnswersAudioGame };
+    const totalQuestionsAudioGame = +responseStat.optional.wordsInRowAudioGame + (rightCount + wrongCount);
+    let wordsInRowAudioGame = +responseStat.optional.wordsInRowAudioGame;
+    if (wordsInRowAudioGame < seria) {
+        wordsInRowAudioGame = seria;
+    }
+    optional = { ...responseStat.optional, totalCorrectAnswersAudioGame, totalQuestionsAudioGame, wordsInRowAudioGame };
+    const dataStatUpdate = { ...responseStat, optional };
+    setTimeout(async () => {
+        await Service.updateUserStat(dataStatUpdate, userId, token);
+    }, 100);
+}
+export async function resultsToStatSprintGame(rightCount: number, wrongCount: number, seria: number) {
+    const responseStat = (await Service.getUserStat(userId, token)) as DataStat;
+    delete responseStat.id;
+    let { optional } = responseStat;
+    const totalCorrectAnswersSprintGame = +responseStat.optional.totalCorrectAnswersSprintGame + rightCount;
+    const totalQuestionsSprintGame = +responseStat.optional.wordsInRowSprintGame + (rightCount + wrongCount);
+    let wordsInRowSprintGame = +responseStat.optional.wordsInRowSprintGame;
+    if (wordsInRowSprintGame < seria) {
+        wordsInRowSprintGame = seria;
+    }
+    optional = {
+        ...responseStat.optional,
+        totalCorrectAnswersSprintGame,
+        totalQuestionsSprintGame,
+        wordsInRowSprintGame,
+    };
     const dataStatUpdate = { ...responseStat, optional };
     setTimeout(async () => {
         await Service.updateUserStat(dataStatUpdate, userId, token);
