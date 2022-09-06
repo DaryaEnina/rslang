@@ -1,3 +1,4 @@
+import Loader from 'Components/Loader/Loader';
 import { useAppSelector } from 'hooks/redux';
 import { learnedToStat } from 'Pages/Games/gamesUtils';
 import { useCallback, useEffect, useState } from 'react';
@@ -28,7 +29,7 @@ const Statistics = () => {
 
     const { isLogin, userId, token } = useAppSelector((state) => state.userLogin.userLogin);
     const optional = { wordsPerPage: 3600, filter: '{"$and":[{"userWord.difficulty":"learned"}]}' };
-    const { data: commonWords } = useGetUserAggregatedWordsQuery({
+    const { isLoading: loadStatus, data: commonWords } = useGetUserAggregatedWordsQuery({
         userId,
         token,
         optional,
@@ -47,7 +48,7 @@ const Statistics = () => {
 
     useEffect(() => {
         if (isLogin) {
-            if (stateData!.optional.totalQuestionsAudioGame !== 0) {
+            if (stateData!.optional && stateData!.optional?.totalQuestionsAudioGame) {
                 const audioAnswers = (
                     (stateData!.optional.totalCorrectAnswersAudioGame / stateData!.optional.totalQuestionsAudioGame) *
                     100
@@ -56,7 +57,7 @@ const Statistics = () => {
             } else {
                 setAudioGamePercent(0);
             }
-            if (stateData!.optional.totalQuestionsSprintGame !== 0) {
+            if (stateData!.optional && stateData!.optional.totalQuestionsSprintGame) {
                 const sprintAnswers = (
                     (stateData!.optional.totalCorrectAnswersSprintGame / stateData!.optional.totalQuestionsSprintGame) *
                     100
@@ -66,8 +67,9 @@ const Statistics = () => {
                 setSprintGamePercent(0);
             }
             if (
-                stateData!.optional.totalQuestionsSprintGame !== 0 ||
-                stateData!.optional.totalQuestionsAudioGame !== 0
+                stateData!.optional &&
+                (stateData!.optional.totalQuestionsSprintGame ||
+                stateData!.optional.totalQuestionsAudioGame)
             ) {
                 const totalAnswers = (
                     ((stateData!.optional.totalCorrectAnswersSprintGame +
@@ -126,90 +128,99 @@ const Statistics = () => {
             learned: 15,
         },
     ];
+
     return (
         <div className="statistics_wrapper">
             <h2>Статистика</h2>
-            <h4>Успехи сегодня</h4>
-            <div className="stat-day">
-                <div className="stat-words">
-                    <h5>По словам</h5>
-                    <div className="stat-words_result">
-                        <div className="stat-words_count">
-                            <p>Новых слов</p>
-                            <p> {stateData!.optional.newWordsAudioGame + stateData!.optional.newWordsSprintGame} шт</p>
-                        </div>
-                        <div className="stat-words_count">
-                            <p>Изученных слов</p>
-                            <p>{stateData.learnedWords} шт</p>
-                        </div>
-                        <div className="stat-words_count last">
-                            <p>Правильных ответов</p>
-                            <p>{totalPercent} %</p>
-                        </div>
+            {loadStatus && !commonWords ?
+                (
+                    <div style={{ display: 'flex', justifyContent: 'center', margin: 10 }}>
+                        <Loader color="#23266e" />
                     </div>
-                </div>
-                <div className="stat-games">
-                    <h5>Аудиовызов</h5>
-                    <div className="stat-games_result">
-                        <div className="stat-games_count">
-                            <p>Новых слов</p>
-                            <p>{stateData!.optional.newWordsAudioGame} шт</p>
+                ) : (
+                    <>
+                        <h4>Успехи сегодня</h4>
+                        <div className="stat-day">
+                            <div className="stat-words">
+                                <h5>По словам</h5>
+                                <div className="stat-words_result">
+                                    <div className="stat-words_count">
+                                        <p>Новых слов</p>
+                                        <p> {stateData.optional ? stateData!.optional.newWordsAudioGame! + stateData!.optional.newWordsSprintGame : '0' } шт</p>
+                                    </div>
+                                    <div className="stat-words_count">
+                                        <p>Изученных слов</p>
+                                        <p>{stateData.learnedWords} шт</p>
+                                    </div>
+                                    <div className="stat-words_count last">
+                                        <p>Правильных ответов</p>
+                                        <p>{totalPercent} %</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="stat-games">
+                                <h5>Аудиовызов</h5>
+                                <div className="stat-games_result">
+                                    <div className="stat-games_count">
+                                        <p>Новых слов</p>
+                                        <p>{stateData.optional ? stateData!.optional.newWordsAudioGame : '0'} шт</p>
+                                    </div>
+                                    <div className="stat-games_count">
+                                        <p>Правильных ответов</p>
+                                        <p>{audioGamePercent}%</p>
+                                    </div>
+                                    <div className="stat-games_count last">
+                                        <p>
+                                            Самая длинная серия
+                                            <br /> правильных ответов
+                                        </p>
+                                        <p>{stateData.optional ? stateData.optional.wordsInRowAudioGame: '0'} шт</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="stat-games">
+                                <h5>Спринт</h5>
+                                <div className="stat-games_result">
+                                    <div className="stat-games_count">
+                                        <p>Новых слов </p>
+                                        <p>{stateData.optional ? stateData.optional.newWordsSprintGame: '0'} шт</p>
+                                    </div>
+                                    <div className="stat-games_count">
+                                        <p>Правильных ответов </p>
+                                        <p> {sprintGamePercent}%</p>
+                                    </div>
+                                    <div className="stat-games_count last">
+                                        <p>
+                                            Самая длинная серия
+                                            <br /> правильных ответов
+                                        </p>
+                                        <p>{stateData.optional ? stateData?.optional.wordsInRowSprintGame: '0'} шт</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="stat-games_count">
-                            <p>Правильных ответов</p>
-                            <p>{audioGamePercent}%</p>
-                        </div>
-                        <div className="stat-games_count last">
-                            <p>
-                                Самая длинная серия
-                                <br /> правильных ответов
-                            </p>
-                            <p>{stateData.optional.wordsInRowAudioGame} шт</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="stat-games">
-                    <h5>Спринт</h5>
-                    <div className="stat-games_result">
-                        <div className="stat-games_count">
-                            <p>Новых слов </p>
-                            <p>{stateData.optional.newWordsSprintGame} шт</p>
-                        </div>
-                        <div className="stat-games_count">
-                            <p>Правильных ответов </p>
-                            <p> {sprintGamePercent}%</p>
-                        </div>
-                        <div className="stat-games_count last">
-                            <p>
-                                Самая длинная серия
-                                <br /> правильных ответов
-                            </p>
-                            <p>{stateData?.optional.wordsInRowSprintGame} шт</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <h4>Долгосрочная статистика</h4>
-            <LineChart
-                width={500}
-                height={300}
-                data={data}
-                margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                }}
-            >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="new" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line type="monotone" dataKey="learned" stroke="#82ca9d" />
-            </LineChart>
+                        <h4>Долгосрочная статистика</h4>
+                        <LineChart
+                            width={500}
+                            height={300}
+                            data={data}
+                            margin={{
+                                top: 5,
+                                right: 30,
+                                left: 20,
+                                bottom: 5,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" dataKey="new" stroke="#8884d8" activeDot={{ r: 8 }} />
+                            <Line type="monotone" dataKey="learned" stroke="#82ca9d" />
+                        </LineChart>
+                    </>)}
         </div>
-    );
+    )
 };
 export default Statistics;

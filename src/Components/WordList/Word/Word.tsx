@@ -62,13 +62,12 @@ const Word: FC<IWordProps> = ({ word }) => {
 
     async function addToUserWords(newDifficulty: Difficulty) {
         const wordId = word._id as string;
-        if (word.userWord) {
+        if (word.userWord && word.userWord.difficulty && word.userWord.optional) {
             const { optional } = word.userWord;
             const newWordInfo = { difficulty: newDifficulty, optional };
-            console.log(newWordInfo);
             await updateUserWord({ userId, wordId, wordInfo: newWordInfo, token });
         } else {
-            const data = { difficulty: newDifficulty, optional: { rightAnswers: 0, wrongAnswers: 0, rightInRow: 0 } };
+            const data = { difficulty: newDifficulty, optional: { rightAnswers: 0, wrongAnswers: 0, rightInRow: 0, date: new Date() } };
             await createUserWord({ userId, wordId, wordInfo: data, token });
         }
     }
@@ -113,14 +112,14 @@ const Word: FC<IWordProps> = ({ word }) => {
                             <button type="button" onClick={addWordToLearned} className={styles.word__btn}>
                                 <CheckmarkIcon className={styles.checkmark} fill={isWordLearned ? '#90ee90' : '#111'} />
                             </button>
-                            {word.userWord && (
+                            {word.userWord && word.userWord?.difficulty && word.userWord?.optional  && (
                                 <div className={styles.word__stat}>
                                     <span className={styles.word__right} title="Количество правильных ответов">
                                         {word.userWord.optional.rightAnswers}
                                     </span>{' '}
                                     |{' '}
                                     <span className={styles.word__wrong} title="Количество неправильных ответов">
-                                        {word.userWord.optional.wrongAnswers}
+                                        {word.userWord.optional.wrongAnswers + word.userWord.optional.rightAnswers}
                                     </span>
                                 </div>
                             )}
