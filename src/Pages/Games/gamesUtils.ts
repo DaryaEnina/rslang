@@ -85,14 +85,16 @@ export async function learnedToStat(data: number) {
         const responseStat = (await Service.getUserStat(userId, token)) as DataStat;
         delete responseStat.id;
         const { optional } = responseStat;
-        await Service.updateUserStat(
-            {
-                learnedWords: data,
-                optional: { ...optional },
-            },
-            userId,
-            token
-        );
-        setTimeout(async () => {}, 0);
+
+        setTimeout(async () => {
+            await Service.updateUserStat(
+                {
+                    learnedWords: data,
+                    optional: { ...optional },
+                },
+                userId,
+                token
+            );
+        }, 0);
     }
 }
