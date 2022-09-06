@@ -26,9 +26,9 @@ const Statistics = () => {
         },
     });
 
-    const { isLogin } = useAppSelector((state) => state.userLogin.userLogin);
-    const token = localStorage.getItem('token') as string;
-    const userId = localStorage.getItem('userId') as string;
+    const { isLogin, token, userId } = useAppSelector((state) => state.userLogin.userLogin);
+    // const token = localStorage.getItem('token') as string;
+    // const userId = localStorage.getItem('userId') as string;
     const optional = { wordsPerPage: 3600, filter: '{"$and":[{"userWord.difficulty":"learned"}]}' };
     const { data: commonWords } = useGetUserAggregatedWordsQuery({
         userId,
@@ -49,6 +49,10 @@ const Statistics = () => {
 
     useEffect(() => {
         if (isLogin) {
+            if (commonWords) {
+                learnedToStat(commonWords![0].paginatedResults.length);
+                // console.log(commonWords![0].paginatedResults[0].userWord?.optional.date);
+            }
             if (stateData!.optional.totalQuestionsAudioGame !== 0) {
                 const audioAnswers = (
                     (stateData!.optional.totalCorrectAnswersAudioGame / stateData!.optional.totalQuestionsAudioGame) *
@@ -84,10 +88,6 @@ const Statistics = () => {
         } else {
             localStorage.clear();
             navigator('/signin');
-        }
-        if (commonWords) {
-            learnedToStat(commonWords![0].paginatedResults.length);
-            // console.log(commonWords![0].paginatedResults[0].userWord?.optional.date);
         }
     }, [stateData, navigator, isLogin, commonWords]);
 

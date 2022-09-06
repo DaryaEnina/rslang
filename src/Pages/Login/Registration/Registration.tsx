@@ -72,10 +72,15 @@ const Registration = () => {
             localStorage.setItem('userId', responseLogin.userId);
             localStorage.setItem('token', responseLogin.token);
             localStorage.setItem('name', responseLogin.name);
+
             setTimeout(() => {
+                const token = localStorage.getItem('token') as string;
+                const userId = localStorage.getItem('userId') as string;
                 dispatch(
                     userLoginReducer({
                         isLogin: true,
+                        token,
+                        userId,
                     })
                 );
                 navigate('/');
