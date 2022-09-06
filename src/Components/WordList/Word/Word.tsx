@@ -5,6 +5,7 @@ import VolumeIcon from 'assets/icons/sound-logo.png';
 import { useAppSelector } from 'hooks/redux';
 import parse from 'html-react-parser';
 import { Difficulty, IWord } from 'models/models';
+import { learnedToStat } from 'Pages/Games/gamesUtils';
 import Levels from 'Pages/Games/Levels';
 import { FC, useState } from 'react';
 import { useCreateUserWordMutation, useUpdateUserWordMutation } from 'store/rslang/usersWords.api';

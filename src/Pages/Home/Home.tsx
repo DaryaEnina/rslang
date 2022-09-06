@@ -11,37 +11,39 @@ import MatveiImg from 'assets/images/Matvei.jpeg';
 
 import AboutUs from 'Components/Footer/AboutUs';
 import './home.scss';
-import Service from 'Utils/Service';
+import Service, { DataStat } from 'Utils/Service';
 import { useEffect } from 'react';
 
 const Home = () => {
     const token = localStorage.getItem('token') as string;
     const userId = localStorage.getItem('userId') as string;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const initStatistic = async () => {
-        if (!token) {
-            await Service.updateUserStat(
-                {
-                    learnedWords: 0,
-                    optional: {
-                        newWordsAudioGame: 0,
-                        newWordsSprintGame: 0,
-                        wordsInRowAudioGame: 0,
-                        wordsInRowSprintGame: 0,
-                        totalQuestionsAudioGame: 0,
-                        totalQuestionsSprintGame: 0,
-                        totalCorrectAnswersAudioGame: 0,
-                        totalCorrectAnswersSprintGame: 0,
+        if (userId) {
+            const responseStat = (await Service.getUserStat(userId, token)) as DataStat;
+            if (typeof responseStat === 'number' && responseStat === 404) {
+                await Service.updateUserStat(
+                    {
+                        learnedWords: 0,
+                        optional: {
+                            newWordsAudioGame: 0,
+                            newWordsSprintGame: 0,
+                            wordsInRowAudioGame: 0,
+                            wordsInRowSprintGame: 0,
+                            totalQuestionsAudioGame: 0,
+                            totalQuestionsSprintGame: 0,
+                            totalCorrectAnswersAudioGame: 0,
+                            totalCorrectAnswersSprintGame: 0,
+                        },
                     },
-                },
-                userId,
-                token
-            );
+                    userId,
+                    token
+                );
+            }
         }
     };
     useEffect(() => {
-        if (userId) {
-            initStatistic();
-        }
+        initStatistic();
     });
     return (
         <>
