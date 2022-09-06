@@ -40,9 +40,6 @@ const Statistics = () => {
         const responseStat = await Service.getUserStat(userId, token);
         if (responseStat !== 404) {
             setStateData(responseStat as DataStat);
-            console.log('stst');
-        } else {
-            console.log('444');
         }
     }, [userId, token]);
 

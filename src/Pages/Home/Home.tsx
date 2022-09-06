@@ -39,12 +39,8 @@ const Home = () => {
                     userId,
                     token
                 );
-                console.log('yahooo');
-            } else {
-                console.log('errrorrrr', responseStat, typeof responseStat);
             }
         }
-        console.log('not logined');
     };
     useEffect(() => {
         initStatistic();
