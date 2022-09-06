@@ -26,7 +26,9 @@ const Statistics = () => {
         },
     });
 
-    const { isLogin, userId, token } = useAppSelector((state) => state.userLogin.userLogin);
+    const { isLogin } = useAppSelector((state) => state.userLogin.userLogin);
+    const token = localStorage.getItem('token') as string;
+    const userId = localStorage.getItem('userId') as string;
     const optional = { wordsPerPage: 3600, filter: '{"$and":[{"userWord.difficulty":"learned"}]}' };
     const { data: commonWords } = useGetUserAggregatedWordsQuery({
         userId,
@@ -38,6 +40,9 @@ const Statistics = () => {
         const responseStat = await Service.getUserStat(userId, token);
         if (responseStat !== 404) {
             setStateData(responseStat as DataStat);
+            console.log('stst');
+        } else {
+            console.log('444');
         }
     }, [userId, token]);
 

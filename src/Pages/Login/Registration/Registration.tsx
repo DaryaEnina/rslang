@@ -1,8 +1,11 @@
 import React, { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { userLoginReducer } from 'store/reducers/loginReducer';
 import Service, { DataUserCreateResponse, DataUserLoginResponse } from '../../../Utils/Service';
 
 const Registration = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -62,11 +65,19 @@ const Registration = () => {
         } else {
             setSuccess(true);
             setRegistrationStatusMessage(`Вы успешно зарегистрировались!`);
-            const responseLogin = (await Service.loginUser({ email, password })) as DataUserLoginResponse;
+            const responseLogin = (await Service.loginUser({
+                email,
+                password,
+            })) as DataUserLoginResponse;
             localStorage.setItem('userId', responseLogin.userId);
             localStorage.setItem('token', responseLogin.token);
             localStorage.setItem('name', responseLogin.name);
             setTimeout(() => {
+                dispatch(
+                    userLoginReducer({
+                        isLogin: true,
+                    })
+                );
                 navigate('/');
             }, 1500);
         }
