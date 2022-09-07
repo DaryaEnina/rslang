@@ -49,10 +49,6 @@ const Statistics = () => {
 
     useEffect(() => {
         if (isLogin) {
-            if (commonWords) {
-                learnedToStat(commonWords![0].paginatedResults.length);
-                // console.log(commonWords![0].paginatedResults[0].userWord?.optional.date);
-            }
             if (stateData!.optional.totalQuestionsAudioGame !== 0) {
                 const audioAnswers = (
                     (stateData!.optional.totalCorrectAnswersAudioGame / stateData!.optional.totalQuestionsAudioGame) *
@@ -88,6 +84,10 @@ const Statistics = () => {
         } else {
             localStorage.clear();
             navigator('/signin');
+        }
+        if (commonWords) {
+            learnedToStat(commonWords![0].paginatedResults.length);
+            // console.log(commonWords![0].paginatedResults[0].userWord?.optional.date);
         }
     }, [stateData, navigator, isLogin, commonWords]);
 
