@@ -95,6 +95,6 @@ export async function learnedToStat(data: number) {
                 userId,
                 token
             );
-        }, 0);
+        }, 100);
     }
 }
