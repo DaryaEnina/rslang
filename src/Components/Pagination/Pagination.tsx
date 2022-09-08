@@ -6,9 +6,10 @@ import styles from './Pagination.module.scss';
 interface IPaginationProps {
     currentPage: number;
     totalPages: number;
+    isAllWordsHardOrLearned: boolean;
 }
 
-const Pagination: FC<IPaginationProps> = ({ currentPage, totalPages }) => {
+const Pagination: FC<IPaginationProps> = ({ currentPage, totalPages, isAllWordsHardOrLearned }) => {
     const dispatch = useDispatch();
 
     return (
@@ -30,7 +31,15 @@ const Pagination: FC<IPaginationProps> = ({ currentPage, totalPages }) => {
                 <i className={`material-icons ${styles.pagination__icon}`}>keyboard_arrow_left</i>
             </button>
             <span className={styles.pagination__text}>
-                {currentPage + 1} / {totalPages}
+                <span
+                    style={{
+                        backgroundColor: isAllWordsHardOrLearned ? '#90ee90' : 'transparent',
+                        borderRadius: isAllWordsHardOrLearned ? '50%' : 'transparent',
+                    }}
+                >
+                    {currentPage + 1}
+                </span>{' '}
+                / {totalPages}
             </span>
             <button
                 type="button"
