@@ -15,6 +15,8 @@ import { useAppSelector } from 'hooks/redux';
 import { Difficulty, IOptional, IWord, WordsResponse } from 'models/models';
 import { setAnsweredWordsReducer } from 'store/reducers/answeredWordsReducer';
 import { useCreateUserWordMutation, useGetUserAggregatedWordsQuery, useUpdateUserWordMutation } from 'store/rslang/usersWords.api';
+// import Error from 'Pages/Errors/Error';
+// import Service from 'Utils/Service';
 import { DifficultyData, wordsToFill } from '../types';
 import './sprint.scss';
 import { resultsToStatSprintGame, setToStatNewWordSprint } from '../gamesUtils';
@@ -40,11 +42,41 @@ function Sprint() {
         data: dataAggregated
     } = useGetUserAggregatedWordsQuery({ userId, token, optional: optionalParams }, { skip: !isLogin });
 
+    // let loginUserWords: WordsResponse = [];
+    
+    // async function getAggregatedWords(page: number) {
+    //     let filterParam: string = '';
+    //     if (startFrom === 'book') {
+    //         filterParam = '{"$or":[{"$and":[{"userWord.difficulty":"new"}]},{"userWord":null}]}';
+    //     }
+    //     const result = await Service.aggregatedWords({
+    //         userId,
+    //         group: DifficultyData[difficultyLevel],
+    //         page,
+    //         wordsPerPage: 60,
+    //         filter: filterParam
+    //     }, token);
+    //     if (typeof result === 'number' || typeof result === 'undefined') {
+    //         return <Error />
+    //     }
+    //     loginUserWords.push(...result);
+    //     if (loginUserWords.length < 60 && page > 0) {
+    //         getAggregatedWords(page - 1);
+    //     } else {
+    //         loginUserWords = loginUserWords.slice(0, 60);
+    //     }
+    //     return '';
+    // }
+
+    // if (!loginUserWords.length) {
+    //     getAggregatedWords(currentPage);
+    // }
+
     let gameWords: WordsResponse;
     try {
         gameWords = isLogin ? dataAggregated![0].paginatedResults : dataFromGames as WordsResponse;
     } catch {
-        console.log("Data haven't been load.");
+        console.log("Data still haven't been load.");
     }
 
     const [createUserWord] = useCreateUserWordMutation();
@@ -111,10 +143,10 @@ function Sprint() {
 
     async function addToUserWords(result: string) {
         const wordId = currentWordData!._id as string;
-        if (currentWordData!.userWord) {
+        if (currentWordData?.userWord) {
             const { difficulty, optional } = currentWordData!.userWord;
             let newWord: { difficulty: Difficulty, optional: IOptional };
-            if ((difficulty === 'new' && optional.rightInRow === 2 && result === 'right') ||
+            if ((difficulty === 'new' && optional?.rightInRow === 2 && result === 'right') ||
             difficulty === 'hard' && optional.rightInRow === 4 && result === 'right') {
                 newWord = { difficulty: 'learned',
                     optional: {
@@ -128,7 +160,7 @@ function Sprint() {
                 newWord = { difficulty: 'new',
                 optional: {
                     rightAnswers: optional.rightAnswers,
-                    wrongAnswers: optional.wrongAnswers - 1,
+                    wrongAnswers: optional.wrongAnswers + 1,
                     rightInRow: 0,
                     date: new Date()
                 }

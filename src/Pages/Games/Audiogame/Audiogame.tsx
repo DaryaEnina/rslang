@@ -1,7 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/media-has-caption */
+
 import useSound from 'use-sound';
 import { useEffect, useState } from 'react';
 import SoundLogo from 'assets/icons/sound-logo.png';
@@ -10,7 +8,7 @@ import Empty from 'assets/icons/empty.png';
 import QuestionMark from 'assets/images/question-mark.png';
 import './audiogame.scss';
 import { useDispatch } from 'react-redux';
-import { AllDifficulties, Difficulty, IOptional, IWord, WordsResponse } from 'models/models';
+import { Difficulty, IOptional, IWord, WordsResponse } from 'models/models';
 import { useGetWordsQuery } from 'store/rslang/words.api';
 import ModalResults from 'Components/Results/Results';
 import { setAnsweredWordsReducer } from 'store/reducers/answeredWordsReducer';
@@ -34,13 +32,15 @@ function Audiogame() {
     const dispatch = useDispatch();
     const difficultyLevel = useAppSelector((state) => state.gameDifficulty.changeDifficulty);
     const currentPage = useAppSelector((state) => state.currentPage.currentPage);
-    const fromBookWords = useAppSelector((state) => state.currentWords.currentWords);
-    const answeredWords = useAppSelector((state) => state.answeredWords.answeredWords);
     const startFrom = useAppSelector((state) => state.startGameFrom.startGameFrom);
     const { isLogin, userId, token } = useAppSelector((state) => state.userLogin.userLogin);
 
-    const optionalParams = { wordsPerPage: 20, group: DifficultyData[difficultyLevel], filter: 
-        '{"$or":[{"$and":[{"userWord.difficulty":"new"}]},{"userWord":null}]}' };
+    const page = Math.round(Math.random() * 30);
+
+    const optionalParams = startFrom === 'book'
+      ? { wordsPerPage: 20, group: DifficultyData[difficultyLevel], filter: 
+        '{"$or":[{"$and":[{"userWord.difficulty":"new"}]},{"userWord":null}]}' }
+      : { wordsPerPage: 20, group: DifficultyData[difficultyLevel], page }
     const { 
         isLoading: boolLoad,
         data: dataFromGames
@@ -60,7 +60,7 @@ function Audiogame() {
     try {
         gameWords = isLogin ? aggrWords! : dataFromGames!;
     } catch {
-        console.log('Data didnt load')
+        console.log("Data haven't been load");
     }
 
     const [createUserWord] = useCreateUserWordMutation();
@@ -143,7 +143,7 @@ function Audiogame() {
                 newWord = { difficulty: 'new',
                 optional: {
                     rightAnswers: optional.rightAnswers,
-                    wrongAnswers: optional.wrongAnswers - 1,
+                    wrongAnswers: optional.wrongAnswers + 1,
                     rightInRow: 0,
                     date: new Date()
                 }
@@ -176,8 +176,6 @@ function Audiogame() {
                     }
                 }
             }
-
-            console.log(newWord);
             await updateUserWord({ userId, wordId, wordInfo: newWord, token })
         } else {
             const rightRes = result === 'right' ? 1 : 0;
