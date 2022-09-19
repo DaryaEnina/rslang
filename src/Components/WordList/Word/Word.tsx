@@ -115,12 +115,10 @@ const Word: FC<IWordProps> = ({ word }) => {
                             </button>
                             {word.userWord && word.userWord?.difficulty && word.userWord?.optional  && (
                                 <div className={styles.word__stat}>
-                                    <span className={styles.word__right} title="Количество правильных ответов">
+                                    <span className={styles.word__right} title="Правильных ответов">
                                         {word.userWord.optional.rightAnswers}
                                     </span>{' '}
                                     |{' '}
-                                    <span className={styles.word__wrong} title="Количество неправильных ответов">
-                                        {word.userWord.optional.wrongAnswers + word.userWord.optional.rightAnswers}
                                     </span>
                                 </div>
                             )}

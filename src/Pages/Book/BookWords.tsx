@@ -12,10 +12,12 @@ interface IProps {
     currentPage: number;
     totalPages: number;
     hardWordsPage: boolean;
+    isAllWordsHardOrLearned: boolean;
 }
 
 const BookWords = (props: IProps) => {
-    const { isWordsLoading, words, difficulty, currentPage, totalPages, hardWordsPage } = props;
+    const { isWordsLoading, words, difficulty, currentPage, totalPages, hardWordsPage, isAllWordsHardOrLearned } =
+        props;
 
     const { isLogin, userId, token } = useAppSelector((state) => state.userLogin.userLogin);
 
@@ -45,7 +47,11 @@ const BookWords = (props: IProps) => {
     ) : (
         <>
             <WordList words={isLogin ? commonWords![0].paginatedResults : (words as WordsResponse)} />
-            <Pagination currentPage={currentPage} totalPages={totalPages} />
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                isAllWordsHardOrLearned={isAllWordsHardOrLearned}
+            />
         </>
     );
 };

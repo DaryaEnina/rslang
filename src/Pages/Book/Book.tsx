@@ -12,9 +12,9 @@ import { setPageReducer } from 'store/reducers/pageSlice';
 import { useGetWordsQuery } from 'store/rslang/words.api';
 import getPageCount from 'Utils/pages';
 import { WordsResponse } from 'models/models';
+import { useGetUserAggregatedWordsQuery } from 'store/rslang/usersWords.api';
 import BookWords from './BookWords';
 import './book.scss';
-
 
 const WORDS_PER_PAGE = 20;
 const WORDS_PER_GROUP = 600;
@@ -23,17 +23,34 @@ const Book = () => {
     const dispatch = useAppDispatch();
     const difficulty = useAppSelector((state) => state.gameDifficulty.changeDifficulty);
     const currentPage = useAppSelector((state) => state.currentPage.currentPage);
+    const { userId, token } = useAppSelector((state) => state.userLogin.userLogin);
     const {
         isLoading: isWordsLoading,
         error: wordsError,
         data: words,
     } = useGetWordsQuery({ page: currentPage, group: DifficultyData[difficulty as keyof typeof DifficultyData] });
-
+    const optional = {
+        wordsPerPage: 20,
+        group: DifficultyData[difficulty as keyof typeof DifficultyData],
+        page: currentPage,
+    };
+    const { isLoading: isCommonWordsLoading, data: commonWordsData } = useGetUserAggregatedWordsQuery({
+        userId,
+        token,
+        optional,
+    });
+    let isAllWordsHardOrLearned = false;
     const { isLogin } = useAppSelector((state) => state.userLogin.userLogin);
-
     const [hardWordsPage, setHardWordsPage] = useState<boolean>(difficulty === 'HARD');
     const [limit] = useState(WORDS_PER_PAGE);
     const [totalPages] = useState(getPageCount(WORDS_PER_GROUP, limit));
+
+    if (isLogin) {
+        const currentCommonWords = commonWordsData![0].paginatedResults;
+        isAllWordsHardOrLearned = currentCommonWords.every(
+            (item) => item.userWord?.difficulty === 'hard' || item.userWord?.difficulty === 'learned'
+        );
+    }
 
     function setFrom() {
         dispatch(startGameFromReducer('book'));
@@ -51,7 +68,10 @@ const Book = () => {
     }
 
     return (
-        <div className="book">
+        <div
+            className="book"
+            style={{ boxShadow: isAllWordsHardOrLearned ? '0px 0px 50px rgb(39 157 55 / 95%)' : 'none' }}
+        >
             <p className="header page-header">Учебник</p>
             <nav className="textbook-nav">
                 <div className="level-nav">
@@ -71,21 +91,37 @@ const Book = () => {
                             </button>
                         );
                     })}
-                    <button className="hard-words btn" type="button" disabled={!isLogin} onClick={toHardWords} style={{ background: hardWordsPage ? 'rgb(210, 42, 48)' : '' }}>
+                    <button
+                        className="hard-words btn"
+                        type="button"
+                        disabled={!isLogin}
+                        onClick={toHardWords}
+                        style={{ background: hardWordsPage ? 'rgb(210, 42, 48)' : '' }}
+                    >
                         <div className="hard">Сложные слова</div>
                     </button>
                 </div>
-                <div className='games-nav'>
-                    <NavLink to="/audiogame-main" className="game-btn" onClick={() => setFrom()}>
-                        <span className='game-link'>Аудиовызов</span></NavLink>
-                    <NavLink to="/sprint-main" className="game-btn" onClick={() => setFrom()}>
-                        <span className='game-link'>Спринт</span></NavLink>
-
-                </div>
+                {!isAllWordsHardOrLearned && (
+                    <div className="games-nav">
+                        <NavLink to="/audiogame-main" className="game-btn" onClick={() => setFrom()}>
+                            <span className="game-link">Аудиовызов</span>
+                        </NavLink>
+                        <NavLink to="/sprint-main" className="game-btn" onClick={() => setFrom()}>
+                            <span className="game-link">Спринт</span>
+                        </NavLink>
+                    </div>
+                )}
             </nav>
             {wordsError && <h2>Произошла ошибка: {wordsError}</h2>}
-            <BookWords isWordsLoading={isWordsLoading} words={words as WordsResponse} difficulty={DifficultyData[difficulty as keyof typeof DifficultyData]}
-                currentPage={currentPage} totalPages={totalPages} hardWordsPage={hardWordsPage} />
+            <BookWords
+                isWordsLoading={isWordsLoading}
+                words={words as WordsResponse}
+                difficulty={DifficultyData[difficulty as keyof typeof DifficultyData]}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                hardWordsPage={hardWordsPage}
+                isAllWordsHardOrLearned={isAllWordsHardOrLearned}
+            />
         </div>
     );
 };
