@@ -1,0 +1,164 @@
+.statistics_wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: calc(100vh - 70px - 70px);
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: url("../../assets/images/statistics.png") center no-repeat;
+  background-size: 45%;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 180px) and (max-width: 1300px) {
+  .statistics_wrapper {
+    background-size: contain;
+  }
+}
+
+.statistics_wrapper h2,
+.statistics_wrapper h4 {
+  margin-bottom: 6rem;
+}
+
+@media screen and (min-width: 180px) and (max-width: 1300px) {
+  .statistics_wrapper h2,
+  .statistics_wrapper h4 {
+    margin: 1rem 0;
+  }
+}
+
+.statistics_wrapper h4 {
+  font-size: 2.5em;
+}
+
+.statistics_wrapper h5 {
+  font-size: 2em;
+}
+
+.statistics_wrapper .stat-day {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+@media screen and (min-width: 180px) and (max-width: 1300px) {
+  .statistics_wrapper .stat-day {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    width: 80%;
+  }
+}
+
+.statistics_wrapper .stat-day .stat-words,
+.statistics_wrapper .stat-day .stat-games {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+@media screen and (min-width: 180px) and (max-width: 1300px) {
+  .statistics_wrapper .stat-day .stat-words,
+  .statistics_wrapper .stat-day .stat-games {
+    width: 100%;
+  }
+}
+
+.statistics_wrapper .stat-day .stat-words .stat-words_result,
+.statistics_wrapper .stat-day .stat-words .stat-games_result,
+.statistics_wrapper .stat-day .stat-games .stat-words_result,
+.statistics_wrapper .stat-day .stat-games .stat-games_result {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 350px;
+  height: 240px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 10px;
+  margin: 10px;
+  border: 2px solid #bd1f37;
+}
+
+@media screen and (min-width: 180px) and (max-width: 1300px) {
+  .statistics_wrapper .stat-day .stat-words .stat-words_result,
+  .statistics_wrapper .stat-day .stat-words .stat-games_result,
+  .statistics_wrapper .stat-day .stat-games .stat-words_result,
+  .statistics_wrapper .stat-day .stat-games .stat-games_result {
+    width: 100%;
+  }
+}
+
+.statistics_wrapper .stat-day .stat-words .stat-words_result .stat-games_count,
+.statistics_wrapper .stat-day .stat-words .stat-words_result .stat-words_count,
+.statistics_wrapper .stat-day .stat-words .stat-games_result .stat-games_count,
+.statistics_wrapper .stat-day .stat-words .stat-games_result .stat-words_count,
+.statistics_wrapper .stat-day .stat-games .stat-words_result .stat-games_count,
+.statistics_wrapper .stat-day .stat-games .stat-words_result .stat-words_count,
+.statistics_wrapper .stat-day .stat-games .stat-games_result .stat-games_count,
+.statistics_wrapper .stat-day .stat-games .stat-games_result .stat-words_count {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 1.2em;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-bottom: 1px solid #bd1f37;
+}
+
+.statistics_wrapper .stat-day .stat-words .stat-words_result .stat-games_count .stat-games_count p,
+.statistics_wrapper .stat-day .stat-words .stat-words_result .stat-games_count .stat-words_count p,
+.statistics_wrapper .stat-day .stat-words .stat-words_result .stat-words_count .stat-games_count p,
+.statistics_wrapper .stat-day .stat-words .stat-words_result .stat-words_count .stat-words_count p,
+.statistics_wrapper .stat-day .stat-words .stat-games_result .stat-games_count .stat-games_count p,
+.statistics_wrapper .stat-day .stat-words .stat-games_result .stat-games_count .stat-words_count p,
+.statistics_wrapper .stat-day .stat-words .stat-games_result .stat-words_count .stat-games_count p,
+.statistics_wrapper .stat-day .stat-words .stat-games_result .stat-words_count .stat-words_count p,
+.statistics_wrapper .stat-day .stat-games .stat-words_result .stat-games_count .stat-games_count p,
+.statistics_wrapper .stat-day .stat-games .stat-words_result .stat-games_count .stat-words_count p,
+.statistics_wrapper .stat-day .stat-games .stat-words_result .stat-words_count .stat-games_count p,
+.statistics_wrapper .stat-day .stat-games .stat-words_result .stat-words_count .stat-words_count p,
+.statistics_wrapper .stat-day .stat-games .stat-games_result .stat-games_count .stat-games_count p,
+.statistics_wrapper .stat-day .stat-games .stat-games_result .stat-games_count .stat-words_count p,
+.statistics_wrapper .stat-day .stat-games .stat-games_result .stat-words_count .stat-games_count p,
+.statistics_wrapper .stat-day .stat-games .stat-games_result .stat-words_count .stat-words_count p {
+  max-width: 60%;
+}
+
+.statistics_wrapper .stat-day .stat-words .stat-words_result .stat-games_count.last,
+.statistics_wrapper .stat-day .stat-words .stat-words_result .stat-words_count.last,
+.statistics_wrapper .stat-day .stat-words .stat-games_result .stat-games_count.last,
+.statistics_wrapper .stat-day .stat-words .stat-games_result .stat-words_count.last,
+.statistics_wrapper .stat-day .stat-games .stat-words_result .stat-games_count.last,
+.statistics_wrapper .stat-day .stat-games .stat-words_result .stat-words_count.last,
+.statistics_wrapper .stat-day .stat-games .stat-games_result .stat-games_count.last,
+.statistics_wrapper .stat-day .stat-games .stat-games_result .stat-words_count.last {
+  height: 91px;
+}
+/*# sourceMappingURL=style.css.map */

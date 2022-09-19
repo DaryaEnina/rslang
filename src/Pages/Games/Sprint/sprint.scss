@@ -1,0 +1,88 @@
+.sprint-container {
+  width: 700px;
+  margin: 5vh auto 2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.286);
+  border-radius: .5em;
+  font-size: 20px;
+}
+
+.timer {
+  align-content: center;
+}
+
+.timer-score {
+  padding: 1em;
+  width: 100%;
+  height: 46px;
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+.right-to-multy {
+  margin: 2em auto;
+  display: grid;
+  column-gap: 20px;
+  grid-template-columns: repeat(3, 35px);
+}
+
+.correct-answ {
+  width: 35px;
+  height: 35px;
+}
+
+.text-score {
+  font-size: 20px;
+  color: #009726;
+  margin: 13px auto;
+}
+
+.combo {
+  font-size: 20px;
+}
+
+.text-word {
+  font-size: 30px;
+  color: #009726;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 20px;
+  margin-top: 3em;
+  margin-bottom: 1em;
+}
+
+.answer-btn {
+  width: 100px;
+  height: 35px;
+  font-size: 20px;
+  border-radius: .4em;
+}
+
+.right-btn {
+  border: 3px solid rgb(0, 151, 38);
+}
+
+.wrong-btn {
+  border: 3px solid rgb(173, 0, 0);
+}
+
+@media screen and (max-width: 1300px) {
+  .game-container {
+    width: 70vw;
+  }
+
+  .sprint-container {
+    max-width: 70vw;
+  }
+
+  .attempts-card-img,
+  .answer-words-container {
+    max-width: 70vw;
+  }
+}

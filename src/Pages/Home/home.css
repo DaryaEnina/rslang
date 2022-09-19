@@ -1,0 +1,139 @@
+#main-page {
+  height: calc(100vh - 75px);
+  background: url("../../assets/images/learn.png") center no-repeat;
+  background-color: transparent;
+  background-size: 70% cover;
+}
+
+.app-about {
+  padding-top: 50px;
+}
+
+.header {
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.team-info-btns {
+  margin-top: 40px;
+}
+
+.btns-info-container {
+  margin-top: 1em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 15px;
+}
+
+.btn-info {
+  background: #d22a30;
+  -webkit-transition: .7s;
+  transition: .7s;
+}
+
+.btn-info:hover {
+  background: maroon;
+}
+
+.description-text {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.know-container,
+.games-container {
+  margin: 2em 1vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.category,
+.game,
+.creator-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 350px;
+}
+
+.img-wrap,
+.creator-wrap {
+  width: 350px;
+  height: 350px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.category-image,
+.creator-image {
+  margin: auto;
+  max-width: 350px;
+  max-height: 350px;
+  border-radius: .4em;
+}
+
+.category-header,
+.creator-header {
+  font-size: 1.8em;
+  font-weight: 500;
+  margin: 10px auto;
+}
+
+.category-text,
+.creator-role {
+  font-size: 1.2em;
+  text-align: center;
+  margin: 10px auto;
+}
+
+@media screen and (max-width: 1300px) {
+  #main-page {
+    background-size: 90%;
+  }
+  .know-container,
+  .games-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .category {
+    width: 400px;
+  }
+  .img-wrap,
+  .creator-wrap {
+    width: 250px;
+    height: 250px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .category-image,
+  .creator-image {
+    max-width: 250px;
+    max-height: 250px;
+  }
+  .category-text {
+    width: 300px;
+    font-size: 1em;
+  }
+}
+/*# sourceMappingURL=home.css.map */

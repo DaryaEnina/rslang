@@ -1,0 +1,100 @@
+.WordList_word-list__r6vgF {
+  margin: 1em auto;
+}
+
+.textbook-nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  height: auto;
+  background-color: transparent;
+  margin-top: 30px;
+  padding: 1em;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.level-nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: .4em auto;
+  gap: 10px;
+}
+
+.lvl-btn {
+  width: 70px;
+  height: 32px;
+  padding: 0;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: .4em;
+  border: none;
+  cursor: pointer;
+}
+
+.hard-words {
+  width: 210px;
+  height: 32px;
+  cursor: pointer;
+  background: none;
+  -webkit-transition: all .7s;
+  transition: all .7s;
+  border: none;
+  border-radius: .2em;
+  padding: 0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  line-height: normal;
+}
+
+.hard {
+  font-size: 21px;
+  color: black;
+  height: 25px;
+}
+
+.games-nav {
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  height: 32px;
+}
+
+.game-btn {
+  font-size: 21px;
+  height: 32px;
+  color: black;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  border: 1px solid rgba(121, 121, 121, 0.613);
+  border-radius: .2em;
+  -webkit-transition: all .7s;
+  transition: all .7s;
+}
+
+.game-link {
+  height: 30px;
+  display: block;
+  padding: 5px;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.hard-words:hover,
+.game-btn:hover {
+  background-color: #d22a30;
+}
+/*# sourceMappingURL=book.css.map */

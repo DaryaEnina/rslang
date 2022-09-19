@@ -1,0 +1,72 @@
+.statistics_wrapper {
+    display: flex;
+    flex-direction: column;
+    // height: calc(100vh - 70px - 70px);
+    align-items: center;
+    background: url('../../assets/images/statistics.png') center no-repeat;
+    background-size: 45%;
+    overflow: hidden;
+    @media screen and (min-width: 180px) and (max-width: 1300px) {
+        background-size: contain;
+    }
+    h2,
+    h4 {
+        margin-bottom: 6rem;
+        @media screen and (min-width: 180px) and (max-width: 1300px) {
+            margin: 1rem 0;
+        }
+    }
+    h4 {
+        font-size: 2.5em;
+    }
+    h5 {
+        font-size: 2em;
+    }
+    .stat-day {
+        display: flex;
+        justify-content: space-between;
+        @media screen and (min-width: 180px) and (max-width: 1300px) {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+        }
+        .stat-words,
+        .stat-games {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            @media screen and (min-width: 180px) and (max-width: 1300px) {
+                width: 100%;
+            }
+            .stat-words_result,
+            .stat-games_result {
+                display: flex;
+                width: 350px;
+                height: 240px;
+                flex-direction: column;
+                padding: 10px;
+                margin: 10px;
+                border: 2px solid #bd1f37;
+                @media screen and (min-width: 180px) and (max-width: 1300px) {
+                    width: 100%;
+                }
+                .stat-games_count,
+                .stat-words_count {
+                    display: flex;
+                    font-size: 1.2em;
+                    justify-content: space-between;
+                    border-bottom: 1px solid #bd1f37;
+                    .stat-games_count p,
+                    .stat-words_count p {
+                        max-width: 60%;
+                    }
+                }
+                .stat-games_count.last,
+                .stat-words_count.last {
+                    height: 91px;
+                }
+            }
+        }
+    }
+}
