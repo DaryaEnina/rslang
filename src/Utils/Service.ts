@@ -1,3 +1,5 @@
+import { WordsResponse } from "models/models";
+
 type DataUser = {
     name?: string;
     email: string;
@@ -7,30 +9,6 @@ type DataUser = {
 export type DataUserCreateResponse = {
     id: string;
     email: string;
-};
-
-export type DataWord = {
-    id: string;
-    _id?: string;
-    group: number;
-    page: number;
-    word: string;
-    image: string;
-    audio: string;
-    audioMeaning: string;
-    audioExample: string;
-    textMeaning: string;
-    textExample: string;
-    transcription: string;
-    wordTranslate: string;
-    textMeaningTranslate: string;
-    textExampleTranslate: string;
-    userWord: {
-        difficulty: string;
-        optional: {
-            guessedCount: string;
-        };
-    };
 };
 
 export type DataUserLoginResponse = {
@@ -57,15 +35,15 @@ export type DataStat = {
 };
 
 export type DataAggregatedWordsResponse = {
-    paginatedResults: DataWord[];
+    paginatedResults: WordsResponse;
 };
 
 export type DataAggregatedWords = {
     userId: string;
-    group?: string;
-    page?: string;
-    wordsPerPage?: string;
-    filter: string;
+    group?: number;
+    page?: number;
+    wordsPerPage?: number;
+    filter?: string;
 };
 
 class Service {
@@ -156,7 +134,7 @@ class Service {
     public static async aggregatedWords(
         word: DataAggregatedWords,
         token: string
-    ): Promise<DataWord[] | number | undefined> {
+    ): Promise<WordsResponse | number | undefined> {
         const { userId, group, page, wordsPerPage, filter } = word;
         try {
             const rawResponse = await fetch(
